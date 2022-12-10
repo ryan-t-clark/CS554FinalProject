@@ -1,8 +1,11 @@
-//import files
 const api = require('./api');
-const userRoutes = require('./users');
-//export files
+const userData = require('./users');
+const gamesData = require('./games');
+const picksData = require('./picks');
+
 module.exports = {
-    api: api,
-    users :userRoutes
+    api   : api,
+    users : userData,
+    games : gamesData,
+    picks : picksData
 }

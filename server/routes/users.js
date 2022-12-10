@@ -13,14 +13,14 @@ router.post('/signup',async(req,res) => {
   try{
     username = validation.checkUserName(username,"username");
     password = validation.checkString(password,"password");
-    if(password.indexOf(' ')>=0 || password.length<6) throw 'password is not long enough or contains empty spaces'
+    validation.checkPassword(password);
   }catch(e){
     res.status(400);
     res.json({"status":"error","error":e,"stack":e.stack})
     return;
   }
   try{
-    const userresult = await USERS.createUser(username,password);
+    const userresult = await USERS.createUser(username, password, false);
     if(userresult["userInserted"]==true){
       res.status(200);
       res.json({"status":"ok","username":username})
@@ -45,7 +45,7 @@ router.post('/login',async(req,res) => {
   try{
     username = validation.checkUserName(username,"username");
     password = validation.checkString(password,"password");
-    if(password.indexOf(' ')>=0 || password.length<6) throw 'password is not long enough or contains empty spaces'
+    validation.checkPassword(password);
   }catch(e){
     res.status(400);
     res.json({"status":"error","error":e,"stack":e.stack})

@@ -22,7 +22,7 @@ const Signup: FC<SignupProps> = () => {
     
     return (
         <div>
-            <h2>Log in</h2>
+            <h2>Sign Up</h2>
             <form onSubmit={(e: React.SyntheticEvent) => {
                 e.preventDefault();
                 const target = e.target as typeof e.target & {
