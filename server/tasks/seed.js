@@ -33,6 +33,8 @@ async function main() {
         await games.addGame(1,"Sunday Dec 11 8:20PM","Chargers","Dolphins",1.5,-1.5,null);
         await games.addGame(1,"Monday Dec 12 8:15PM","Patriots","Cardinals",-1.5,1.5,null);
 
+        await picks.initPicksForWeek(1);
+
         console.log('seed complete');
     } catch (e) {
         console.log("error seeding",e);

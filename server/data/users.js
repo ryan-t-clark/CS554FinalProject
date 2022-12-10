@@ -72,7 +72,31 @@ async function checkUser(username, password) {
 }
 
 
+/*
+  Gets all users 
+*/
+async function getAllUsers() {
+  const userCollection = await USERS();
+
+  const userList = await userCollection.find({}).toArray(); //NEED TO CHANGE THIS TO EXCLUDE PASSWORD
+  if (!userList) throw 'could not get all users';
+  return userList;
+}
+
+async function getUserById(id) {
+  validation.checkId(id);
+
+  const userCollection = await USERS();
+
+  const user = await userCollection.findOne({ _id: id }); //HAVENT TESTED THIS
+  if(user === null) throw `No user found`;
+  return user;
+}
+
+
 module.exports = {
   createUser,
-  checkUser
+  checkUser,
+  getAllUsers,
+  getUserById
 }
