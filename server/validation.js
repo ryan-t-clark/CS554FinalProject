@@ -1,4 +1,4 @@
-//all validation functions will go here
+const { ObjectId } = require("mongodb");
 
 const regex = new RegExp(/[^0-9a-z]/i);
 
@@ -15,6 +15,19 @@ function checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awa
 function checkWeek(week) {
   if (!week) throw 'must provide week';
 }
+
+function checkPicks() {
+  //TODO
+}
+
+function checkId(id) {
+  if(!id) throw 'must provide a valid id';
+  if(typeof id !== 'string') throw 'id must be of type string';
+  if(id.length < 1) throw 'id is an empty string';
+  if(id.trim().length < 1) throw 'id consists of only spaces';
+  if(!ObjectId.isValid(id)) throw 'id must be a valid ObjectId';
+}
+
 
 module.exports = {
   checkString(strVal, varName) {
@@ -46,7 +59,9 @@ module.exports = {
     if(password.indexOf(' ')>=0 || password.length<6) throw 'password is not long enough or contains empty spaces'
   },
   checkAddGameParams,
-  checkWeek
+  checkWeek,
+  checkPicks,
+  checkId
 
   
 }

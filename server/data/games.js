@@ -48,6 +48,12 @@ async function getGamesByWeek(week) {
     return gamesList;
 }
 
+/*
+    Update a game
+*/
+async function updateGame() {
+    // TODO
+}
 
 
 module.exports = {
