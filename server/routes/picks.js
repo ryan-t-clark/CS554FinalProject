@@ -7,18 +7,18 @@ const PICKS = data.picks;
 
 router.post('/submit', async (req, res) => {
 
-    let {week, id, picks} = req.body;
+    let {week, userId, picks} = req.body;
 
     try {
         validation.checkWeek(week);
-        validation.checkId(id);
+        validation.checkId(userId);
         validation.isValidPicksParameter(picks);
     } catch (e) {
         return res.status(400).json({error: e});
     }
 
     try {
-        const submitInfo = await PICKS.submitPicks(week, id, picks);
+        const submitInfo = await PICKS.submitPicks(week, userId, picks);
 
         if (submitInfo.submitted) {
             return res.status(200).json({status: 'picks inserted'});
