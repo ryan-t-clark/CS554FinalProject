@@ -5,28 +5,63 @@ const userData = require('./users');
 
 const validation = require('../validation');
 
-/**
- * 
- * STILL FIGURING OUT SCHEMA --- WILL DO SOON
- * 
- */
+/*
+    validates that incoming pick object is valid
+*/
+function isValidPickSchema(pick) {
+    if (!pick.gameId) throw 'must provide gameId';
+    if (!pick.weight) throw 'must provide weight';
+    if (!pick.selectedTeam) throw 'must provide selected team';
+    //pickResult can be undefined
+
+    //need to fix this so that false doesn't throw an error
+    //if (!pick.submitted) throw 'must provide boolean value for submitted'
+
+    //TODO
+    //will add type checking -- need to figure out what the types will be
+
+}
 
 
 /*
     when the user submits picks
 */
-async function submitPicks() {
-    //TODO
-    return {submitted: false}
+async function submitPicks(week, id, picks) {
+    //validation
+    validation.checkWeek(week);
+    validation.checkId(id);
+    validation.isValidPicksParameter(picks);
+
+    //check the picks that came in are valid
+    for (pickKey of Object.keys(picks)) {
+        let current = picks[pickKey];
+        if (!current) continue; //if this pick is blank
+        isValidPickSchema(current);
+        //maybe add these validated picks to a list
+    }
+
+    //get picks for week/id
+
+    //insert picks into the retrieved object
+
+    //overwrite the picks for week/id
+
+    return {submitted: true}
 }
 
 
 /*
-    schema of individual picks
+    schema of individual picks -- i don't know if i will even need this
 */
-function createPickObject() {
-    //TODO
-    // need to figure out good schema for this
+function createPickObject(gameId, weight, selectedTeam, pickResult, submitted) {
+    const pick = {
+        gameId: gameId,
+        weight: weight,
+        selectedTeam: selectedTeam,
+        pickResult: pickResult,
+        submitted: submitted
+    }
+    return pick;
 }
 
 
@@ -34,7 +69,7 @@ function createPickObject() {
     schema of pickWeek object
 */
 function createPickWeekObject(week, username, id) {
-    const pick = {
+    const pickWeek = {
         week: week,
         userId: id,
         username: username,
@@ -51,12 +86,12 @@ function createPickWeekObject(week, username, id) {
         pick2: null,
         pick1: null,
     }
-    return pick;
+    return pickWeek;
 }
 
 
 /*
-    Creates a pick object for every currently registered user
+    creates a pick object for every currently registered user
 */
 async function initPicksForWeek(week) {
     const usersList = await userData.getAllUsers();
@@ -75,7 +110,7 @@ async function initPicksForWeek(week) {
 
 
 /*
-    Creates a pick object for a user 
+    creates a pick object for a user 
     -- to also be used if they sign up after initPicksForWeek() has been run
 */
 async function initPicksById(week, username, id) {

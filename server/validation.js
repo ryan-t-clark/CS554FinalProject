@@ -16,8 +16,17 @@ function checkWeek(week) {
   if (!week) throw 'must provide week';
 }
 
-function checkPicks() {
-  //TODO
+/*
+    validation function for the input parameter of submitPicks
+*/
+function isValidPicksParameter(picks) {
+  if (!picks) throw 'must provide picks object';
+  if (typeof picks !== 'object') throw 'picks parameter must be an object';
+  const actual = Object.keys(picks);
+  const expected = ['pick10','pick9','pick8','pick7','pick6','pick5','pick4','pick3','pick2','pick1'];
+  let actualString = JSON.stringify(actual.sort())
+  let expectedString = JSON.stringify(expected.sort())
+  if (actualString !== expectedString) throw 'invalid schema of picks object';
 }
 
 function checkId(id) {
@@ -60,8 +69,8 @@ module.exports = {
   },
   checkAddGameParams,
   checkWeek,
-  checkPicks,
-  checkId
+  checkId,
+  isValidPicksParameter
 
   
 }
