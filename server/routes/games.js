@@ -7,16 +7,16 @@ const GAMES = data.games;
 
 router.post('/addgame', async (req, res) => {
 
-    let {week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore} = req.body;
+    let {week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore} = req.body;
 
     try {
-        validation.checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore);
+        validation.checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore);
     } catch (e) {
         return res.status(400).json({error: e});
     }
 
     try {
-        const gameInfo = await GAMES.addGame(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore);
+        const gameInfo = await GAMES.addGame(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore);
         if (gameInfo.gameInserted) {
             return res.status(200).json({status: 'game inserted'});
         } else {
