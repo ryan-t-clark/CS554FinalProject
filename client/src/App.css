@@ -1,18 +1,66 @@
-.nav {
-  margin-bottom: 25px;
+.nav-link {
+  /* margin-bottom: 25px; */
+  color: white;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  font-style: italic;
+  background: white;
+  width: 10%;
+  text-align: center;
+
+  /* font: bold 11px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-decoration: none;
+  background: linear-gradient(120deg, rgb(222, 4, 4), rgb(235, 68, 68) 55%, rgb(236, 164, 164), rgb(255, 255, 255) 45%);
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 3px solid #CCCCCC;
+  border-right: 3px solid #333333;
+  border-bottom: 3px solid #333333;
+  border-left: 3px solid #CCCCCC;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  width: 20%;
+  position: relative;
+  text-align: center; */
 }
 
-.nav a {
+.selected-link {
+  color: white;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  font-style: italic;
+  background: white;
+  width: 10%;
+  text-align: center;
+  background: #1310c0;
+  text-decoration: none;
+}
+
+ol {
+  list-style-position: inside;
+}
+/* 
+.nav-link a {
   border-radius: 4px;
   padding: 6px 10px;
   margin-right: 10px;
   text-decoration: none;
 }
 
-.nav a.active {
+.nav-link a.active {
   color: #fff;
   background: #1310c0;
 }
-.nav a.inactive {
+.nav-link a.inactive {
   font-style: italic;
-}
+} */

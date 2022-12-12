@@ -14,21 +14,21 @@ import MakePicks from './components/pages/MakePicks';
 
 function App() {
   return (
-    <Router>
+      <Router>
 
-      <Header />
-      <br /><br /><br /><br /><br /><br />
+        <Header />
+        <br /><br /><br /><br /><br /><br />
 
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/week' element={<Week />} />
-        <Route path='/picks' element={<MakePicks />} />
-        <Route path='/leaderboards' element={<Leaderboards />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-      </Routes>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/week' element={<Week />} />
+          <Route path='/picks' element={<MakePicks />} />
+          <Route path='/leaderboards' element={<Leaderboards />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
 
-    </Router>
+      </Router>
   );
 }
 

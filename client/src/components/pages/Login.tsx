@@ -1,11 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import axios from 'axios';
-
+import {
+    VStack, 
+    Center, 
+    Heading, 
+    FormControl,
+    FormLabel,
+    Input,
+    Box, 
+    Button, 
+} from '@chakra-ui/react';
 interface LoginProps {};
 
 const Login: FC<LoginProps> = () => {
 
+    const [ username, setUsername ] = useState('');
+    const [ password, setPassword ] = useState('');
 
+    const handleUsername = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLInputElement
+        const value = target.value
+        setUsername(value)
+    }
+
+    const handlePassword = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLInputElement
+        const value = target.value
+        setPassword(value)
+    }
 
     async function login(username:string,password:string){
         try{ const response = await axios.post("http://localhost:3008/users/login",{
@@ -17,35 +39,45 @@ const Login: FC<LoginProps> = () => {
             console.log(error);
             console.log("invalid login");
         } 
-
     }
-    
-    
+
+    const loginFunc = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        login(username,password);
+    }
+
+    const resetForm = () => {
+        (document.getElementById('form-id') as HTMLFormElement).reset();
+    }
+
+    function togglePassword() {
+        var x = document.getElementById("myInput") as HTMLFormElement;
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+    }
+
     return (
-        <div>
-            <h2>Log in</h2>
-            <form onSubmit={(e: React.SyntheticEvent) => {
-                e.preventDefault();
-                const target = e.target as typeof e.target & {
-                    username: {value:string};
-                    password: {value:string};
-                }
-                const username = target.username.value;
-                const password = target.password.value;
-                login(username,password);
-            }
-            }>
-                <label>
-                username:
-                <input type="text" name="username"></input>
-                </label>
-                <label>
-                password:
-                <input type="text" name="password"></input>
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
-        </div>
+        <Center>
+            <VStack>
+                <Heading as='h2'>Log in</Heading>
+                <Box>
+                    <form id='form-id' onSubmit={loginFunc} >
+                            <FormControl>
+                                <FormLabel id='username' htmlFor='usernameInput'>Username</FormLabel>
+                                <Input id='usernameInput' type='text' name='username' value={username} onChange={handleUsername}/>
+                                <FormLabel id='password' htmlFor='passwordInput'>Password</FormLabel>
+                                <Input id='passwordInput' type='password' name='password' value={password} onChange={handlePassword}/>
+                                <Button variant='outline' width="full" mt={4} type="submit" onClick={resetForm}>
+                                    Submit
+                                </Button>
+                            </FormControl>
+                    </form>
+                </Box>
+            </VStack>
+        </Center>
     )
 }
 
