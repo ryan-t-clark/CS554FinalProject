@@ -26,44 +26,45 @@ function isValidPickSchema(pick) {
 /*
     when the user submits picks
 */
-async function submitPicks(week, id, picks) {
+async function submitPicks(week, userId, picks) {
     //validation
     validation.checkWeek(week);
-    validation.checkId(id);
+    validation.checkId(userId);
     validation.isValidPicksParameter(picks);
+
+    let picksToSubmit = new Map();
 
     //check the picks that came in are valid
     for (pickKey of Object.keys(picks)) {
         let current = picks[pickKey];
         if (!current) continue; //if this pick is blank
         isValidPickSchema(current);
+        picksToSubmit.set(pickKey, current);
         //maybe add these validated picks to a list
     }
 
     //get picks for week/id
+    let userPicks = await getWeekPicksById(week, userId);
 
     //insert picks into the retrieved object
+    for (pickKey of picksToSubmit.keys()) {
+        if (userPicks[pickKey] === null) { //if there is no existing pick
+            userPicks[pickKey] = picksToSubmit.get(pickKey);
+        }
+    }
 
     //overwrite the picks for week/id
+    const picksCollection = await PICKS();
+
+    const updatedInfo = await picksCollection.updateOne(
+        { _id: ObjectId(userPicks._id)},
+        { $set: userPicks }
+    );
+
+    if (updatedInfo.modifiedCount === 0) return {submitted: false};
 
     return {submitted: true}
 }
-
-
-/*
-    schema of individual picks -- i don't know if i will even need this
-*/
-function createPickObject(gameId, weight, selectedTeam, pickResult, submitted) {
-    const pick = {
-        gameId: gameId,
-        weight: weight,
-        selectedTeam: selectedTeam,
-        pickResult: pickResult,
-        submitted: submitted
-    }
-    return pick;
-}
-
 
 /*
     schema of pickWeek object
@@ -133,9 +134,9 @@ async function getWeekPicksById(week, id) {
 
     const picksCollection = await PICKS();
 
-    const picksList = await picksCollection.find({week: Number(week), _id: ObjectId(id)}).toArray();
-    if (!picksList) throw 'Could not get picks';
-    return picksList;
+    const pickWeek = await picksCollection.findOne({week: Number(week), userId: ObjectId(id)});
+    if (!pickWeek) throw 'Could not get picks';
+    return pickWeek;
 }
 
 
