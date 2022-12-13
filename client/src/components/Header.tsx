@@ -41,7 +41,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 interface HeaderProps {};
 
 const Header: FC<HeaderProps> = () => {
-    const [currentRoute, setCurrentRoute] = useState('home');
+    const [currentRoute, setCurrentRoute] = useState('');
     const setRoute = ((route:string) => {
         setCurrentRoute(route);
     })
