@@ -2,24 +2,41 @@ const { ObjectId } = require("mongodb");
 
 const regex = new RegExp(/[^0-9a-z]/i);
 
-function checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore) {
+//parameters of the addGame function
+function checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore) {
   checkWeek(week);
   if (!gameStart) throw 'must provide gameStart';
   if (!homeTeam) throw 'must provide homeTeam';
   if (!awayTeam) throw 'must provide awayTeam';
   if (!homeSpread) throw 'must provide homeSpread';
   if (!awaySpread) throw 'must provide awaySpread';
-  //will be more in depth later
+  //TODO -- homefinal and awayfinal will start as null, can't use '!'
 }
 
+//validation for week
 function checkWeek(week) {
   if (!week) throw 'must provide week';
+  //TODO -- check that this is a valid week i.e. non-negative integer 1-18
 }
 
-function checkPicks() {
-  //TODO
+//validates final scores
+function isValidScore(score) {
+  if (!score) throw 'must provide score';
+  //TODO -- check that these are valid numbers i.e. non-negative integers
 }
 
+//validation function for the input parameter of submitPicks
+function isValidPicksParameter(picks) {
+  if (!picks) throw 'must provide picks object';
+  if (typeof picks !== 'object') throw 'picks parameter must be an object';
+  const actual = Object.keys(picks);
+  const expected = ['pick10','pick9','pick8','pick7','pick6','pick5','pick4','pick3','pick2','pick1'];
+  let actualString = JSON.stringify(actual.sort())
+  let expectedString = JSON.stringify(expected.sort())
+  if (actualString !== expectedString) throw 'invalid schema of picks object';
+}
+
+//checks validity of objectid
 function checkId(id) {
   if(!id) throw 'must provide a valid id';
   if(typeof id !== 'string') throw 'id must be of type string';
@@ -60,8 +77,9 @@ module.exports = {
   },
   checkAddGameParams,
   checkWeek,
-  checkPicks,
-  checkId
+  checkId,
+  isValidPicksParameter,
+  isValidScore
 
   
 }

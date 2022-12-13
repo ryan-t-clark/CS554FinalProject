@@ -1,9 +1,39 @@
 const connection = require('../config/mongoConnection');
+const mongoCollections = require("../config/mongoCollections");
+const GAMES = mongoCollections.games;
+const USERS = mongoCollections.users;
 
 const data = require('../data');
+const { getGameById } = require('../data/games');
 const users = data.users;
 const games = data.games;
 const picks = data.picks;
+
+//since game id's change with each seed, need this to make it work
+async function getGameId(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore) {
+    const gamesCollection = await GAMES();
+
+    const game = await gamesCollection.findOne({
+        week: week,
+        gameStart: gameStart,
+        homeTeam, homeTeam,
+        awayTeam, awayTeam,
+        homeSpread, homeSpread,
+        awaySpread, awaySpread,
+        finalScore, finalScore
+    })
+    if (!game) throw 'could not find game';
+    return game._id.toString();
+}
+
+//since user id's change with each seed, need this to make it work
+async function getUserId(username) {
+    const userCollection = await USERS();
+
+    const user = await userCollection.findOne({username: username});
+    if (!username) throw 'could not find username';
+    return user._id.toString();
+}
 
 async function main() {
 
@@ -34,6 +64,37 @@ async function main() {
         await games.addGame(1,"Monday Dec 12 8:15PM","Patriots","Cardinals",-1.5,1.5,null);
 
         await picks.initPicksForWeek(1);
+
+        //add picks for user rclark
+        await picks.submitPicks(1, await getUserId('rclark'),  
+            {
+            "pick10": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null),
+                "weight": 10,
+                "selectedTeam": "Titans",
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick9": null,
+            "pick8": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
+                "weight": 8,
+                "selectedTeam": "Jets",
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick7": null,
+            "pick6": null,
+            "pick5": null,
+            "pick4": null,
+            "pick3": null,
+            "pick2": null,
+            "pick1": null
+        })
+
+        //update some final scores
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null), 22, 36)
+
 
         console.log('seed complete');
     } catch (e) {

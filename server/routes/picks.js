@@ -7,23 +7,26 @@ const PICKS = data.picks;
 
 router.post('/submit', async (req, res) => {
 
-    let {} = req.body; //WILL FILL IN PARAMS
+    let {week, userId, picks} = req.body;
 
     try {
-        validation.checkPicks(); //WILL FILL IN PARAMS
+        validation.checkWeek(week);
+        validation.checkId(userId);
+        validation.isValidPicksParameter(picks);
     } catch (e) {
         return res.status(400).json({error: e});
     }
 
     try {
-        const submitInfo = await PICKS.submitPicks(); //WILL FILL IN PARAMS
+        const submitInfo = await PICKS.submitPicks(week, userId, picks);
+
         if (submitInfo.submitted) {
             return res.status(200).json({status: 'picks inserted'});
         } else {
             return res.status(500).json({status: 'failed to submit picks'});
         }
     } catch (e) {
-        return res.status(500).json({error: e});
+        return res.status(500).json(e);
     }
 
 });
