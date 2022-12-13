@@ -53,13 +53,21 @@ router.get('/user/:week/:id', async (req, res) => {
 });
 
 
-router.get('/all', async (req, res) => {
+router.get('/all/:week', async (req, res) => {
+
+    let week = req.params.week;
 
     try {
-        let result = await PICKS.getAllUserPicks();
+        validation.checkWeek(week);
+    } catch (e) {
+        res.status(400).json(e);
+    }
+
+    try {
+        let result = await PICKS.getAllPicksByWeek(week);
         return res.json(result);
     } catch (e) {
-        return res.status(404).json({error: e});
+        return res.status(404).json(e);
     }
 
 });

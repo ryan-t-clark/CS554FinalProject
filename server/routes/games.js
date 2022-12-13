@@ -48,4 +48,26 @@ router.get('/getweek/:week', async (req, res) => {
 });
 
 
+router.post('/update', async (req, res) => {
+
+    const {gameId, homeScore, awayScore} = req.body;
+
+    try {
+        validation.checkId(gameId);
+        validation.isValidScore(homeScore);
+        validation.isValidScore(awayScore);
+    } catch (e) {
+        return res.status(400).json(e);
+    }
+
+    try {
+        let result = await GAMES.updateGameResult(gameId, homeScore, awayScore);
+        return res.status(200).json(result)
+    } catch (e) {
+        return res.status(404).json(e);
+    }
+
+});
+
+
 module.exports = router;

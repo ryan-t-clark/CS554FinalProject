@@ -66,7 +66,7 @@ async function getGameById(gameId) {
 /*
     For entering win/loss of a game
 */
-async function updateGameResult(gameId, homeScore, awayScore) {
+async function updateGameResult(gameId, homeScore, awayScore) {    
     validation.checkId(gameId);
     validation.isValidScore(homeScore);
     validation.isValidScore(awayScore);
@@ -92,18 +92,45 @@ async function updateGameResult(gameId, homeScore, awayScore) {
     // now have to go through user picks and update wins and losses
     //
 
-    // INCOMPLETE
+    // determine who won this game based on the scores
+    let gameResult = (game.homeScore + game.homeSpread) - game.awayScore;
+    let winner = undefined;
+    gameResult > 0 ? winner = game.homeTeam : winner = game.awayTeam;
+    
 
     const picksList = await picksData.getAllPicksByWeek(game.week);
-    console.log(picksList);
 
+    const possiblePicks = ['pick10','pick9','pick8','pick7','pick6','pick5','pick4','pick3','pick2','pick1'];
+
+    //iterate through all picks made and check
     for (pickWeek of picksList) {
-        for (keyVal of Object.keys(pickWeek)) {
-
+        for (pickVal of possiblePicks) {
+            if (pickWeek[pickVal]) { //non-null
+                if (pickWeek[pickVal].gameId === gameId) { //if it is the game we are looking for
+                    //if the user made the right pick
+                    if (pickWeek[pickVal].selectedTeam === winner) {
+                        pickWeek[pickVal].pickResult = true
+                        pickWeek.totalPoints += pickWeek[pickVal].weight;
+                    } else {
+                        pickWeek[pickVal].pickResult = false;
+                        pickWeek.potentialPoints -= pickWeek[pickVal].weight;
+                    }
+                }
+            }
         }
     }
 
+    const picksCollection = await PICKS();
 
+    for (pickWeek of picksList) {
+        //can definitely be made more efficient by checking equality vs what existed previously -- will optimize later (maybe)
+        const updatedInfo = await picksCollection.updateOne( 
+            { _id: ObjectId(pickWeek._id)},
+            { $set: pickWeek }
+        );
+    }
+
+    return { updated: true };
 }
 
 

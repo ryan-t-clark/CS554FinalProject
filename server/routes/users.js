@@ -72,6 +72,18 @@ router.post('/login',async(req,res) => {
 });
 
 
+router.get('/standings', async (req, res) => {
+
+  try {
+      let result = await USERS.getStandings();
+      return res.json(result);
+  } catch (e) {
+      return res.status(404).json({error: e});
+  }
+
+});
+
+
 
 
 

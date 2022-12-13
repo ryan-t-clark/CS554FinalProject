@@ -90,10 +90,37 @@ async function main() {
             "pick3": null,
             "pick2": null,
             "pick1": null
+        });
+
+        await picks.submitPicks(1, await getUserId('evalentino'),
+        {
+            "pick10": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null),
+                "weight": 10,
+                "selectedTeam": "Jaguars",
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick9": null,
+            "pick8": null,
+            "pick7": null,
+            "pick6": null,
+            "pick5": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
+                "weight": 8,
+                "selectedTeam": "Bills",
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick4": null,
+            "pick3": null,
+            "pick2": null,
+            "pick1": null
         })
 
         //update some final scores
-        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null), 22, 36)
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null), 22, 36);
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null), 20, 12);
 
 
         console.log('seed complete');

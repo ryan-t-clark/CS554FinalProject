@@ -39,6 +39,8 @@ async function createUser(username, password, admin) {
     username : username,
     password : await hashPwd(password),
     totalPoints : 0,
+    totalCorrectPicks: 0,
+    totalIncorrectPicks: 0,
     admin: admin
   }
     
@@ -78,11 +80,15 @@ async function checkUser(username, password) {
 async function getAllUsers() {
   const userCollection = await USERS();
 
-  const userList = await userCollection.find({}).toArray(); //NEED TO CHANGE THIS TO EXCLUDE PASSWORD IN RETURN VALUE
+  const userList = await userCollection.find({}, {projection: {password: 0}}).toArray();
   if (!userList) throw 'could not get all users';
   return userList;
 }
 
+
+/*
+  Gets a user by id
+*/
 async function getUserById(id) {
   validation.checkId(id);
 
@@ -94,9 +100,22 @@ async function getUserById(id) {
 }
 
 
+/*
+  Gets the current standings
+*/
+async function getStandings() {
+  const userCollection = await USERS();
+
+  const standings = await userCollection.find({}, {projection: {_id: 0, username: 1, totalPoints: 1, totalCorrectPicks: 1, totalIncorrectPicks: 1}}).toArray();
+  if (!standings) throw 'could not get standings';
+  return standings;
+}
+
+
 module.exports = {
   createUser,
   checkUser,
   getAllUsers,
-  getUserById
+  getUserById,
+  getStandings
 }
