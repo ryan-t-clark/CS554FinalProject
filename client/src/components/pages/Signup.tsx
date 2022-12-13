@@ -41,13 +41,15 @@ const Signup: FC<SignupProps> = () => {
             console.log("invalid login");
         } 
     }
-    const resetForm = () => {
-        (document.getElementById('form-id') as HTMLFormElement).reset();
-    }
 
     const signupFunc = (e: React.SyntheticEvent) => {
         e.preventDefault();
         signup(username,password);
+
+        (document.getElementById('usernameInput') as HTMLFormElement).value = "";
+        (document.getElementById('passwordInput') as HTMLFormElement).value = "";
+        setPassword("");
+        setUsername("");
     }
 
     function togglePassword() {
@@ -70,7 +72,7 @@ const Signup: FC<SignupProps> = () => {
                                 <Input id='usernameInput' type='text' name='username' value={username} onChange={handleUsername}/>
                                 <FormLabel id='password' htmlFor='passwordInput'>Password</FormLabel>
                                 <Input id='passwordInput' type='password' name='password' value={password} onChange={handlePassword}/>
-                                <Button variant='outline' width="full" mt={4} type="submit" onClick={resetForm}>
+                                <Button variant='outline' width="full" mt={4} type="submit">
                                     Submit
                                 </Button>
                             </FormControl>

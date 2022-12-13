@@ -11,6 +11,7 @@ import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import MakePicks from './components/pages/MakePicks';
 import ProtectedRoute from './components/ProtectedRoute';
+import Logout from "./components/pages/Logout";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path='/leaderboards' element={<Leaderboards />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path="/logout" element={<Logout/>} />
         </Routes>
 
       </Router>

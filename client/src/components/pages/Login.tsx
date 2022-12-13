@@ -49,11 +49,13 @@ const Login: FC<LoginProps> = () => {
         e.preventDefault();
         const usrname = await login(username,password);
         Cookies.set('user', usrname);
+
+        (document.getElementById('usernameInput') as HTMLFormElement).value = "";
+        (document.getElementById('passwordInput') as HTMLFormElement).value = "";
+        setPassword("");
+        setUsername("");
     }
 
-    const resetForm = () => {
-        (document.getElementById('form-id') as HTMLFormElement).reset();
-    }
 
     function togglePassword() {
         var x = document.getElementById("myInput") as HTMLFormElement;
@@ -75,7 +77,7 @@ const Login: FC<LoginProps> = () => {
                                 <Input id='usernameInput' type='text' name='username' value={username} onChange={handleUsername}/>
                                 <FormLabel id='password' htmlFor='passwordInput'>Password</FormLabel>
                                 <Input id='passwordInput' type='password' name='password' value={password} onChange={handlePassword}/>
-                                <Button variant='outline' width="full" mt={4} type="submit" onClick={resetForm}>
+                                <Button variant='outline' width="full" mt={4} type="submit">
                                     Submit
                                 </Button>
                             </FormControl>

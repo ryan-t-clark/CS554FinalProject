@@ -53,22 +53,22 @@ const Header: FC<HeaderProps> = () => {
                 <Heading p='10px' color='white' as='h1'>NFL Game Picker</Heading>
             </Center>
             <Center>
-                <Link as={RouterLink} to={`/`} color= {currentRoute==='home' ? 'white' : '#545e6f'} className={currentRoute === 'home' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('home')}>
+                <Link as={RouterLink} to={`/`} color= {currentRoute==='home' ? 'white' : '#545e6f'} className={currentRoute === 'home' ? 'selected-link' : 'nav-link'} >
                     Home
                 </Link>
-                <Link as={RouterLink} to={`/week`} color= {currentRoute==='week' ? 'white' : '#545e6f'} className={currentRoute === 'week' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('week')}>
+                <Link as={RouterLink} to={`/week`} color= {currentRoute==='week' ? 'white' : '#545e6f'} className={currentRoute === 'week' ? 'selected-link' : 'nav-link'} >
                     Week
                 </Link>
-                <Link as={RouterLink} to={`/picks`} color= {currentRoute==='picks' ? 'white' : '#545e6f'} className={currentRoute === 'picks' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('picks')}>
+                <Link as={RouterLink} to={`/picks`} color= {currentRoute==='picks' ? 'white' : '#545e6f'} className={currentRoute === 'picks' ? 'selected-link' : 'nav-link'} >
                     Picks
                 </Link>
-                <Link as={RouterLink} to={`/leaderboards`} color= {currentRoute==='leaderboards' ? 'white' : '#545e6f'} className={currentRoute === 'leaderboards' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('leaderboards')}>
+                <Link as={RouterLink} to={`/leaderboards`} color= {currentRoute==='leaderboards' ? 'white' : '#545e6f'} className={currentRoute === 'leaderboards' ? 'selected-link' : 'nav-link'} >
                     Leaderboards
                 </Link>
-                <Link as={RouterLink} to={`/login`} color= {currentRoute==='login' ? 'white' : '#545e6f'} className={currentRoute === 'login' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('login')}>
+                <Link as={RouterLink} to={`/login`} color= {currentRoute==='login' ? 'white' : '#545e6f'} className={currentRoute === 'login' ? 'selected-link' : 'nav-link'} >
                     Login
                 </Link>
-                <Link as={RouterLink} to={`/signup`} color= {currentRoute==='signup' ? 'white' : '#545e6f'} className={currentRoute === 'signup' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('signup')}>
+                <Link as={RouterLink} to={`/signup`} color= {currentRoute==='signup' ? 'white' : '#545e6f'} className={currentRoute === 'signup' ? 'selected-link' : 'nav-link'} >
                     Signup
                 </Link>
                 <Link as={RouterLink} to={`/logout`} color= {currentRoute==='logout' ? 'white' : '#545e6f'} className={currentRoute === 'logout' ? 'selected-link' : 'nav-link'} onClick={() => { Cookies.remove('user');}}>
