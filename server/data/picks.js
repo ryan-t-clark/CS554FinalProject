@@ -52,6 +52,9 @@ async function submitPicks(week, userId, picks) {
             userPicks[pickKey] = picksToSubmit.get(pickKey);
         }
     }
+    // userPicks["totalCorrectPicks"]=0;
+    // userPicks["totalIncorrectPicks"]=0;
+
 
     //overwrite the picks for week/id
     const picksCollection = await PICKS();
@@ -86,6 +89,8 @@ function createPickWeekObject(week, username, id) {
         pick3: null,
         pick2: null,
         pick1: null,
+        totalCorrectPicks:0,
+        totalIncorrectPicks:0
     }
     return pickWeek;
 }
@@ -153,11 +158,20 @@ async function getAllPicksByWeek(week) {
     return picksList;
 }
 
+// async function getAllPicksbyID(id){
+//     validation.checkId(id);
+
+//     const picksCollection = await PICKS();
+
+//     const picksList = await picksCollection.find({userId: ObjectId(id)}).toArray();
+//     if (!picksList) throw 'Could not get picks';
+//     return picksList;
+// }
 
 module.exports = {
     submitPicks,
     getWeekPicksById,
     getAllPicksByWeek,
     initPicksForWeek,
-    initPicksById
+    initPicksById,
 }

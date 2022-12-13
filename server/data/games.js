@@ -2,6 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const GAMES = mongoCollections.games;
 const PICKS = mongoCollections.picks;
 const picksData = require('./picks');
+const userData = require("./users");
 let { ObjectId } = require('mongodb');
 
 const validation = require('../validation');
@@ -110,9 +111,11 @@ async function updateGameResult(gameId, homeScore, awayScore) {
                     //if the user made the right pick
                     if (pickWeek[pickVal].selectedTeam === winner) {
                         pickWeek[pickVal].pickResult = true
+                        pickWeek.totalCorrectPicks ++;
                         pickWeek.totalPoints += pickWeek[pickVal].weight;
                     } else {
                         pickWeek[pickVal].pickResult = false;
+                        pickWeek.totalIncorrectPicks ++;
                         pickWeek.potentialPoints -= pickWeek[pickVal].weight;
                     }
                 }
@@ -129,6 +132,8 @@ async function updateGameResult(gameId, homeScore, awayScore) {
             { $set: pickWeek }
         );
     }
+
+    await userData.refreshStandings();
 
     return { updated: true };
 }

@@ -1,9 +1,13 @@
 const mongoCollections = require("../config/mongoCollections");
 const USERS = mongoCollections.users;
+const PICKS = mongoCollections.picks;
+
 let { ObjectId } = require('mongodb');
 const validation = require('../validation');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
+
+// const picksData = require("./picks")
 
 
 /*
@@ -111,11 +115,41 @@ async function getStandings() {
   return standings;
 }
 
+async function refreshStandings(){
+  const userList = await getAllUsers();
+  const userCollection = await USERS();
+  
+  for (user of userList) {
+    user.totalCorrectPicks = 0;
+    user.totalIncorrectPicks = 0;
+    user.totalPoints = 0;
+    const picksCollection = await PICKS();
+
+    const picksList = await picksCollection.find({userId: user._id}).toArray();
+    for(pick of picksList){
+      user.totalCorrectPicks += pick.totalCorrectPicks;
+      user.totalIncorrectPicks += pick.totalIncorrectPicks;
+      user.totalPoints += pick.totalPoints;
+    }
+    // console.log(user);
+    
+    const response = await userCollection.updateOne(
+      { _id: ObjectId(user._id)},
+      { $set: user });
+    // console.log(response);
+
+
+  }
+
+}
+
+
 
 module.exports = {
   createUser,
   checkUser,
   getAllUsers,
   getUserById,
-  getStandings
+  getStandings,
+  refreshStandings
 }
