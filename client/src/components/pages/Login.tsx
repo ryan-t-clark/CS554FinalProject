@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import {
     VStack, 
@@ -30,20 +31,24 @@ const Login: FC<LoginProps> = () => {
     }
 
     async function login(username:string,password:string){
-        try{ const response = await axios.post("http://localhost:3008/users/login",{
-            "username":username,
-            "password":password
-        })
-        console.log(response);
-        } catch (error){
+        try{ 
+            const response = await axios.post("http://localhost:3008/users/login",{
+                "username":username,
+                "password":password
+            });
+            console.log(response);
+
+            return response.data.username;
+        } catch (error) {
             console.log(error);
-            console.log("invalid login");
+            console.log("invalid login"); 
         } 
     }
 
-    const loginFunc = (e: React.SyntheticEvent) => {
+    const loginFunc = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        login(username,password);
+        const usrname = await login(username,password);
+        Cookies.set('user', usrname);
     }
 
     const resetForm = () => {

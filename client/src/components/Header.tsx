@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // import AppBar from '@mui/material/AppBar';
 // import Toolbar from '@mui/material/Toolbar';
@@ -70,7 +71,7 @@ const Header: FC<HeaderProps> = () => {
                 <Link as={RouterLink} to={`/signup`} color= {currentRoute==='signup' ? 'white' : '#545e6f'} className={currentRoute === 'signup' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('signup')}>
                     Signup
                 </Link>
-                <Link as={RouterLink} to={`/logout`} color= {currentRoute==='logout' ? 'white' : '#545e6f'} className={currentRoute === 'logout' ? 'selected-link' : 'nav-link'} onClick={() => setRoute('logout')}>
+                <Link as={RouterLink} to={`/logout`} color= {currentRoute==='logout' ? 'white' : '#545e6f'} className={currentRoute === 'logout' ? 'selected-link' : 'nav-link'} onClick={() => { Cookies.remove('user');}}>
                     Logout
                 </Link>
             </Center>

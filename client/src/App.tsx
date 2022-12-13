@@ -10,6 +10,7 @@ import Leaderboards from './components/pages/Leaderboards';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import MakePicks from './components/pages/MakePicks';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/week' element={<Week />} />
-          <Route path='/picks' element={<MakePicks />} />
+          <Route path='/picks' element={<ProtectedRoute><MakePicks /></ProtectedRoute>} />
           <Route path='/leaderboards' element={<Leaderboards />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
