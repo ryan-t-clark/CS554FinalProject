@@ -1,36 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import {
-    VStack, 
-    HStack,
-    Divider, 
-    Center, 
-    Heading, 
-    Text,
-    Grid,
-    GridItem,
-    Box, 
-    Badge,
-    Spacer,
-    Image,
-    Button, 
-    ButtonGroup,
-    StackDivider,
-    Link,
-    List,
-    ListItem,
-    ListIcon,
-    OrderedList,
-    UnorderedList,
-    Progress,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-} from '@chakra-ui/react';
 import axios from 'axios';
 
 interface LeaderboardsProps {};
@@ -141,51 +109,52 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
 
 
     return (
-        <Center>
-            <Box width='60%'>
-                <VStack>
-                    <Heading as='h2' size='2xl'>Standings</Heading>
-                    <TableContainer width='100%'>
-                        <Table variant='striped' colorScheme='facebook'>
-                            <Thead>
-                                <Tr>
-                                    <Th><Button onClick={handleOrder}>Rank</Button></Th>
-                                    <Th>Contender</Th>
-                                    <Th>Points</Th>
-                                    <Th>Record</Th>
-                                    <Th>Success Rate</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {
-                                    playerData?.map((user)=> {
-                                        return (
-                                            <Tr>
-                                                <Td>
-                                                    {
-                                                        (user.rank == '1' &&
-                                                        <Text><Badge colorScheme='yellow' variant='subtle' fontSize='0.8rem'>1st</Badge></Text>) ||
-                                                        (user.rank == '2' &&
-                                                        <Text><Badge colorScheme='gray' variant='subtle' fontSize='0.8rem'>2nd</Badge></Text>) ||
-                                                        (user.rank == '3' &&
-                                                        <Text><Badge colorScheme='orange' variant='subtle' fontSize='0.8rem'>3rd</Badge></Text>) ||
-                                                        user.rank
-                                                    }
-                                                </Td>
-                                                <Td>{user.username}</Td>
-                                                <Td>{user.points}</Td>
-                                                <Td>{user.record}</Td>
-                                                <Td><Progress isAnimated hasStripe value={user.successPct} colorScheme='blue'></Progress></Td>
-                                            </Tr>
-                                        )
-                                    }) 
-                                }
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                </VStack>
-            </Box>
-        </Center>
+        <div>Test</div>
+        // <Center>
+        //     <Box width='60%'>
+        //         <VStack>
+        //             <Heading as='h2' size='2xl'>Standings</Heading>
+        //             <TableContainer width='100%'>
+        //                 <Table variant='striped' colorScheme='facebook'>
+        //                     <Thead>
+        //                         <Tr>
+        //                             <Th><Button onClick={handleOrder}>Rank</Button></Th>
+        //                             <Th>Contender</Th>
+        //                             <Th>Points</Th>
+        //                             <Th>Record</Th>
+        //                             <Th>Success Rate</Th>
+        //                         </Tr>
+        //                     </Thead>
+        //                     <Tbody>
+        //                         {
+        //                             playerData?.map((user)=> {
+        //                                 return (
+        //                                     <Tr>
+        //                                         <Td>
+        //                                             {
+        //                                                 (user.rank == '1' &&
+        //                                                 <Text><Badge colorScheme='yellow' variant='subtle' fontSize='0.8rem'>1st</Badge></Text>) ||
+        //                                                 (user.rank == '2' &&
+        //                                                 <Text><Badge colorScheme='gray' variant='subtle' fontSize='0.8rem'>2nd</Badge></Text>) ||
+        //                                                 (user.rank == '3' &&
+        //                                                 <Text><Badge colorScheme='orange' variant='subtle' fontSize='0.8rem'>3rd</Badge></Text>) ||
+        //                                                 user.rank
+        //                                             }
+        //                                         </Td>
+        //                                         <Td>{user.username}</Td>
+        //                                         <Td>{user.points}</Td>
+        //                                         <Td>{user.record}</Td>
+        //                                         <Td><Progress isAnimated hasStripe value={user.successPct} colorScheme='blue'></Progress></Td>
+        //                                     </Tr>
+        //                                 )
+        //                             }) 
+        //                         }
+        //                     </Tbody>
+        //                 </Table>
+        //             </TableContainer>
+        //         </VStack>
+        //     </Box>
+        // </Center>
     )
 }
 
