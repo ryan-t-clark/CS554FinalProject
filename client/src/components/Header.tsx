@@ -48,7 +48,7 @@ const Header: FC<HeaderProps> = () => {
     })
     return (
         // I might make this responsive like we did with bootstrap header, but thatll be for later
-        <Box position='fixed' bg='#393b3d' w='100%' h='12%'>
+        <Box position='fixed' overflow='hidden' bg='#393b3d' w='100%' h='12%'>
             <Center marginBottom='2px'>
                 <Heading p='10px' color='white' as='h1'>NFL Game Picker</Heading>
             </Center>

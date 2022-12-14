@@ -37,7 +37,7 @@ interface LeaderboardsProps {};
 const Leaderboards: FC<LeaderboardsProps> = () => {
     // will be accepting data from backend here on all things users
     // for now here is mock data
-    let mockData = 
+    let mockData:Array<any> = 
         [
             {
                 rank: '1',
@@ -89,11 +89,20 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                 successPct: 10
             }
         ]
+        const sortDecreasing = (arr:Array<any>) => {
+            let sortedDec = arr.sort((p1, p2) => (p1.rank < p2.rank) ? 1 : (p1.rank > p2.rank) ? -1 : 0);
+            return sortedDec;
+        }
+    
+        const sortIncreasing = (arr:Array<any>) => {
+            let sortedInc = arr.sort((p1, p2) => (p1.rank > p2.rank) ? 1 : (p1.rank < p2.rank) ? -1 : 0);
+            return sortedInc;
+        }
 
     let [ order, setOrder ] = useState('decreasing')
-    let [ playerData, setPlayerData ] = useState(mockData)
+    let [ playerData, setPlayerData ] = useState(sortIncreasing(mockData))
+    // useEffect to sort data on initial page load
     useEffect(() => {
-        // console.log('firing pagination useeffect');
         if(order === 'increasing') {
             setPlayerData(sortDecreasing(mockData));
         }
@@ -111,17 +120,6 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
         else setOrder('increasing')
     }
 
-    const sortDecreasing = (arr:Array<any>) => {
-        let sortedDec = arr.sort(
-            (p1, p2) => (p1.rank < p2.rank) ? 1 : (p1.rank > p2.rank) ? -1 : 0);
-        return sortedDec;
-    }
-
-    const sortIncreasing = (arr:Array<any>) => {
-        let sortedInc = arr.sort(
-            (p1, p2) => (p1.rank > p2.rank) ? 1 : (p1.rank < p2.rank) ? -1 : 0);
-        return sortedInc;
-    }
 
     return (
         <Center>
