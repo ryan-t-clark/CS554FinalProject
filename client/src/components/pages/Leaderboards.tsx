@@ -31,12 +31,31 @@ import {
     TableCaption,
     TableContainer,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
 interface LeaderboardsProps {};
 
 const Leaderboards: FC<LeaderboardsProps> = () => {
     // will be accepting data from backend here on all things users
     // for now here is mock data
+
+    const [leaderboardData, setLeaderboardData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect( () => {
+        async function fetchData() {
+            try {
+                setLoading(true);
+                let { data } = await axios.get(`http://localhost:3008/users/standings`);
+                setLeaderboardData(data);
+                setLoading(false);
+            } catch (e) {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [])
+
     let mockData:Array<any> = 
         [
             {
