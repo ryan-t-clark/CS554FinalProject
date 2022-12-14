@@ -11,12 +11,14 @@ import {
     Box, 
     Button, 
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 interface LoginProps {};
 
 const Login: FC<LoginProps> = () => {
 
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
+    const navigate = useNavigate();
 
     const handleUsername = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLInputElement
@@ -38,7 +40,7 @@ const Login: FC<LoginProps> = () => {
             });
             console.log(response);
 
-            return response.data.username;
+            return response.data.user;
         } catch (error) {
             console.log(error);
             console.log("invalid login"); 
@@ -47,13 +49,22 @@ const Login: FC<LoginProps> = () => {
 
     const loginFunc = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        const usrname = await login(username,password);
-        Cookies.set('user', usrname);
+
+        // login user authenticating on backend
+        const user = await login(username,password);
+
+        // Set cookies to keep user logged in
+        Cookies.set('username', user.username);
+        Cookies.set('userId', user.userId);
+        // extra cookie for admins
+        Cookies.set('admin', user.admin.toString());
 
         (document.getElementById('usernameInput') as HTMLFormElement).value = "";
         (document.getElementById('passwordInput') as HTMLFormElement).value = "";
         setPassword("");
         setUsername("");
+
+        navigate('/picks');
     }
 
 

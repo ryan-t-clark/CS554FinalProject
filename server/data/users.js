@@ -70,7 +70,7 @@ async function checkUser(username, password) {
   for (item of users) {
     if(item.username.toUpperCase() == username.toUpperCase()){
       if(!await bcrypt.compare(password,item.password)) throw 'Either the username or password is invalid'
-      return {authenticated:true};
+      return {userId: item._id, username: item.username, admin: item.admin, authenticated: true };
     }
   }
     

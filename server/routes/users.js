@@ -55,7 +55,7 @@ router.post('/login',async(req,res) => {
     const userresult = await USERS.checkUser(username,password);
     if(userresult["authenticated"]){
       res.status(200);
-      res.json({"status":"ok","username":username})
+      res.json({ "status":"ok", 'user': userresult })
       return;
     }else{
       res.status(500);

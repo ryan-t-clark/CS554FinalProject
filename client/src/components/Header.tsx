@@ -71,7 +71,7 @@ const Header: FC<HeaderProps> = () => {
                 <Link as={RouterLink} to={`/signup`} color= {currentRoute==='signup' ? 'white' : '#545e6f'} className={currentRoute === 'signup' ? 'selected-link' : 'nav-link'} >
                     Signup
                 </Link>
-                <Link as={RouterLink} to={`/logout`} color= {currentRoute==='logout' ? 'white' : '#545e6f'} className={currentRoute === 'logout' ? 'selected-link' : 'nav-link'} onClick={() => { Cookies.remove('user');}}>
+                <Link as={RouterLink} to={`/logout`} color= {currentRoute==='logout' ? 'white' : '#545e6f'} className={currentRoute === 'logout' ? 'selected-link' : 'nav-link'} onClick={() => { Cookies.remove('userId'); Cookies.remove('username'); Cookies.remove('admin');}}>
                     Logout
                 </Link>
             </Center>

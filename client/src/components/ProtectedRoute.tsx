@@ -5,9 +5,8 @@ import Cookies from 'js-cookie';
 interface ProtectedRouteProps {};
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    const session = Cookies.get('user');
+    const session = Cookies.get('userId');
     
-    console.log(session);
     let authenticated  = false;
     if(session)
         authenticated = true;
