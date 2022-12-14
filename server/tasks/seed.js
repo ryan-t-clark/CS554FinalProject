@@ -72,6 +72,7 @@ async function main() {
                 "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null),
                 "weight": 10,
                 "selectedTeam": "Titans",
+                "selectedSpread": -3.5,
                 "pickResult": null,
                 "submitted": false
             },
@@ -80,6 +81,7 @@ async function main() {
                 "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
                 "weight": 8,
                 "selectedTeam": "Jets",
+                "selectedSpread": 9.5,
                 "pickResult": null,
                 "submitted": false
             },
@@ -98,6 +100,7 @@ async function main() {
                 "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null),
                 "weight": 10,
                 "selectedTeam": "Jaguars",
+                "selectedSpread": 3.5,
                 "pickResult": null,
                 "submitted": false
             },
@@ -109,6 +112,7 @@ async function main() {
                 "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
                 "weight": 8,
                 "selectedTeam": "Bills",
+                "selectedSpread": -9.5,
                 "pickResult": null,
                 "submitted": false
             },

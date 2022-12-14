@@ -2,6 +2,16 @@ import React, { FC, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+
 interface LoginProps {};
 
 const Login: FC<LoginProps> = () => {
@@ -57,36 +67,39 @@ const Login: FC<LoginProps> = () => {
         navigate('/picks');
     }
 
-
-    function togglePassword() {
-        var x = document.getElementById("myInput") as HTMLFormElement;
-        if (x.type === "password") {
-          x.type = "text";
-        } else {
-          x.type = "password";
-        }
-    }
-
     return (
-        <div>Test</div>
-        // <Center>
-        //     <VStack>
-        //         <Heading as='h2'>Log in</Heading>
-        //         <Box>
-        //             <form id='form-id' onSubmit={loginFunc} >
-        //                     <FormControl>
-        //                         <FormLabel id='username' htmlFor='usernameInput'>Username</FormLabel>
-        //                         <Input id='usernameInput' type='text' name='username' value={username} onChange={handleUsername}/>
-        //                         <FormLabel id='password' htmlFor='passwordInput'>Password</FormLabel>
-        //                         <Input id='passwordInput' type='password' name='password' value={password} onChange={handlePassword}/>
-        //                         <Button variant='outline' width="full" mt={4} type="submit">
-        //                             Submit
-        //                         </Button>
-        //                     </FormControl>
-        //             </form>
-        //         </Box>
-        //     </VStack>
-        // </Center>
+        <div>
+            <Grid container
+            spacing={0}
+            direction="column"
+            alignItems="center">
+                <Grid>
+                    <Card>
+                        <CardContent>                
+                            <Typography variant="h4" component="h2">
+                                Log in
+                            </Typography>
+                            <br />
+                            <form id="form-id" onSubmit={loginFunc}>
+                                <FormControl variant="standard">
+                                    <InputLabel>Username</InputLabel>
+                                    <Input id="usernameInput" onChange={handleUsername}></Input>
+                                </FormControl>
+                                <br />
+                                <FormControl variant="standard">
+                                    <InputLabel>Password</InputLabel>
+                                    <Input id="passwordInput" type="password" onChange={handlePassword}></Input>
+                                </FormControl>
+                                <br/><br/>
+                                <Button type="submit">Log in</Button>
+                            </form>
+                            
+                        </CardContent>
+                        
+                    </Card>
+                </Grid>
+            </Grid>
+        </div>
     )
 }
 
