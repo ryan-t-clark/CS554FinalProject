@@ -6,11 +6,11 @@ interface HomeProps {};
 const Home: FC<HomeProps> = () => {
     return (
         <div >
-            <center>
+            
                 <Typography variant='h2' gutterBottom>
                     Welcome to NFL Game Picker!
                 </Typography>                
-            </center>
+            
 
             <div>
                 <Box sx={{ 
