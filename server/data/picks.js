@@ -168,10 +168,55 @@ async function getAllPicksByWeek(week) {
 //     return picksList;
 // }
 
+
+async function getAllPickArraysByWeek(week) {
+    let picksList = await getAllPicksByWeek(week);
+    
+    let result = [];
+    for (pickWeek of picksList) {
+        let current = []
+        current.push(pickWeek.pick10);
+        current.push(pickWeek.pick9);
+        current.push(pickWeek.pick8);
+        current.push(pickWeek.pick7);
+        current.push(pickWeek.pick6);
+        current.push(pickWeek.pick5);
+        current.push(pickWeek.pick4);
+        current.push(pickWeek.pick3);
+        current.push(pickWeek.pick2);
+        current.push(pickWeek.pick1);
+        result.push({username: pickWeek.username, picks: current})
+    }
+
+    return result;
+}
+
+
+async function getWeekPickArraysById(week, id) {
+    let pickWeek = await getWeekPicksById(week, id);
+
+    let result = [];
+
+    result.push(pickWeek.pick10);
+    result.push(pickWeek.pick9);
+    result.push(pickWeek.pick8);
+    result.push(pickWeek.pick7);
+    result.push(pickWeek.pick6);
+    result.push(pickWeek.pick5);
+    result.push(pickWeek.pick4);
+    result.push(pickWeek.pick3);
+    result.push(pickWeek.pick2);
+    result.push(pickWeek.pick1);
+
+    return result;
+}
+
 module.exports = {
     submitPicks,
     getWeekPicksById,
     getAllPicksByWeek,
     initPicksForWeek,
     initPicksById,
+    getAllPickArraysByWeek,
+    getWeekPickArraysById
 }
