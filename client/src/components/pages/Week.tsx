@@ -11,7 +11,7 @@ interface Pick {
     weight: number,
     selectedTeam: string,
     selectedSpread: number,
-    pickResult: boolean,
+    pickResult: boolean | null,
     submitted: boolean
 }
 

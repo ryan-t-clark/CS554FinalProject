@@ -39,6 +39,7 @@ async function submitPicks(week, userId, picks) {
         let current = picks[pickKey];
         if (!current) continue; //if this pick is blank
         isValidPickSchema(current);
+        current.submitted = true;
         picksToSubmit.set(pickKey, current);
         //maybe add these validated picks to a list
     }
