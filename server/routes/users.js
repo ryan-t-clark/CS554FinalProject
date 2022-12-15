@@ -84,7 +84,15 @@ router.get('/standings', async (req, res) => {
 });
 
 
-
+router.get('/profile', async (req, res) => {
+  const session = Cookies.get('userId');
+  try {
+      let user = await USERS.getUserById(session);
+      return res.json(result);
+  } catch (e) {
+      return res.status(404).json({error: e});
+  }
+});
 
 
 module.exports = router;

@@ -7,6 +7,9 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import {Button, IconButton} from '@mui/material'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 interface LeaderboardsProps {};
 
@@ -21,8 +24,18 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
     // will be accepting data from backend here on all things users
     // for now here is mock data
 
-    const [leaderboardData, setLeaderboardData] = useState([]);
+    const [leaderboardData, setLeaderboardData] = useState<(leaderboardEntry[])>([]);
     const [loading, setLoading] = useState(true);
+    const [sortState, setSortState] = useState('decreasing');
+    const sortDecreasing = (arr:leaderboardEntry[]) => {
+        let sortedDec = arr.sort((p1, p2) => (p1.totalPoints < p2.totalPoints) ? 1 : (p1.totalPoints > p2.totalPoints) ? -1 : 0);
+        return sortedDec;
+    }
+
+    const sortIncreasing = (arr:leaderboardEntry[]) => {
+        let sortedInc = arr.sort((p1, p2) => (p1.totalPoints > p2.totalPoints) ? 1 : (p1.totalPoints < p2.totalPoints) ? -1 : 0);
+        return sortedInc;
+    }
 
     useEffect( () => {
         async function fetchData() {
@@ -30,6 +43,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/users/standings`);
                 setLeaderboardData(data);
+                console.log(typeof data)
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
@@ -38,6 +52,19 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
         fetchData();
     }, [])
 
+    useEffect(() => {
+        if(sortState === 'increasing') {
+            setLeaderboardData(sortDecreasing(leaderboardData));
+        }
+        else {
+            setLeaderboardData(sortIncreasing(leaderboardData));
+        }
+      }, [sortState]);
+
+      const handleOrder = () => { 
+        if(sortState === 'increasing') setSortState('decreasing')
+        else setSortState('increasing')
+    }
 
     if (loading) {
         return (
@@ -54,10 +81,18 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Total Points</TableCell>
+                            <TableCell>Total Points<IconButton onClick={handleOrder}>
+                                {
+                                    sortState === 'decreasing' &&
+                                    <ArrowUpwardIcon></ArrowUpwardIcon>
+                                }{
+                                    sortState === 'increasing' &&
+                                    <ArrowDownwardIcon></ArrowDownwardIcon>
+                                }
+                            </IconButton></TableCell>
                             <TableCell>Username</TableCell>
                             <TableCell>Pick Record</TableCell>
-                            <TableCell>Pick Percentage</TableCell>
+                            <TableCell>Pick Percentage<Button></Button></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
