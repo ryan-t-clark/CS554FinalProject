@@ -7,7 +7,7 @@ const Home: FC<HomeProps> = () => {
     return (
         <div >
             
-                <Typography variant='h2' gutterBottom>
+                <Typography variant='h2' gutterBottom align='center'>
                     Welcome to NFL Game Picker!
                 </Typography>                
             

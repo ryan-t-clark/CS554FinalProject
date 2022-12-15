@@ -16,3 +16,15 @@
 .nav a.inactive {
   font-style: italic;
 }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.card {
+  background-color: #1310c0;
+  color: white;
+  text-align: center;
+}

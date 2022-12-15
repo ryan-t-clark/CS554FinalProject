@@ -1,10 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
 import axios from 'axios'
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import Item from '@mui/material/Grid';
+import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
 interface WeekProps {};
 
@@ -61,69 +59,112 @@ const Week: FC<WeekProps> = () => {
         fetchData();
     }, [weekNum])
 
+    const style = {
+        justifyContent: 'center', alignItems:'center'
+      } as const;
+
     const buildPickWeek = (pickWeek: PickWeek) => {
         
         return (
-            <div>
-                <Typography variant="h5" component="h3">
-                    {pickWeek.username}
-                </Typography>
-                <Grid container key={pickWeek._id}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} justifyContent="center" direction="row" alignItems="center" container>
-                        <Card>
-                            <CardContent>
+            <div className='center'>
+            <Typography variant="h5" component="h3" align='center'>
+                {pickWeek.username}
+            </Typography>
+            <Box sx={style}>
+            <Grid container spacing={2} key={uuidv4()}>
+                <Grid item sm={12/2} lg={12/5} justifyContent="center" alignItems="center">
+                    <Item>
+                        <Card >
+                            <CardContent className='card'>
                                 {pickWeek.pick10 ? `${pickWeek.pick10.selectedTeam} ${pickWeek.pick10.selectedSpread}`  : "No pick submitted"}
                             </CardContent>
                         </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick9 ? `${pickWeek.pick9.selectedTeam} ${pickWeek.pick9.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick8 ? `${pickWeek.pick8.selectedTeam} ${pickWeek.pick8.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick7 ? `${pickWeek.pick7.selectedTeam} ${pickWeek.pick7.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick6 ? `${pickWeek.pick6.selectedTeam} ${pickWeek.pick6.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick5 ? `${pickWeek.pick5.selectedTeam} ${pickWeek.pick5.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick4 ? `${pickWeek.pick4.selectedTeam} ${pickWeek.pick4.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick3 ? `${pickWeek.pick3.selectedTeam} ${pickWeek.pick3.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick2 ? `${pickWeek.pick2.selectedTeam} ${pickWeek.pick2.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
-                                {pickWeek.pick1 ? `${pickWeek.pick1.selectedTeam} ${pickWeek.pick1.selectedSpread}` : "No pick submitted"}
-                            </CardContent>
-                        </Card>
-                               
-                    </Grid>
+                    </Item>
                 </Grid>
-                <br />
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick9 ? `${pickWeek.pick9.selectedTeam} ${pickWeek.pick9.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick8 ? `${pickWeek.pick8.selectedTeam} ${pickWeek.pick8.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick7 ? `${pickWeek.pick7.selectedTeam} ${pickWeek.pick7.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick6 ? `${pickWeek.pick6.selectedTeam} ${pickWeek.pick6.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick5 ? `${pickWeek.pick5.selectedTeam} ${pickWeek.pick5.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick4 ? `${pickWeek.pick4.selectedTeam} ${pickWeek.pick4.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick3 ? `${pickWeek.pick3.selectedTeam} ${pickWeek.pick3.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick2 ? `${pickWeek.pick2.selectedTeam} ${pickWeek.pick2.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+                <Grid item xs={12/2} lg={12/5}>
+                    <Item>
+                        <Card>
+                            <CardContent className='card'>
+                                {pickWeek.pick1 ? `${pickWeek.pick1.selectedTeam} ${pickWeek.pick1.selectedSpread}`  : "No pick submitted"}
+                            </CardContent>
+                        </Card>
+                    </Item>
+                </Grid>
+            </Grid>
+            <br />
+            </Box>
             </div>
         )
     }
@@ -142,15 +183,11 @@ const Week: FC<WeekProps> = () => {
     } else {
         return (
             <div>
-                <Typography variant="h4" component="h2">
-                        This Week
+                <Typography variant="h4" component="h2" align='center'>
+                    This Week
                 </Typography>
                 <br />
-                
                 {list}
-               
-            
-
             </div>
         )
     }   
