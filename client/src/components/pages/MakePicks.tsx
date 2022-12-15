@@ -265,6 +265,10 @@ const MakePicks: FC<MakePicksProps> = () => {
 
     const moveUp = (index: number) => {
 
+        /*
+            needs some more logic on boundaries
+        */
+
         let copyArray = [...pickData]; //make copy of array -- forces re-render
         let x = copyArray[index];
 
@@ -295,6 +299,10 @@ const MakePicks: FC<MakePicksProps> = () => {
 
     const moveDown = (index: number) => {
 
+        /*
+            needs some more logic on boundaries
+        */
+
         let copyArray = [...pickData]; //make copy of array -- forces re-render
         let x = copyArray[index];
 
@@ -320,6 +328,24 @@ const MakePicks: FC<MakePicksProps> = () => {
 
         console.log(copyArray);
         setPickData(copyArray);
+    }
+
+    const onSubmit = () => {
+        let picks = {
+            pick10: pickData[0],
+            pick9: pickData[1],
+            pick8: pickData[2],
+            pick7: pickData[3],
+            pick6: pickData[4],
+            pick5: pickData[5],
+            pick4: pickData[6],
+            pick3: pickData[7],
+            pick2: pickData[8],
+            pick1: pickData[9],
+        }
+        console.log(picks);
+
+        //will call /submitpicks route and maybe redirect
     }
 
 
@@ -390,7 +416,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                     </TableBody>
                 </Table>
 
-                <Button>Submit Picks</Button>
+                <Button onClick={onSubmit}>Submit Picks</Button>
 
                 <br /><br /><br /><br />
                 <Typography variant="h4" component="h2">
