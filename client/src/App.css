@@ -23,8 +23,20 @@
   padding: 10px;
 }
 
-.card {
-  background-color: #1310c0;
+.card-neutral {
+  background-color: #767676;
+  color: white;
+  text-align: center;
+}
+
+.card-correct {
+  background-color: #0c6300;
+  color: white;
+  text-align: center;
+}
+
+.card-incorrect {
+  background-color: #ab0000;
   color: white;
   text-align: center;
 }

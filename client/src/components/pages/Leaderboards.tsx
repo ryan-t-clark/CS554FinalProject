@@ -26,7 +26,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
 
     const [leaderboardData, setLeaderboardData] = useState<(leaderboardEntry[])>([]);
     const [loading, setLoading] = useState(true);
-    const [sortState, setSortState] = useState('decreasing');
+    const [sortState, setSortState] = useState('increasing');
     const sortDecreasing = (arr:leaderboardEntry[]) => {
         let sortedDec = arr.sort((p1, p2) => (p1.totalPoints < p2.totalPoints) ? 1 : (p1.totalPoints > p2.totalPoints) ? -1 : 0);
         return sortedDec;
@@ -42,7 +42,8 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
             try {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/users/standings`);
-                setLeaderboardData(data);
+                setLeaderboardData(sortDecreasing(data));
+                setSortState('decreasing');
                 console.log(typeof data)
                 setLoading(false);
             } catch (e) {
