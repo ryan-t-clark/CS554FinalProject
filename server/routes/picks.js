@@ -32,6 +32,27 @@ router.post('/submit', async (req, res) => {
 });
 
 
+router.get('/user/pickarray/:week/:id', async (req, res) => {
+    let week = req.params.week;
+    let id = req.params.id;
+    
+    try {
+        validation.checkId(id);
+        validation.checkWeek(week);
+    } catch (e) {
+        return res.status(400).json({error: e});
+    }
+
+    try {
+        let result = await PICKS.getWeekPickArraysById(week, id);
+        return res.json(result);
+    } catch (e) {
+        return res.status(404).json({error: e});
+    }
+
+});
+
+
 router.get('/user/:week/:id', async (req, res) => {
     let week = req.params.week;
     let id = req.params.id;
@@ -48,6 +69,26 @@ router.get('/user/:week/:id', async (req, res) => {
         return res.json(result);
     } catch (e) {
         return res.status(404).json({error: e});
+    }
+
+});
+
+
+router.get('/all/pickarray/:week', async (req, res) => {
+
+    let week = req.params.week;
+
+    try {
+        validation.checkWeek(week);
+    } catch (e) {
+        res.status(400).json(e);
+    }
+
+    try {
+        let result = await PICKS.getAllPickArraysByWeek(week);
+        return res.json(result);
+    } catch (e) {
+        return res.status(404).json(e);
     }
 
 });
@@ -71,6 +112,10 @@ router.get('/all/:week', async (req, res) => {
     }
 
 });
+
+
+
+
 
 
 
