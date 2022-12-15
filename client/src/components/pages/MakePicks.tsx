@@ -52,6 +52,8 @@ const MakePicks: FC<MakePicksProps> = () => {
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
     const [pickData, setPickData] = useState<(Pick | null)[]>([null,null,null,null,null,null,null,null,null,null]);
+    const [selectedList, setSelectedList] = useState<string[]>([]);
+    const [submittedList, setSubmittedList] = useState<string[]>([]);
 
     let gameList = null;
 
@@ -78,6 +80,14 @@ const MakePicks: FC<MakePicksProps> = () => {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/picks/user/pickarray/${weekNum}/${userId}`);
                 setPickData(data);
+                let selectedIds = [];
+                for (let i = 0; i < 10; i++) {
+                    if (data[i] !== null) {
+                        selectedIds.push(data[i].gameId);
+                    }
+                }
+                setSelectedList(selectedIds);
+                setSubmittedList(selectedIds);
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
@@ -86,38 +96,100 @@ const MakePicks: FC<MakePicksProps> = () => {
         fetchData();
     }, []);
 
+    const findGameSelectionById = (gameId: string) => {
+        for (let i = 0; i < 10; i++) {
+            if (pickData[i] !== null) {
+                if (pickData[i]!.gameId === gameId) {
+                    return pickData[i]!.selectedTeam;
+                }
+            }
+        }
+    }
+
+    const findPickIndex = (gameId: string) => {
+        for (let i = 0; i < 10; i++) {
+            if (pickData[i] !== null) {
+                if (pickData[i]!.gameId === gameId) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
 
     const buildGameList = (game: Game) => {
 
         const homeLabel = `${game.homeTeam} ${game.homeSpread}`
         const awayLabel = `${game.awayTeam} ${game.awaySpread}`
 
-        //
-        // USING BUTTONS HERE IS TEMPORARY -- JUST WANTED TO BE ABLE TO ADD/REMOVE FROM THE TABLE
-        // DOES NOT REFLECT ACTUAL FUNCTIONALITY OF THESE BUTTONS
-        //
+        //if the game is submitted, it is immutable
+        if (submittedList.includes(game._id)) {
+            let selected = findGameSelectionById(game._id);
+            return (
+                <div>
+                    <Card key={game._id}>
+                        <CardContent>
+                            <Typography>
+                                {game.awayTeam} at {game.homeTeam}
+                            </Typography>
+                            <FormGroup>
+                                <FormControlLabel defaultValue='' disabled={true} checked={selected === game.homeTeam} control={<Checkbox />} label={homeLabel} />
+                                <FormControlLabel defaultValue='' disabled={true} checked={selected === game.awayTeam} control={<Checkbox />} label={awayLabel} />
+                            </FormGroup>
+                        </CardContent>
+                    </Card>
+                </div>
+            )
+        };
 
-        return (
-            <div>
-                <Card key={game._id}>
-                    <CardContent>
-                        <Typography>
-                            {game.awayTeam} at {game.homeTeam}
-                        </Typography>
+        if (selectedList.includes(game._id)) {
+            //game is selected
+            let selected = findGameSelectionById(game._id);
+            return (
+                <div>
+                    <Card key={game._id}>
+                        <CardContent>
+                            <Typography>
+                                {game.awayTeam} at {game.homeTeam}
+                            </Typography>
+                            <FormGroup>
+                                <FormControlLabel defaultValue='' 
+                                    checked={selected === game.homeTeam} 
+                                    disabled={selected !== game.homeTeam}
+                                    control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} />} 
+                                    label={homeLabel} />
+                                
+                                <FormControlLabel defaultValue='' 
+                                    checked={selected === game.awayTeam} 
+                                    disabled={selected !== game.awayTeam}
+                                    control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} />} 
+                                    label={awayLabel} />
+                            </FormGroup>
+                        </CardContent>
+                    </Card>
+                </div>
+            )
 
-                        <Button onClick={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)}>{homeLabel}</Button>
-                        <Button onClick={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)}>{awayLabel}</Button>
+        } else {
+            //game is not selected
+            return (
+                <div>
+                    <Card key={game._id}>
+                        <CardContent>
+                            <Typography>
+                                {game.awayTeam} at {game.homeTeam}
+                            </Typography>
+                            <FormGroup>
+                                <FormControlLabel defaultValue='' checked={false} control={<Checkbox onChange={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)} />} label={homeLabel} />
+                                <FormControlLabel defaultValue='' checked={false} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} />} label={awayLabel} />
+                            </FormGroup>
+                        </CardContent>
+                    </Card>
+                </div>
+            )
 
-                        {/* <FormGroup>
-                            <FormControlLabel control={<Checkbox />} label={homeLabel} />
-                            <FormControlLabel control={<Checkbox />} label={awayLabel} />
-                        </FormGroup> */}
-                    </CardContent>
-                </Card>
-                <br />
-            </div>
-            
-        )
+        }
+
     }
 
     gameList = gameData &&
@@ -162,19 +234,29 @@ const MakePicks: FC<MakePicksProps> = () => {
         for (let i = 0; i < 10; i++) {
             i == insertIndex ? newArray.push(newPick) : newArray.push(pickData[i]);
         }
+
+        let selectedCopy = [...selectedList];
+        selectedCopy.push(gameId);
+        setSelectedList(selectedCopy);
         
         setPickData(newArray);
         
     }
 
 
-    const removeFromPicks = (index: number) => {
+    const removeFromPicks = (index: number, gameId: string | null) => {
 
         let copyArray = [...pickData]; //make copy of array -- forces re-render
 
-        /*
-            handle logic to reflect changes in game list
-        */
+        if (gameId) {
+            let newSelected: string[] = [];
+            selectedList.forEach( (selection: string) => {
+                if (selection !== gameId) {
+                    newSelected.push(selection);
+                }
+            })
+            setSelectedList(newSelected);
+        }
 
         copyArray[index] = null;
         setPickData(copyArray);
@@ -271,7 +353,23 @@ const MakePicks: FC<MakePicksProps> = () => {
                                         {/* need to add some sort of indicator that a pick is submitted, like the row being greyed out and there being no available buttons*/}
                                         <TableCell>{pickVal--}</TableCell>
                                         <TableCell>{pick ? `${pick.selectedTeam} ${pick.selectedSpread}` : `No pick`}</TableCell>
-                                        <TableCell>
+                                        {pick ? 
+                                            <TableCell>
+                                                {   
+                                                    index != 9 && !submittedList.includes(pick.gameId) ?
+                                                    <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ""
+                                                }
+                                                {
+                                                    index != 0 && !submittedList.includes(pick.gameId) ?
+                                                    <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ""
+                                                }
+                                                {
+                                                    !submittedList.includes(pick.gameId) ?
+                                                    <IconButton onClick={(event) => {removeFromPicks(index, pick.gameId)}}><CancelIcon /></IconButton> : ""
+                                                }
+                                            </TableCell>
+                                            : 
+                                            <TableCell>
                                             {   
                                                 index != 9 ?
                                                 <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ""
@@ -281,16 +379,18 @@ const MakePicks: FC<MakePicksProps> = () => {
                                                 <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ""
                                             }
                                             {
-                                                <IconButton onClick={(event) => {removeFromPicks(index)}}><CancelIcon /></IconButton> 
+                                                <IconButton onClick={(event) => {removeFromPicks(index, null)}}><CancelIcon /></IconButton> 
                                             }
-                                            
-                                        </TableCell>
+                                            </TableCell>                                      
+                                        }
                                     </TableRow>
                                 )
                             })
                         }
                     </TableBody>
                 </Table>
+
+                <Button>Submit Picks</Button>
 
                 <br /><br /><br /><br />
                 <Typography variant="h4" component="h2">
