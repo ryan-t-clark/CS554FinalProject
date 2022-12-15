@@ -84,15 +84,38 @@ router.get('/standings', async (req, res) => {
 });
 
 
-router.get('/profile', async (req, res) => {
-  const session = Cookies.get('userId');
+router.get('/profile:/id', async (req, res) => {
+  let id = req.params.id;
   try {
-      let user = await USERS.getUserById(session);
+    validation.checkId(id);
+  } catch (e) {
+      return res.status(400).json({error: e});
+  }
+
+  // const session = Cookies.get('userId');
+  try {
+      let result = await USERS.getUserById(id);
       return res.json(result);
   } catch (e) {
       return res.status(404).json({error: e});
   }
 });
+
+router.post("/updateImage/:id",async (req,res) =>{ //add error catching
+  let id = req.params.id;
+  try {
+    validation.checkId(id);
+  } catch (e) {
+      return res.status(400).json({error: e});
+  }
+
+  try{
+    let result = await USERS.updateImage(id,req.body["profileImage"]);
+    return res.json(result);
+  } catch(e){
+    return res.status(404).json({error: e});
+  }
+})
 
 
 module.exports = router;

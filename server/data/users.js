@@ -45,7 +45,8 @@ async function createUser(username, password, admin) {
     totalPoints : 0,
     totalCorrectPicks: 0,
     totalIncorrectPicks: 0,
-    admin: admin
+    admin: admin,
+    profileImage:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   }
     
   const insertInfo = await userCollection.insertOne(newUser);
@@ -103,6 +104,13 @@ async function getUserById(id) {
   return user;
 }
 
+async function updateImage(id,image){ //add validation
+  validation.checkId(id);
+
+  const userCollection = await USERS();
+  const user = await userCollection.updateOne({ _id: ObjectId(id) },{$set:{"profileImage":image}})
+}
+
 
 /*
   Gets the current standings
@@ -151,5 +159,6 @@ module.exports = {
   getAllUsers,
   getUserById,
   getStandings,
-  refreshStandings
+  refreshStandings,
+  updateImage
 }

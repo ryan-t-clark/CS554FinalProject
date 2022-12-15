@@ -68,6 +68,13 @@ const Header: FC<HeaderProps> = () => {
                                 background: isActive ? '#1310c0' : '#f0f0f0',
                             })}>Sign up
                         </NavLink>
+                        <NavLink
+                            to="/profile"
+                            style={({ isActive }) => ({
+                                color: isActive ? '#fff' : '#545e6f',
+                                background: isActive ? '#1310c0' : '#f0f0f0',
+                            })}>Profile
+                        </NavLink>
                         <Button
                             onClick={logout}
                             variant='contained'
