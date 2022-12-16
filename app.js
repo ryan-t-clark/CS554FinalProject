@@ -16,7 +16,7 @@ app.use(cors());
 
 configRoutes(app);
 
-const port = 3008;
+const port = process.env.PORT || 3008;
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

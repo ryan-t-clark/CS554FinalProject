@@ -34,7 +34,8 @@ const Login: FC<LoginProps> = () => {
 
     async function login(username:string,password:string){
         try{ 
-            const response = await axios.post("http://127.0.0.1:8080/users/login",{
+            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080' : 'http://localhost:3008'
+            const response = await axios.post(`${link}/users/login`,{
                 "username":username,
                 "password":password
             });
