@@ -8,10 +8,10 @@
     "start": "npm run install-all & npm run build --prefix client & npm run server  ",
     "server-install": "npm i",
     "client-install": "npm i --prefix client",
-    "install-all": "npm i concurrently; concurrently \"npm run server-install\" \"npm run client-install\"",
+    "install-all": "\"npm run server-install\" & \"npm run client-install\"",
     "server": "node app.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "\"npm run server\" & \"npm run client\"",
     "seed": "node ./tasks/seed.js"
   },
   "author": "",
