@@ -47,6 +47,7 @@ async function main() {
         await users.createUser('evalentino','password', false);
         await users.createUser('rchin','password', false);
         await users.createUser('rnarma','password', false);
+        await users.createUser('patrickhill','password', false);
 
         //add games
         //                                             home      away     home,away
@@ -87,11 +88,25 @@ async function main() {
             },
             "pick7": null,
             "pick6": null,
-            "pick5": null,
+            "pick5": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Cowboys","Texans",-16.5,16.5,null),
+                "weight": 5,
+                "selectedTeam": "Cowboys",
+                "selectedSpread": -16.5,
+                "pickResult": null,
+                "submitted": false
+            },
             "pick4": null,
             "pick3": null,
             "pick2": null,
-            "pick1": null
+            "pick1": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Giants","Eagles",6.5,-6.5,null),
+                "weight": 1,
+                "selectedTeam": "Eagles",
+                "selectedSpread": -6.5,
+                "pickResult": null,
+                "submitted": false
+            }
         });
 
         await picks.submitPicks(1, await getUserId('evalentino'),
@@ -122,9 +137,70 @@ async function main() {
             "pick1": null
         })
 
+        await picks.submitPicks(1, await getUserId('patrickhill'),
+        {
+            "pick10": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null),
+                "weight": 10,
+                "selectedTeam": "Jaguars",
+                "selectedSpread": 3.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick9": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
+                "weight": 8,
+                "selectedTeam": "Jets",
+                "selectedSpread": 9.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick8": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Cowboys","Texans",-16.5,16.5,null),
+                "weight": 8,
+                "selectedTeam": "Texans",
+                "selectedSpread": 16.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick7": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Giants","Eagles",6.5,-6.5,null),
+                "weight": 8,
+                "selectedTeam": "Eagles",
+                "selectedSpread": -6.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick6": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bengals","Browns",-5.5,5.5,null),
+                "weight": 8,
+                "selectedTeam": "Bengals",
+                "selectedSpread": -5.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick5": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Steelers","Ravens",2.5,-2.5,null),
+                "weight": 8,
+                "selectedTeam": "Steelers",
+                "selectedSpread": 2.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick4": null,
+            "pick3": null,
+            "pick2": null,
+            "pick1": null
+        })
+
         //update some final scores
         await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Titans","Jaguars",-3.5,3.5,null), 22, 36);
         await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null), 20, 12);
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Bengals","Browns",-5.5,5.5,null), 23, 10);
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Steelers","Ravens",2.5,-2.5,null), 14, 16);
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Giants","Eagles",6.5,-6.5,null), 22, 48);
+        await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Cowboys","Texans",-16.5,16.5,null), 27, 23);
+
 
 
         console.log('seed complete');

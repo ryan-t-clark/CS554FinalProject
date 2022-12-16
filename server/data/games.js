@@ -94,7 +94,7 @@ async function updateGameResult(gameId, homeScore, awayScore) {
     //
 
     // determine who won this game based on the scores
-    let gameResult = (game.homeScore + game.homeSpread) - game.awayScore;
+    let gameResult = (game.homeFinalScore + game.homeSpread) - game.awayFinalScore;
     let winner = undefined;
     gameResult > 0 ? winner = game.homeTeam : winner = game.awayTeam;
     
