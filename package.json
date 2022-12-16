@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< Updated upstream
     "start": "npm i concurrently; concurrently \"npm run build --prefix client\" \"node app.js\"",
     "dev": "node app.js",
     "seed": "node ./tasks/seed.js"
+=======
+    "start": "node app.js",
+    "seed": "node ./server/tasks/seed.js"
+>>>>>>> Stashed changes
   },
   "author": "",
   "license": "ISC",

@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -56,6 +57,8 @@ const MakePicks: FC<MakePicksProps> = () => {
     const [submittedList, setSubmittedList] = useState<string[]>([]);
 
     let gameList = null;
+
+    const navigate = useNavigate();
 
     //get game list
     useEffect( () => {
@@ -262,6 +265,16 @@ const MakePicks: FC<MakePicksProps> = () => {
         setPickData(copyArray);
     }
 
+    const nextIndexAbove = (index: number) => {
+        let moveIndex = index - 1;
+        while (moveIndex >= 0) {
+            if (pickData[moveIndex] === null || pickData[moveIndex]!.submitted === false) {
+                return moveIndex;
+            }
+            moveIndex--;
+        }
+        return moveIndex;
+    }
 
     const moveUp = (index: number) => {
 
@@ -272,13 +285,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         let copyArray = [...pickData]; //make copy of array -- forces re-render
         let x = copyArray[index];
 
-        let moveIndex = index - 1;
-        while (moveIndex >= 0) {
-            if (copyArray[moveIndex] === null || copyArray[moveIndex]!.submitted === false) {
-                break;
-            }
-            moveIndex--;
-        }
+        let moveIndex = nextIndexAbove(index);
 
         copyArray[index] = copyArray[moveIndex];
         copyArray[moveIndex] = x
@@ -292,27 +299,26 @@ const MakePicks: FC<MakePicksProps> = () => {
             copyArray[moveIndex]!.weight = 10 - moveIndex;
         }
 
-        console.log(copyArray);
         setPickData(copyArray);
     }
 
+    const nextIndexBelow = (index: number) => {
+        let moveIndex = index + 1;
+        while (moveIndex < 10) {
+            if (pickData[moveIndex] === null || pickData[moveIndex]!.submitted === false) {
+                return moveIndex;
+            }
+            moveIndex++;
+        }
+        return moveIndex;
+    }
 
     const moveDown = (index: number) => {
-
-        /*
-            needs some more logic on boundaries
-        */
 
         let copyArray = [...pickData]; //make copy of array -- forces re-render
         let x = copyArray[index];
 
-        let moveIndex = index + 1;
-        while (moveIndex < 10) {
-            if (copyArray[moveIndex] === null || copyArray[moveIndex]!.submitted === false) {
-                break;
-            }
-            moveIndex++;
-        }
+        let moveIndex = nextIndexBelow(index);
 
         copyArray[index] = copyArray[moveIndex];
         copyArray[moveIndex] = x
@@ -326,11 +332,10 @@ const MakePicks: FC<MakePicksProps> = () => {
             copyArray[moveIndex]!.weight = 10 - moveIndex;
         }
 
-        console.log(copyArray);
         setPickData(copyArray);
     }
 
-    const onSubmit = () => {
+    async function onSubmit() {
         let picks = {
             pick10: pickData[0],
             pick9: pickData[1],
@@ -345,7 +350,14 @@ const MakePicks: FC<MakePicksProps> = () => {
         }
         console.log(picks);
 
-        //will call /submitpicks route and maybe redirect
+        let result = await axios.post(`http://localhost:3008/picks/submit`, {
+            week: weekNum,
+            userId: userId,
+            picks: picks
+        });
+
+        navigate("/week");
+
     }
 
 
@@ -382,11 +394,11 @@ const MakePicks: FC<MakePicksProps> = () => {
                                         {pick ? 
                                             <TableCell>
                                                 {   
-                                                    index != 9 && !submittedList.includes(pick.gameId) ?
+                                                    !submittedList.includes(pick.gameId) && nextIndexBelow(index) !== 10 ?
                                                     <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ""
                                                 }
                                                 {
-                                                    index != 0 && !submittedList.includes(pick.gameId) ?
+                                                    !submittedList.includes(pick.gameId) && nextIndexAbove(index) !== -1 ?
                                                     <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ""
                                                 }
                                                 {
@@ -396,17 +408,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                                             </TableCell>
                                             : 
                                             <TableCell>
-                                            {   
-                                                index != 9 ?
-                                                <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ""
-                                            }
-                                            {
-                                                index != 0 ?
-                                                <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ""
-                                            }
-                                            {
-                                                <IconButton onClick={(event) => {removeFromPicks(index, null)}}><CancelIcon /></IconButton> 
-                                            }
+
                                             </TableCell>                                      
                                         }
                                     </TableRow>
