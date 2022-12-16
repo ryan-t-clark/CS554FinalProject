@@ -31,7 +31,7 @@ const Signup: FC<SignupProps> = () => {
     }
     
     async function signup(username:string,password:string){
-        try {const response = await axios.post("http://localhost:3008/users/signup",{
+        try {const response = await axios.post("http://127.0.0.1:8080/users/signup",{
             "username":username,
             "password":password
         })
