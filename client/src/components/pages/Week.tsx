@@ -70,6 +70,12 @@ const Week: FC<WeekProps> = () => {
             <Typography variant="h5" component="h3" align='center'>
                 {pickWeek.username}
             </Typography>
+            <Typography>
+                Total points: {pickWeek.totalPoints}
+            </Typography>
+            <Typography>
+                Potential points: {pickWeek.potentialPoints}
+            </Typography>
             <Box sx={style}>
             <Grid container spacing={2} key={uuidv4()}>
                 <Grid item sm={12/2} lg={12/5} justifyContent="center" alignItems="center">

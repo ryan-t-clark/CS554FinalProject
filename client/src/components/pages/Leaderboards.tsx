@@ -104,7 +104,9 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                                         <TableCell>{user.totalPoints}</TableCell>
                                         <TableCell>{user.username}</TableCell>
                                         <TableCell>{user.totalCorrectPicks}-{user.totalIncorrectPicks}</TableCell>
-                                        <TableCell>{user.totalCorrectPicks*100/(user.totalCorrectPicks+user.totalIncorrectPicks)}</TableCell>
+                                        <TableCell>{isNaN(user.totalCorrectPicks*100/(user.totalCorrectPicks+user.totalIncorrectPicks)) ?
+                                        0 :
+                                        user.totalCorrectPicks*100/(user.totalCorrectPicks+user.totalIncorrectPicks)}</TableCell>
                                     </TableRow>
                                 )
                             })
