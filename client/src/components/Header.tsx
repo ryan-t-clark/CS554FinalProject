@@ -12,17 +12,21 @@ interface HeaderProps {};
 
 const Header: FC<HeaderProps> = () => {
 
-    const logout = () => {
-        Cookies.remove('username'); 
-        Cookies.remove('userId'); 
-        Cookies.remove('admin');
-    }
     const userId = Cookies.get('userId');
+    const admin = Cookies.get("admin");
     const { pathname } = useLocation();
-    var Picks,Profile,Logout,Signup,Login;
-    // var Profile;
-    // var Logout;
-    // var signup,login;
+    var Picks,Profile,Logout,Signup,Login,Admin;
+
+    if(admin){
+        Admin = <NavLink
+            to="/admin"
+            style={({ isActive }) => ({
+                color: isActive ? '#fff' : '#545e6f',
+                background: isActive ? '#1310c0' : '#f0f0f0',
+            })}>Admin Page
+            </NavLink>
+    }
+
     if(userId){
         Picks = <NavLink
                     to="/picks"
@@ -45,11 +49,6 @@ const Header: FC<HeaderProps> = () => {
                         background: isActive ? '#1310c0' : '#f0f0f0',
                     })}>Logout
                 </NavLink>
-        // Logout = <Button
-        //             onClick={logout}
-        //             variant='contained'>
-        //             Log out
-        //         </Button>
     } else {
         Login = <NavLink
                     to="/login"
@@ -66,7 +65,6 @@ const Header: FC<HeaderProps> = () => {
                     })}>Sign up
                 </NavLink>
     }
-    // console.log("here");
     
     
     return (
@@ -103,6 +101,7 @@ const Header: FC<HeaderProps> = () => {
                         {Signup}
                         {Profile}
                         {Logout}
+                        {Admin}
                     </div>
                 </Toolbar>
         </AppBar>

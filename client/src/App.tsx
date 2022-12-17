@@ -11,8 +11,10 @@ import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import MakePicks from './components/pages/MakePicks';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import Logout from "./components/pages/Logout";
 import Profile from './components/pages/Profile';
+import Admin from './components/pages/Admin';
 
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path="/logout" element={<Logout/>} />
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>}></Route>
         </Routes>
 
       </Router>
