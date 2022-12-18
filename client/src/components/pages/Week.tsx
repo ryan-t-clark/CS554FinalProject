@@ -198,7 +198,7 @@ const Week: FC<WeekProps> = () => {
         return (
             <div>
                 <Typography variant="h4" component="h2" align='center'>
-                    This Week
+                    Week {weekNum}
                 </Typography>
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>

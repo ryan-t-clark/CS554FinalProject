@@ -382,7 +382,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         return (
             <div className='make-picks'>
                 <Typography variant="h4" component="h2" align='center'>
-                    Your Picks
+                    Your Picks for Week {weekNum}
                 </Typography>
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
@@ -447,7 +447,7 @@ const MakePicks: FC<MakePicksProps> = () => {
 
                 <br /><br /><br /><br />
                 <Typography variant="h4" component="h2">
-                    This Week's Games
+                    Week {weekNum}'s Games
                 </Typography>
 
                 {gameList}
