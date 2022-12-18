@@ -66,6 +66,25 @@ async function main() {
 
         await picks.initPicksForWeek(1);
 
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Texans","Chiefs",14,-14,null);
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Jaguars","Cowboys",4,-4,null);
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Panthers","Steelers",-3,3,null);
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Jets","Lions",-1,1,null);
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Saints","Falcons",-4,4,null);
+        await games.addGame(2,"Sunday Dec 18 1:00PM","Bears","Eagles",8.5,-8.5,null);
+        await games.addGame(2,"Sunday Dec 18 4:05pm","Raiders","Patriots",-1.5,1.5,null);
+        await games.addGame(2,"Sunday Dec 18 4:05PM","Broncos","Cardinals",-1.5,1.5,null);
+        await games.addGame(2,"Sunday Dec 18 4:25PM","Chargers","Titans",-3,3,null);
+        await games.addGame(2,"Sunday Dec 18 4:25PM","Bucaneers","Bengals",3.5,-3.5,null);
+        await games.addGame(2,"Sunday Dec 18 8:20PM","Commanders","Giants",-4.5,4.5,null);
+        await games.addGame(2,"Monday Dec 19 8:15PM","Packers","Rams",-7,7,null);
+        await games.addGame(2,"Thursday Dec 15 8:15PM","Seahawks","49ers",3,-3,null);
+        await games.addGame(2,"Saturday Dec 17 12:00PM","Vikings","Colts",-3.5,3.5,null);
+        await games.addGame(2,"Saturday Dec 17 4:30PM","Browns","Ravens",-3,3,null);
+        await games.addGame(2,"Saturday Dec 17 8:15PM","Bills","Dolphins",-7,7,null);
+
+        await picks.initPicksForWeek(2);
+
         //add picks for user rclark
         await picks.submitPicks(1, await getUserId('rclark'),  
             {
@@ -200,6 +219,11 @@ async function main() {
         await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Steelers","Ravens",2.5,-2.5,null), 14, 16);
         await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Giants","Eagles",6.5,-6.5,null), 22, 48);
         await games.updateGameResult(await getGameId(1,"Sunday Dec 11 1:00PM","Cowboys","Texans",-16.5,16.5,null), 27, 23);
+
+        await games.updateGameResult(await getGameId(2,"Thursday Dec 15 8:15PM","Seahawks","49ers",3,-3,null), 13, 21);
+        await games.updateGameResult(await getGameId(2,"Saturday Dec 17 12:00PM","Vikings","Colts",-3.5,3.5,null), 39, 36);
+        await games.updateGameResult(await getGameId(2,"Saturday Dec 17 4:30PM","Browns","Ravens",-3,3,null), 13, 3);
+        await games.updateGameResult(await getGameId(2,"Saturday Dec 17 8:15PM","Bills","Dolphins",-7,7,null), 32, 29);
 
 
 

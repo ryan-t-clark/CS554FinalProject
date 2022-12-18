@@ -17,7 +17,7 @@ const Header: FC<HeaderProps> = () => {
     const { pathname } = useLocation();
     var Picks,Profile,Logout,Signup,Login,Admin;
 
-    if(admin){
+    if(admin === 'true'){
         Admin = <NavLink
             to="/admin"
             style={({ isActive }) => ({

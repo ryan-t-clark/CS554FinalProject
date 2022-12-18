@@ -15,12 +15,16 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
-
+import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface Game {
     _id: any,
@@ -60,6 +64,10 @@ const MakePicks: FC<MakePicksProps> = () => {
 
     const navigate = useNavigate();
 
+    const handleWeekChange = (event: SelectChangeEvent) => {
+        setWeekNum(parseInt(event.target.value) as number);
+      };
+
     //get game list
     useEffect( () => {
         async function fetchData() {
@@ -67,6 +75,8 @@ const MakePicks: FC<MakePicksProps> = () => {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/games/getweek/${weekNum}`);
                 setGameData(data);
+                let userData = await axios.get(`http://localhost:3008/picks/user/pickarray/${weekNum}/${userId}`);
+                setPickData(userData.data)
                 setLoading(false);
             } catch (e) {
                 setLoading(false);
@@ -130,7 +140,7 @@ const MakePicks: FC<MakePicksProps> = () => {
             let selected = findGameSelectionById(game._id);
             return (
                 <div>
-                    <Card key={game._id}>
+                    <Card key={uuidv4()}>
                         <CardContent>
                             <Typography>
                                 {game.awayTeam} at {game.homeTeam}
@@ -150,7 +160,7 @@ const MakePicks: FC<MakePicksProps> = () => {
             let selected = findGameSelectionById(game._id);
             return (
                 <div>
-                    <Card key={game._id}>
+                    <Card key={uuidv4()}>
                         <CardContent>
                             <Typography>
                                 {game.awayTeam} at {game.homeTeam}
@@ -158,7 +168,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                             <FormGroup>
                                 <FormControlLabel defaultValue='' 
                                     checked={selected === game.homeTeam} 
-                                    disabled={selected !== game.homeTeam}
+                                    disabled={(selected !== game.homeTeam)}
                                     control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} />} 
                                     label={homeLabel} />
                                 
@@ -177,14 +187,14 @@ const MakePicks: FC<MakePicksProps> = () => {
             //game is not selected
             return (
                 <div>
-                    <Card key={game._id}>
+                    <Card key={uuidv4()}>
                         <CardContent>
                             <Typography>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
-                                <FormControlLabel defaultValue='' checked={false} control={<Checkbox onChange={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)} />} label={homeLabel} />
-                                <FormControlLabel defaultValue='' checked={false} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} />} label={awayLabel} />
+                                <FormControlLabel defaultValue='' checked={false} disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)} />} label={homeLabel} />
+                                <FormControlLabel defaultValue='' checked={false} disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} />} label={awayLabel} />
                             </FormGroup>
                         </CardContent>
                     </Card>
@@ -370,12 +380,27 @@ const MakePicks: FC<MakePicksProps> = () => {
     } else {
         let pickVal = 10;
         return (
-            <div>
-                <Typography variant="h4" component="h2">
+            <div className='make-picks'>
+                <Typography variant="h4" component="h2" align='center'>
                     Your Picks
                 </Typography>
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Choose Week</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={weekNum.toString()}
+                        label="Week Number"
+                        onChange={handleWeekChange}
+                        >
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                <Table>
+                <Table className='weighted-table'>
                     <TableHead>
                         <TableRow>
                             <TableCell>Value</TableCell>

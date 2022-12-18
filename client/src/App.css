@@ -40,3 +40,22 @@
   color: white;
   text-align: center;
 }
+
+.weighted-table {
+  width: 50%;
+}
+.leaderboard-table {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-left: 5%;
+  /* margin-left: 10%; */
+}
+
+.make-picks {
+  width: 50%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-left: 25%;
+}

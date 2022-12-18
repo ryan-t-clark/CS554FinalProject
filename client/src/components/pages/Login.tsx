@@ -20,6 +20,8 @@ const Login: FC<LoginProps> = () => {
     const [ password, setPassword ] = useState('');
     const navigate = useNavigate();
 
+    const [error, setError] = useState('');
+
     const handleUsername = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLInputElement
         const value = target.value
@@ -42,9 +44,12 @@ const Login: FC<LoginProps> = () => {
             console.log(response);
 
             return response.data.user;
-        } catch (error) {
+        } catch (error) {           
             console.log(error);
             console.log("invalid login"); 
+            setError('invalid login credentials')
+            setUsername('')
+            setPassword('')
         } 
     }
 
@@ -84,19 +89,22 @@ const Login: FC<LoginProps> = () => {
                             <form id="form-id" onSubmit={loginFunc}>
                                 <FormControl variant="standard">
                                     <InputLabel>Username</InputLabel>
-                                    <Input id="usernameInput" onChange={handleUsername}></Input>
+                                    <Input id="usernameInput" onChange={handleUsername} value={username}></Input>
                                 </FormControl>
                                 <br />
                                 <FormControl variant="standard">
                                     <InputLabel>Password</InputLabel>
-                                    <Input id="passwordInput" type="password" onChange={handlePassword}></Input>
+                                    <Input id="passwordInput" type="password" onChange={handlePassword} value={password}></Input>
                                 </FormControl>
                                 <br/><br/>
                                 <Button type="submit">Log in</Button>
+                                {
+                                    error &&
+                                    <Typography variant='subtitle1'>{error}</Typography> 
+                                }
                             </form>
                             
                         </CardContent>
-                        
                     </Card>
                 </Grid>
             </Grid>
