@@ -3,6 +3,10 @@ import axios from 'axios'
 import Item from '@mui/material/Grid';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface WeekProps {};
 
@@ -43,6 +47,10 @@ const Week: FC<WeekProps> = () => {
     const [loading, setLoading] = useState(true);
 
     let list = null;
+
+    const handleWeekChange = (event: SelectChangeEvent) => {
+        setWeekNum(parseInt(event.target.value) as number);
+    };
 
     useEffect( () => {
         async function fetchData() {
@@ -190,8 +198,23 @@ const Week: FC<WeekProps> = () => {
         return (
             <div>
                 <Typography variant="h4" component="h2" align='center'>
-                    This Week
+                    Week {weekNum}
                 </Typography>
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Choose Week</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={weekNum.toString()}
+                        label="Week Number"
+                        onChange={handleWeekChange}
+                        >
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
                 <br />
                 {list}
             </div>

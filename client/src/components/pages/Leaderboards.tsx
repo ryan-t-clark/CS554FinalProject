@@ -76,10 +76,10 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
     } else {
         return (
             <div>
-                <Typography variant="h4" component="h2">
+                <Typography variant="h4" component="h2" align='center'>
                     Leaderboards
                 </Typography>
-                <Table>
+                <Table className='leaderboard-table'>
                     <TableHead>
                         <TableRow>
                             <TableCell>Total Points<IconButton onClick={handleOrder}>
