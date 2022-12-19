@@ -2,27 +2,70 @@ const { ObjectId } = require("mongodb");
 
 const regex = new RegExp(/[^0-9a-z]/i);
 
+//general function for checking if a parameter is a string
+function checkString(strVal, varName) {
+  if (!strVal) throw `Error: You must supply a ${varName}!`;
+  if (typeof strVal !== 'string') throw `Error: ${varName} must be a string!`;
+  strVal = strVal.trim();
+  if (strVal.length === 0)
+    throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+  if (!isNaN(strVal))
+    throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
+  return strVal;
+}
+
+//general function for checking if a parameter is a number
+function checkIsNumber(num, varName) {
+  if (!num) throw `must provide ${varName}`;
+  num = Number(num);
+  if (typeof num !== 'number') throw `${varName} must be a number`;
+  if (isNaN(num)) throw `${varName} must be a number`;
+}
+
 //parameters of the addGame function
 function checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore) {
   checkWeek(week);
-  if (!gameStart) throw 'must provide gameStart';
-  if (!homeTeam) throw 'must provide homeTeam';
-  if (!awayTeam) throw 'must provide awayTeam';
-  if (!homeSpread) throw 'must provide homeSpread';
-  if (!awaySpread) throw 'must provide awaySpread';
-  //TODO -- homefinal and awayfinal will start as null, can't use '!'
+  checkString(gameStart, "game start");
+  checkString(homeTeam, "home team");
+  checkString(awayTeam, "away team");
+  checkIsNumber(homeSpread, "home spread");
+  checkIsNumber(awaySpread, "away spread");
+}
+
+//make sure pick contains required fields
+function isValidPickSchema(pick) {
+  /*
+    interface Pick {
+        gameId: any,
+        weight: number,
+        selectedTeam: string,
+        selectedSpread: number,
+        pickResult: boolean | null,
+        submitted: boolean
+    }
+  */
+  checkId(pick.gameId);
+  checkIsNumber(pick.weight);
+  checkString(pick.selectedTeam);
+  checkIsNumber(pick.selectedSpread);
 }
 
 //validation for week
 function checkWeek(week) {
   if (!week) throw 'must provide week';
-  //TODO -- check that this is a valid week i.e. non-negative integer 1-18
+  //check that this is a valid week i.e. non-negative integer 1-18
+  week = Number(week);
+  if (typeof week !== 'number') throw 'week must be of type number';
+  if (!Number.isInteger(week) || isNaN(week) || week < 1 || week > 18) throw 'week must be integer 1-18';
 }
 
 //validates final scores
 function isValidScore(score) {
   if (!score) throw 'must provide score';
-  //TODO -- check that these are valid numbers i.e. non-negative integers
+  //check that these are valid numbers i.e. non-negative integers
+  score = Number(score);
+  if (typeof score !== 'number') throw ' score must be of type number';
+  if (!Number.isInteger(score) || isNaN(score) || score < 0) throw 'score must be a positive integer';
 }
 
 //validation function for the input parameter of submitPicks
@@ -45,41 +88,35 @@ function checkId(id) {
   if(!ObjectId.isValid(id)) throw 'id must be a valid ObjectId';
 }
 
+//checks username
+function checkUserName(strVal, varName) {
+  if (!strVal) throw `Error: You must supply a ${varName}!`;
+  if (typeof strVal !== 'string') throw `Error: ${varName} must be a string!`;
+  strVal = strVal.trim();
+  if (strVal.length === 0)
+    throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+  if (!isNaN(strVal))
+    throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
+  if(strVal.indexOf(' ')>=0 || strVal.length<4) throw `${varName} is not long enough or contains empty spaces`;
+  if(regex.test(strVal)) throw `${varName} does not contain only AlphaNumeric Character`
+
+  return strVal;
+}
+
+//checks password
+function checkPassword(password) {
+  if(password.indexOf(' ')>=0 || password.length<6) throw 'password is not long enough or contains empty spaces'
+}
+
 
 module.exports = {
-  checkString(strVal, varName) {
-    if (!strVal) throw `Error: You must supply a ${varName}!`;
-    if (typeof strVal !== 'string') throw `Error: ${varName} must be a string!`;
-    strVal = strVal.trim();
-    if (strVal.length === 0)
-      throw `Error: ${varName} cannot be an empty string or string with just spaces`;
-    if (!isNaN(strVal))
-      throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
-    return strVal;
-  },
-
-  checkUserName(strVal, varName) {
-      if (!strVal) throw `Error: You must supply a ${varName}!`;
-      if (typeof strVal !== 'string') throw `Error: ${varName} must be a string!`;
-      strVal = strVal.trim();
-      if (strVal.length === 0)
-        throw `Error: ${varName} cannot be an empty string or string with just spaces`;
-      if (!isNaN(strVal))
-        throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
-      if(strVal.indexOf(' ')>=0 || strVal.length<4) throw `${varName} is not long enough or contains empty spaces`;
-      if(regex.test(strVal)) throw `${varName} does not contain only AlphaNumeric Character`
-
-      return strVal;
-    },
-
-  checkPassword(password) {
-    if(password.indexOf(' ')>=0 || password.length<6) throw 'password is not long enough or contains empty spaces'
-  },
+  checkPassword,
+  checkString,
+  checkUserName,
   checkAddGameParams,
   checkWeek,
   checkId,
   isValidPicksParameter,
-  isValidScore
-
-  
+  isValidScore,
+  isValidPickSchema
 }

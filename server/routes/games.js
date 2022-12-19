@@ -4,6 +4,11 @@ const validation = require('../validation');
 const data = require('../data');
 const GAMES = data.games;
 
+// const flat = require('flat');
+// const unflatten = flat.unflatten;
+// const redis = require('redis');
+// const client = redis.createClient();
+// client.connect().then(() => {});
 
 router.post('/addgame', async (req, res) => {
 

@@ -6,24 +6,6 @@ const userData = require('./users');
 const validation = require('../validation');
 
 /*
-    validates that incoming pick object is valid
-*/
-function isValidPickSchema(pick) {
-    if (!pick.gameId) throw 'must provide gameId';
-    if (!pick.weight) throw 'must provide weight';
-    if (!pick.selectedTeam) throw 'must provide selected team';
-    //pickResult can be undefined
-
-    //need to fix this so that false doesn't throw an error
-    //if (!pick.submitted) throw 'must provide boolean value for submitted'
-
-    //TODO
-    //will add type checking -- need to figure out what the types will be
-
-}
-
-
-/*
     when the user submits picks
 */
 async function submitPicks(week, userId, picks) {
@@ -38,7 +20,7 @@ async function submitPicks(week, userId, picks) {
     for (pickKey of Object.keys(picks)) {
         let current = picks[pickKey];
         if (!current) continue; //if this pick is blank
-        isValidPickSchema(current);
+        validation.isValidPickSchema(current);
         current.submitted = true;
         picksToSubmit.set(pickKey, current);
         //maybe add these validated picks to a list
