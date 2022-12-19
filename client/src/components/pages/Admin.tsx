@@ -104,7 +104,7 @@ const Admin: FC<AdminProps> = () => {
                                 <br />
                                 <FormControl variant="standard">
                                     <InputLabel>Away Score</InputLabel>
-                                    <Input id="AwayScoreInput" type="password" onChange={handleawayScore}></Input>
+                                    <Input id="AwayScoreInput" onChange={handleawayScore}></Input>
                                 </FormControl>
                                 <br/>
                                 <FormControl variant="standard">
