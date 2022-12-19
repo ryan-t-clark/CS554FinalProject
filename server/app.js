@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const configRoutes = require('./server/routes');
+const configRoutes = require('./routes');
 
 // uncomment when ready to use redis
 // const redis = require('redis');

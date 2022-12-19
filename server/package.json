@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run install-all & npm run build --prefix client & npm run server  ",
+    "start": "node app.js",
     "server-install": "npm i",
     "client-install": "npm i --prefix client",
     "install-all": "\"npm run server-install\" & \"npm run client-install\"",
