@@ -9,6 +9,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Cookies from 'js-cookie';
 
+import baseUrl from '../../environment.js';
+
 interface WeekProps {};
 
 interface Pick {
@@ -61,7 +63,7 @@ const Week: FC<WeekProps> = () => {
             // setWeekNum((Number(Cookies.get("week"))) as number);
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/api/picks/all/${weekNum}`);
+                let { data } = await axios.get(`${baseUrl.baseUrl}/picks/all/${weekNum}`);
                 console.log(data);
                 setWeekData(data);
                 setLoading(false);

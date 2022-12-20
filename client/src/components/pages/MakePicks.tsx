@@ -26,6 +26,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import baseUrl from '../../environment.js';
+
 interface Game {
     _id: any,
     week: number,
@@ -74,9 +76,9 @@ const MakePicks: FC<MakePicksProps> = () => {
             // setWeekNum((Number(Cookies.get("week"))) as number);
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/api/games/getweek/${weekNum}`);
+                let { data } = await axios.get(`${baseUrl.baseUrl}/games/getweek/${weekNum}`);
                 setGameData(data);
-                let userData = await axios.get(`http://localhost:3008/api/picks/user/pickarray/${weekNum}/${userId}`);
+                let userData = await axios.get(`${baseUrl.baseUrl}/picks/user/pickarray/${weekNum}/${userId}`);
                 setPickData(userData.data)
                 setLoading(false);
             } catch (e) {
@@ -92,7 +94,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         async function fetchData() {
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/api/picks/user/pickarray/${weekNum}/${userId}`);
+                let { data } = await axios.get(`${baseUrl.baseUrl}/picks/user/pickarray/${weekNum}/${userId}`);
                 setPickData(data);
                 let selectedIds = [];
                 for (let i = 0; i < 10; i++) {
@@ -361,7 +363,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         }
         console.log(picks);
 
-        let result = await axios.post(`http://localhost:3008/api/picks/submit`, {
+        let result = await axios.post(`${baseUrl.baseUrl}/picks/submit`, {
             week: weekNum,
             userId: userId,
             picks: picks

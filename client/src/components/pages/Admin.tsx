@@ -12,6 +12,8 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
+import baseUrl from '../../environment.js';
+
 interface AdminProps {};
 
 const Admin: FC<AdminProps> = () => {
@@ -48,8 +50,7 @@ const Admin: FC<AdminProps> = () => {
 
     async function updateGame(homeScore:string,awayScore:string,ID:string){
         try{ 
-            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
-            const response = await axios.post(`${link}/games/update`,{
+            const response = await axios.post(`${baseUrl.baseUrl}/games/update`,{
                 "gameId":ID,
                 "homeScore" : homeScore,
                 "awayScore": awayScore
@@ -66,8 +67,7 @@ const Admin: FC<AdminProps> = () => {
     async function updateWeek(week:string){
         Cookies.set("week",(week));
         try{ 
-            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
-            const response = await axios.post(`${link}/admin/changeWeek/${week}`)
+            const response = await axios.post(`${baseUrl.baseUrl}/admin/changeWeek/${week}`)
             console.log(response);
 
             return response.data.user;
