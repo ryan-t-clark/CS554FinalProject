@@ -502,7 +502,6 @@ const MakePicks: FC<MakePicksProps> = () => {
             pick2: pickData[8],
             pick1: pickData[9],
         }
-        console.log(picks);
 
         let result = await axios.post(`${baseUrl.baseUrl}/picks/submit`, {
             week: weekNum,

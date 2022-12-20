@@ -12,7 +12,6 @@ router.post('/submit', async (req, res) => {
 
     week = xss(week);
     userId = xss(userId);
-    picks = xss(picks);
 
     try {
         validation.checkWeek(week);
