@@ -55,18 +55,6 @@ app.post('/api/upload', (req, res, next) => {
   return res.json({ file_uploaded: true });
 });
 
-app.get('/api/testing', async (req, res, next) => {
-  await axios({
-    method: 'get',
-    url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-    responseType: 'stream'
-  }).then(function (res) {
-    console.log(res);
-    res.data.pipe(fs.createWriteStream('test_profile_pic.jpg'))
-  });
-  return res.json(true);
-})
-
 
 configRoutes(app);
 
