@@ -47,6 +47,7 @@ const Week: FC<WeekProps> = () => {
     
     const [weekNum, setWeekNum] = useState((Number(Cookies.get("week"))));
     const [weekData, setWeekData] = useState([]);
+    const [notFound, setNotFound] = useState(false);
     const [loading, setLoading] = useState(true);
     // weekNum = Cookies.get("week");
     // console.log(parseInt(Cookies.get("week")as string) as number);
@@ -62,12 +63,13 @@ const Week: FC<WeekProps> = () => {
         async function fetchData() {
             // setWeekNum((Number(Cookies.get("week"))) as number);
             try {
+                setNotFound(false);
                 setLoading(true);
                 let { data } = await axios.get(`${baseUrl.baseUrl}/picks/all/${weekNum}`);
-                console.log(data);
                 setWeekData(data);
                 setLoading(false);
             } catch (e) {
+                setNotFound(true);
                 setLoading(false);
             }
         }
@@ -199,6 +201,12 @@ const Week: FC<WeekProps> = () => {
         return (
             <div>
                 Loading...
+            </div>
+        )
+    } else if (notFound) {
+        return (
+            <div>
+                Something went wrong... try reloading.
             </div>
         )
     } else {
