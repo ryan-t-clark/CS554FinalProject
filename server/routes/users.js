@@ -109,12 +109,12 @@ router.post("/updateImage/:id",async (req,res) =>{ //add error catching
       return res.status(400).json({error: e});
   }
 
-  try{
-    let result = await USERS.updateImage(id,req.body["profileImage"]);
-    return res.json(result);
-  } catch(e){
-    return res.status(404).json({error: e});
-  }
+  // try{
+    let result = await USERS.updateImage(id,req.body["image"]);
+      return res.json(result);
+  // } catch(e){
+    // return res.status(404).json({error: e});
+  // }
 })
 
 

@@ -19,6 +19,7 @@ const Admin: FC<AdminProps> = () => {
     const [ homeScore, sethomeScore ] = useState('');
     const [ awayScore, setawayScore ] = useState('');
     const [ID, setID] = useState('');
+    const [week,setWeek] = useState('');
     const navigate = useNavigate();
 
     const handlehomeScore = (e: React.SyntheticEvent) => {
@@ -38,27 +39,50 @@ const Admin: FC<AdminProps> = () => {
         const value = target.value
         setID(value)
     }
+    
+    const handleWeek  = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLInputElement
+        const value = target.value
+        setWeek(value)
+    }
 
     async function updateGame(homeScore:string,awayScore:string,ID:string){
         try{ 
-            const response = await axios.post("http://localhost:3008/games/update",{
+            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
+            const response = await axios.post(`${link}/games/update`,{
                 "gameId":ID,
                 "homeScore" : homeScore,
                 "awayScore": awayScore
             })
             console.log(response);
-            
-            // const response = await axios.post("http://localhost:3008/users/login",{
-            //     "username":username,
-            //     "password":password
-            // });
-            // console.log(response);
 
             return response.data.user;
         } catch (error) {
             console.log(error);
             console.log("invalid login"); 
         } 
+    }
+
+    async function updateWeek(week:string){
+        Cookies.set("week",(week));
+        try{ 
+            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
+            const response = await axios.post(`${link}/admin/changeWeek/${week}`)
+            console.log(response);
+
+            return response.data.user;
+        } catch (error) {
+            console.log(error);
+            console.log("invalid login"); 
+        } 
+    }
+
+    const updateWeekFunc = async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        const user = await updateWeek(week);
+
+        (document.getElementById("Week") as HTMLFormElement).value = "";
+        setWeek(""); 
     }
 
     const updateGameFunc = async (e: React.SyntheticEvent) => {
@@ -111,6 +135,26 @@ const Admin: FC<AdminProps> = () => {
                                     <InputLabel>gameId</InputLabel>
                                     <Input id="IDInput" onChange={handleID}></Input>
                                 </FormControl>
+                                <br />
+                                <br/>
+                                <Button type="submit">submit</Button>
+                            </form>
+                            
+                        </CardContent>
+                        
+                    </Card>
+                    <Card>
+                        <CardContent>                
+                            <Typography variant="h4" component="h2">
+                                Change Week
+                            </Typography>
+                            <br />
+                            <form id="form-id" onSubmit={updateWeekFunc}>
+                                <FormControl variant="standard">
+                                    <InputLabel>Week</InputLabel>
+                                    <Input id="Week" onChange={handleWeek}></Input>
+                                </FormControl>
+                                <br />
                                 <br />
                                 <br/>
                                 <Button type="submit">submit</Button>

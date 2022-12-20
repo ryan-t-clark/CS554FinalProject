@@ -53,7 +53,7 @@ const MakePicks: FC<MakePicksProps> = () => {
     
     const userId = Cookies.get('userId');
 
-    const [weekNum, setWeekNum] = useState(1)
+    const [weekNum, setWeekNum] = useState((Number(Cookies.get("week"))))
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
     const [pickData, setPickData] = useState<(Pick | null)[]>([null,null,null,null,null,null,null,null,null,null]);
@@ -71,6 +71,7 @@ const MakePicks: FC<MakePicksProps> = () => {
     //get game list
     useEffect( () => {
         async function fetchData() {
+            // setWeekNum((Number(Cookies.get("week"))) as number);
             try {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/api/games/getweek/${weekNum}`);
@@ -384,7 +385,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                 <Typography variant="h4" component="h2" align='center'>
                     Your Picks for Week {weekNum}
                 </Typography>
-                <Box sx={{ minWidth: 120 }}>
+                {/* <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Choose Week</InputLabel>
                         <Select
@@ -398,7 +399,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                         <MenuItem value={2}>2</MenuItem>
                         </Select>
                     </FormControl>
-                </Box>
+                </Box> */}
 
                 <Table className='weighted-table'>
                     <TableHead>

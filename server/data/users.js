@@ -6,6 +6,10 @@ let { ObjectId } = require('mongodb');
 const validation = require('../validation');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
+var fs = require('fs');
+
+var im = require('imagemagick');
+var https = require('https');
 
 // const picksData = require("./picks")
 
@@ -104,8 +108,36 @@ async function getUserById(id) {
   return user;
 }
 
+// const blobToImage = (blob) => {
+//   return new Promise(resolve => {
+//     const url = URL.createObjectURL(blob)
+//     let img = new Image()
+//     img.onload = () => {
+//       URL.revokeObjectURL(url)
+//       resolve(img)
+//     }
+//     img.src = url
+//   })
+// }
+
+function saveImageToDisk(url, localPath) {
+  var fullUrl = url;
+  var file = fs.createWriteStream(localPath);
+  var request = https.get(url, function(response) {
+  response.pipe(file);
+  });
+}
+
 async function updateImage(id,image){ //add validation
   validation.checkId(id);
+  // saveImageToDisk(image,`${id}.png`)
+  // console.log(image);
+
+  // console.log(blobToImage(image));
+  // im.resize(image, function(err, metadata){
+  //     if (err) throw err;
+  //     console.log('Shot at '+metadata.exif.dateTimeOriginal);
+  //   })
 
   const userCollection = await USERS();
   const user = await userCollection.updateOne({ _id: ObjectId(id) },{$set:{"profileImage":image}})

@@ -16,6 +16,8 @@ app.use(cors());
 
 configRoutes(app);
 
+const HOST = '127.0.0.1';
+
 // static file declaration
 if (process.env.NODE_ENV === 'production') {
     // prod mode
@@ -32,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
   }
 
 const port = process.env.PORT || 3008;
-app.listen(port, () => {
+app.listen(port, HOST, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
   

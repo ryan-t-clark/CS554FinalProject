@@ -20,18 +20,33 @@ const Profile: FC<ProfileProps> = () => {
             var x = URL.createObjectURL(img)
 
             // gm()
-            // setSelectedImage(img)
+            setSelectedImage(x)
             // var x = URL.createObjectURL(img)
             // setSelectedImage(x)
+            console.log("here");
+            const formData = new FormData();
+            formData.append("image",event.target.files[0]);
             // try{
-            //     const response = await axios.post(`http://localhost:3008/users/updateImage/${userId}`,{
-            //         "image":img
-            //     });
-            //     console.log(response);
+                // const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
+                // console.log(link);
+                // console.log(`${link}/users/updateImage/${userId}`);
+                
+                // fetch(`${link}/users/updateImage/${userId}`,{
+                    // method:"POST" as string,
+
+                    // body:formData, 
+                    // dataType: "json" as Object
+                // }) as RequestInit
+                // const response = await axios.post(`${link}/users/updateImage/${userId}`,{
+                //     "image":x
+                // });
+                // console.log(response);
             // } catch (error) {
-            //     console.log(error);
-            //     // console.log(""); 
-            // } 
+                // console.log(error);
+                // console.log(""); 
+            // }
+            console.log("here 2");
+             
             // console.log(URL.createObjectURL(img));
             // console.log(selectedImage);
           }

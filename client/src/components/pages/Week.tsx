@@ -7,6 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Cookies from 'js-cookie';
 
 interface WeekProps {};
 
@@ -42,9 +43,12 @@ interface PickWeek {
 
 const Week: FC<WeekProps> = () => {
     
-    const [weekNum, setWeekNum] = useState(1);
+    const [weekNum, setWeekNum] = useState((Number(Cookies.get("week"))));
     const [weekData, setWeekData] = useState([]);
     const [loading, setLoading] = useState(true);
+    // weekNum = Cookies.get("week");
+    // console.log(parseInt(Cookies.get("week")as string) as number);
+    // setWeekNum((Number(Cookies.get("week"))) as number);
 
     let list = null;
 
@@ -54,6 +58,7 @@ const Week: FC<WeekProps> = () => {
 
     useEffect( () => {
         async function fetchData() {
+            // setWeekNum((Number(Cookies.get("week"))) as number);
             try {
                 setLoading(true);
                 let { data } = await axios.get(`http://localhost:3008/api/picks/all/${weekNum}`);
@@ -212,6 +217,7 @@ const Week: FC<WeekProps> = () => {
                         >
                         <MenuItem value={1}>1</MenuItem>
                         <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>

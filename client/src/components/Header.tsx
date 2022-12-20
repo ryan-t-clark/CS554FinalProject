@@ -7,6 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 interface HeaderProps {};
 
@@ -14,8 +15,28 @@ const Header: FC<HeaderProps> = () => {
 
     const userId = Cookies.get('userId');
     const admin = Cookies.get("admin");
+    // const weekNum = Cookies.get("week");
+    const [weekNum,setWeekNum] = useState(1);
     const { pathname } = useLocation();
     var Picks,Profile,Logout,Signup,Login,Admin;
+
+    async function reCheckWeek() {
+        try{
+            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
+            console.log(link);
+            const {data} = await axios.get(`${link}/admin/getWeek`);
+            console.log(data);
+            setWeekNum(data.week);
+            Cookies.set("week",data.week);
+            
+        } catch(e){
+            console.log(e);
+            
+        }
+        
+    }
+
+    reCheckWeek()
 
     if(admin === 'true'){
         Admin = <NavLink
@@ -70,7 +91,7 @@ const Header: FC<HeaderProps> = () => {
     return (
         <AppBar style={{ background: '#393b3d' }}>
                 <Typography component="h1" variant="h4" padding="10px" align="center">
-                        NFL Game Picker
+                        NFL Game Picker: Week {weekNum}
                 </Typography>
                 
                 <Toolbar sx={{ justifyContent: "center" }}>
