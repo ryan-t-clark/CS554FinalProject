@@ -6,10 +6,14 @@ let { ObjectId } = require('mongodb');
 const validation = require('../validation');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
-var fs = require('fs');
+// var fs = require('fs');
 
 var im = require('imagemagick');
-var https = require('https');
+// var https = require('https');
+
+// var imageToBlob = require( 'image-to-blob' );
+
+var FileSaver = require('file-saver');
 
 // const picksData = require("./picks")
 
@@ -120,16 +124,25 @@ async function getUserById(id) {
 //   })
 // }
 
-function saveImageToDisk(url, localPath) {
-  var fullUrl = url;
-  var file = fs.createWriteStream(localPath);
-  var request = https.get(url, function(response) {
-  response.pipe(file);
-  });
-}
+// function saveImageToDisk(url, localPath) {
+//   var fullUrl = url;
+//   var file = fs.createWriteStream(localPath);
+//   var request = https.get(url, function(response) {
+//   response.pipe(file);
+//   });
+// }
 
 async function updateImage(id,image){ //add validation
   validation.checkId(id);
+  console.log(__dirname+`/${id}.png`);
+  console.log(__dirname+"/image.png");
+  console.log(image);
+  // x = FileSaver.saveAs("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",__dirname+"/image.png")
+  // x = FileSaver.saveAs(image,"image.png")
+  img = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+  console.log(`${__dirname}/public/files/${id}.png`);
+  x = FileSaver.saveAs(img,`${__dirname}/public/files/${id}.png`)
+  console.log(x);
   // saveImageToDisk(image,`${id}.png`)
   // console.log(image);
 

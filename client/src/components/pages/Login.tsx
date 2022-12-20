@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 interface LoginProps {};
 
 const Login: FC<LoginProps> = () => {
@@ -49,7 +49,7 @@ const Login: FC<LoginProps> = () => {
 
     async function login(username:string,password:string){
         try{ 
-            const response = await axios.post(`${baseUrl.baseUrl}/users/login`,{
+            const response = await axios.post(`${baseUrl}/users/login`,{
                 "username":username,
                 "password":password
             });

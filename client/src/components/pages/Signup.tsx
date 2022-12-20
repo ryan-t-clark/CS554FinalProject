@@ -15,7 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import IconButton from '@mui/material/IconButton';
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 
 interface SignupProps {};
 
@@ -45,7 +45,7 @@ const Signup: FC<SignupProps> = () => {
 
     async function signup(username:string,password:string){
         try {
-            const response = await axios.post(`${baseUrl.baseUrl}/users/signup`,{
+            const response = await axios.post(`${baseUrl}/users/signup`,{
             "username":username,
             "password":password
         })
