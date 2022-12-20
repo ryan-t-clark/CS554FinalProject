@@ -11,7 +11,7 @@ import {Button, IconButton} from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 
 interface LeaderboardsProps {};
 
@@ -28,6 +28,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
 
     const [leaderboardData, setLeaderboardData] = useState<(leaderboardEntry[])>([]);
     const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     const [sortState, setSortState] = useState('increasing');
     const sortDecreasing = (arr:leaderboardEntry[]) => {
         let sortedDec = arr.sort((p1, p2) => (p1.totalPoints < p2.totalPoints) ? 1 : (p1.totalPoints > p2.totalPoints) ? -1 : 0);
@@ -42,13 +43,14 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
     useEffect( () => {
         async function fetchData() {
             try {
+                setNotFound(false);
                 setLoading(true);
-                let { data } = await axios.get(`${baseUrl.baseUrl}/users/standings`);
+                let { data } = await axios.get(`${baseUrl}/users/standings`);
                 setLeaderboardData(sortDecreasing(data));
                 setSortState('decreasing');
-                console.log(typeof data)
                 setLoading(false);
             } catch (e) {
+                setNotFound(true);
                 setLoading(false);
             }
         }
@@ -75,8 +77,13 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                 Loading...
             </div>
         )
+    } else if (notFound) {
+        return (
+            <div>
+                Something went wrong... try reloading.
+            </div>
+        )
     } else {
-        console.log(leaderboardData);
         return (
             <div>
                 <Typography variant="h4" component="h2" align='center'>
@@ -117,51 +124,6 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                     </TableBody>
                 </Table>
             </div>
-            // <Center>
-            //     <Box width='60%'>
-            //         <VStack>
-            //             <Heading as='h2' size='2xl'>Standings</Heading>
-            //             <TableContainer width='100%'>
-            //                 <Table variant='striped' colorScheme='facebook'>
-            //                     <Thead>
-            //                         <Tr>
-            //                             <Th><Button onClick={handleOrder}>Rank</Button></Th>
-            //                             <Th>Contender</Th>
-            //                             <Th>Points</Th>
-            //                             <Th>Record</Th>
-            //                             <Th>Success Rate</Th>
-            //                         </Tr>
-            //                     </Thead>
-            //                     <Tbody>
-            //                         {
-            //                             playerData?.map((user)=> {
-            //                                 return (
-            //                                     <Tr>
-            //                                         <Td>
-            //                                             {
-            //                                                 (user.rank == '1' &&
-            //                                                 <Text><Badge colorScheme='yellow' variant='subtle' fontSize='0.8rem'>1st</Badge></Text>) ||
-            //                                                 (user.rank == '2' &&
-            //                                                 <Text><Badge colorScheme='gray' variant='subtle' fontSize='0.8rem'>2nd</Badge></Text>) ||
-            //                                                 (user.rank == '3' &&
-            //                                                 <Text><Badge colorScheme='orange' variant='subtle' fontSize='0.8rem'>3rd</Badge></Text>) ||
-            //                                                 user.rank
-            //                                             }
-            //                                         </Td>
-            //                                         <Td>{user.username}</Td>
-            //                                         <Td>{user.points}</Td>
-            //                                         <Td>{user.record}</Td>
-            //                                         <Td><Progress isAnimated hasStripe value={user.successPct} colorScheme='blue'></Progress></Td>
-            //                                     </Tr>
-            //                                 )
-            //                             }) 
-            //                         }
-            //                     </Tbody>
-            //                 </Table>
-            //             </TableContainer>
-            //         </VStack>
-            //     </Box>
-            // </Center>
         )
     }
     

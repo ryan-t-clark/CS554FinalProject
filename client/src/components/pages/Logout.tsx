@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Navigate, Route, RouteProps } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 
 interface LogoutProps {};

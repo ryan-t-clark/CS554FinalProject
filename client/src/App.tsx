@@ -15,6 +15,7 @@ import AdminRoute from './components/AdminRoute';
 import Logout from "./components/pages/Logout";
 import Profile from './components/pages/Profile';
 import Admin from './components/pages/Admin';
+import NotFound from './components/pages/NotFound';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/logout" element={<Logout/>} />
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>}></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
       </Router>
