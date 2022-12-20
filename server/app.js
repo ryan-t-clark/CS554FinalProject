@@ -1,12 +1,10 @@
 const express = require('express');
 const app = express();
-
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => {});
 const configRoutes = require('./routes');
 
-// uncomment when ready to use redis
-// const redis = require('redis');
-// const client = redis.createClient();
-// client.connect().then(() => {});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,25 +14,8 @@ app.use(cors());
 
 configRoutes(app);
 
-const HOST = '127.0.0.1';
-
-// static file declaration
-if (process.env.NODE_ENV === 'production') {
-    // prod mode
-    app.use(express.static('client/build'))
-    app.get('/', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-    })
-  }
-  else {
-    app.use(express.static('client/public'))
-    app.get('/', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'public', 'index.html'))
-    })
-  }
-
-const port = process.env.PORT || 3008;
-app.listen(port, HOST, () => {
+const port = 3008;
+app.listen(port, async () => {
     console.log(`Server running on http://localhost:${port}`);
 });
   

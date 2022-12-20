@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const redis = require('redis');
+const client = redis.createClient();
 const validation = require('../validation');
 const data = require('../data');
 const GAMES = data.games;
+client.connect().then(() => {});
 
-// const flat = require('flat');
-// const unflatten = flat.unflatten;
-// const redis = require('redis');
-// const client = redis.createClient();
-// client.connect().then(() => {});
 
 router.post('/addgame', async (req, res) => {
 
@@ -42,9 +40,16 @@ router.get('/getweek/:week', async (req, res) => {
     } catch (e) {
         return res.status(400).json({error: e});
     }
+    
+    // check if in cache
+    let cachForWeek = await client.get('thisWeeksGames');
+    if(cachForWeek) {
+        return res.json(JSON.parse(cachForWeek)); // return cached data
+    }
 
     try {
         let result = await GAMES.getGamesByWeek(week);
+        let setCache = await client.set('thisWeeksGames', JSON.stringify(result)); // add this week's games to cache
         return res.json(result);
     } catch (e) {
         return res.status(404).json({error: e});
