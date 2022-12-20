@@ -73,9 +73,9 @@ const MakePicks: FC<MakePicksProps> = () => {
         async function fetchData() {
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/games/getweek/${weekNum}`);
+                let { data } = await axios.get(`http://localhost:3008/api/games/getweek/${weekNum}`);
                 setGameData(data);
-                let userData = await axios.get(`http://localhost:3008/picks/user/pickarray/${weekNum}/${userId}`);
+                let userData = await axios.get(`http://localhost:3008/api/picks/user/pickarray/${weekNum}/${userId}`);
                 setPickData(userData.data)
                 setLoading(false);
             } catch (e) {
@@ -91,7 +91,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         async function fetchData() {
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/picks/user/pickarray/${weekNum}/${userId}`);
+                let { data } = await axios.get(`http://localhost:3008/api/picks/user/pickarray/${weekNum}/${userId}`);
                 setPickData(data);
                 let selectedIds = [];
                 for (let i = 0; i < 10; i++) {
@@ -360,7 +360,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         }
         console.log(picks);
 
-        let result = await axios.post(`http://localhost:3008/picks/submit`, {
+        let result = await axios.post(`http://localhost:3008/api/picks/submit`, {
             week: weekNum,
             userId: userId,
             picks: picks

@@ -32,7 +32,7 @@ const Signup: FC<SignupProps> = () => {
     
     async function signup(username:string,password:string){
         try {
-            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080' : 'http://localhost:3008'
+            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
             const response = await axios.post(`${link}/users/signup`,{
             "username":username,
             "password":password

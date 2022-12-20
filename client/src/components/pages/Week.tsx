@@ -56,7 +56,7 @@ const Week: FC<WeekProps> = () => {
         async function fetchData() {
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/picks/all/${weekNum}`);
+                let { data } = await axios.get(`http://localhost:3008/api/picks/all/${weekNum}`);
                 console.log(data);
                 setWeekData(data);
                 setLoading(false);

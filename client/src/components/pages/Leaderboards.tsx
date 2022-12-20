@@ -41,7 +41,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
         async function fetchData() {
             try {
                 setLoading(true);
-                let { data } = await axios.get(`http://localhost:3008/users/standings`);
+                let { data } = await axios.get(`http://localhost:3008/api/users/standings`);
                 setLeaderboardData(sortDecreasing(data));
                 setSortState('decreasing');
                 console.log(typeof data)
@@ -74,6 +74,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
             </div>
         )
     } else {
+        console.log(leaderboardData);
         return (
             <div>
                 <Typography variant="h4" component="h2" align='center'>
