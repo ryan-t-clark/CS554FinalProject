@@ -1,10 +1,12 @@
 const connection = require('../config/mongoConnection');
 const mongoCollections = require("../config/mongoCollections");
+const fs = require('fs');
 const GAMES = mongoCollections.games;
 const USERS = mongoCollections.users;
 
 const data = require('../data');
 const { getGameById } = require('../data/games');
+const path = require('path');
 const users = data.users;
 const games = data.games;
 const picks = data.picks;
@@ -42,6 +44,18 @@ async function main() {
         console.log('seeding database');
         const db = await connection.connectToDb();
         await db.dropDatabase();
+
+        // clear images folder
+        const files = fs.readdir(`${__dirname}/../images`, (err, files) => {
+            if (err) throw err;
+
+            for(const file of files) {
+                fs.unlink(path.resolve(`${__dirname}/../images`, file), (err) => {
+                    if (err) throw err;
+                });
+            }
+        });
+        
 
         await admin.setup();
 
