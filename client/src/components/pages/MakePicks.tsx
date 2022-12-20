@@ -14,19 +14,14 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+//import { SelectChangeEvent } from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import Item from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import baseUrl from '../../environment.js';
 
 interface Game {
@@ -68,9 +63,9 @@ const MakePicks: FC<MakePicksProps> = () => {
 
     const navigate = useNavigate();
 
-    const handleWeekChange = (event: SelectChangeEvent) => {
-        setWeekNum(parseInt(event.target.value) as number);
-      };
+    // const handleWeekChange = (event: SelectChangeEvent) => {
+    //     setWeekNum(parseInt(event.target.value) as number);
+    // };
 
     //get game list
     useEffect( () => {
@@ -92,74 +87,75 @@ const MakePicks: FC<MakePicksProps> = () => {
         fetchData();
     }, [weekNum]);
 
-    interface Color {
-        'Cardinals': string,
-        'Falcons': string,
-        'Ravens': string,
-        'Bills': string,
-        'Panthers': string,
-        'Bears': string,
-        'Bengals': string,
-        'Browns': string,
-        'Cowboys': string,
-        'Broncos': string,
-        'Lions': string,
-        'Packers': string,
-        'Texans': string,
-        'Colts': string,
-        'Jaguars': string,
-        'Chiefs': string,
-        'Raiders': string,
-        'Chargers': string,
-        'Rams': string,
-        'Dolphins': string,
-        'Vikings': string,
-        'Patriots': string,
-        'Saints': string,
-        'Giants': string,
-        'Jets': string,
-        'Eagles': string,
-        'Steelers': string,
-        '49ers': string,
-        'Seahawks': string,
-        'Buccaneers': string,
-        'Titans': string,
-        'Commanders': string
-    }
-    const teamColors: Color = {
-        'Cardinals': '#97233F',
-        'Falcons': '#A71930',
-        'Ravens': '#241773',
-        'Bills': '#00338D',
-        'Panthers': '#0085CA',
-        'Bears': '#0B162A',
-        'Bengals': '#FB4F14',
-        'Browns': '#311D00',
-        'Cowboys': '#003594',
-        'Broncos': '#FB4F14',
-        'Lions': '#0076B6',
-        'Packers': '#203731',
-        'Texans': '#03202F',
-        'Colts': '#002C5F',
-        'Jaguars': '#101820',
-        'Chiefs': '#E31837',
-        'Raiders': '#A5ACAF',
-        'Chargers': '#0080C6',
-        'Rams': '#003594',
-        'Dolphins': '#008E97',
-        'Vikings': '#4F2683',
-        'Patriots': '#002244',
-        'Saints': '#D3BC8D',
-        'Giants': '#0B2265',
-        'Jets': '#125740',
-        'Eagles': '#004C54',
-        'Steelers': '#FFB612',
-        '49ers': '#AA0000',
-        'Seahawks': '#69BE28',
-        'Buccaneers': '#D50A0A',
-        'Titans': '#0C2340',
-        'Commanders': '#5A1414'
-    }
+    // interface Color {
+    //     'Cardinals': string,
+    //     'Falcons': string,
+    //     'Ravens': string,
+    //     'Bills': string,
+    //     'Panthers': string,
+    //     'Bears': string,
+    //     'Bengals': string,
+    //     'Browns': string,
+    //     'Cowboys': string,
+    //     'Broncos': string,
+    //     'Lions': string,
+    //     'Packers': string,
+    //     'Texans': string,
+    //     'Colts': string,
+    //     'Jaguars': string,
+    //     'Chiefs': string,
+    //     'Raiders': string,
+    //     'Chargers': string,
+    //     'Rams': string,
+    //     'Dolphins': string,
+    //     'Vikings': string,
+    //     'Patriots': string,
+    //     'Saints': string,
+    //     'Giants': string,
+    //     'Jets': string,
+    //     'Eagles': string,
+    //     'Steelers': string,
+    //     '49ers': string,
+    //     'Seahawks': string,
+    //     'Buccaneers': string,
+    //     'Titans': string,
+    //     'Commanders': string
+    // }
+
+    // const teamColors: Color = {
+    //     'Cardinals': '#97233F',
+    //     'Falcons': '#A71930',
+    //     'Ravens': '#241773',
+    //     'Bills': '#00338D',
+    //     'Panthers': '#0085CA',
+    //     'Bears': '#0B162A',
+    //     'Bengals': '#FB4F14',
+    //     'Browns': '#311D00',
+    //     'Cowboys': '#003594',
+    //     'Broncos': '#FB4F14',
+    //     'Lions': '#0076B6',
+    //     'Packers': '#203731',
+    //     'Texans': '#03202F',
+    //     'Colts': '#002C5F',
+    //     'Jaguars': '#101820',
+    //     'Chiefs': '#E31837',
+    //     'Raiders': '#A5ACAF',
+    //     'Chargers': '#0080C6',
+    //     'Rams': '#003594',
+    //     'Dolphins': '#008E97',
+    //     'Vikings': '#4F2683',
+    //     'Patriots': '#002244',
+    //     'Saints': '#D3BC8D',
+    //     'Giants': '#0B2265',
+    //     'Jets': '#125740',
+    //     'Eagles': '#004C54',
+    //     'Steelers': '#FFB612',
+    //     '49ers': '#AA0000',
+    //     'Seahawks': '#69BE28',
+    //     'Buccaneers': '#D50A0A',
+    //     'Titans': '#0C2340',
+    //     'Commanders': '#5A1414'
+    // }
 
 
     //get user picks
@@ -210,8 +206,6 @@ const MakePicks: FC<MakePicksProps> = () => {
 
         const homeLabel = `${game.homeTeam} ${game.homeSpread}`
         const awayLabel = `${game.awayTeam} ${game.awaySpread}`
-        const homeTeam:string = game.homeTeam;
-        const awayTeam:string = game.awayTeam;
 
         //if the game is submitted, it is immutable
         if (submittedList.includes(game._id)) {
@@ -389,7 +383,7 @@ const MakePicks: FC<MakePicksProps> = () => {
 
         let newArray = [];
         for (let i = 0; i < 10; i++) {
-            i == insertIndex ? newArray.push(newPick) : newArray.push(pickData[i]);
+            i === insertIndex ? newArray.push(newPick) : newArray.push(pickData[i]);
         }
 
         let selectedCopy = [...selectedList];
@@ -503,7 +497,7 @@ const MakePicks: FC<MakePicksProps> = () => {
             pick1: pickData[9],
         }
 
-        let result = await axios.post(`${baseUrl.baseUrl}/picks/submit`, {
+        await axios.post(`${baseUrl.baseUrl}/picks/submit`, {
             week: weekNum,
             userId: userId,
             picks: picks
