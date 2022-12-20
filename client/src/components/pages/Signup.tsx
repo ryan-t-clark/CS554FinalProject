@@ -81,56 +81,60 @@ const Signup: FC<SignupProps> = () => {
     return (
         <div>
             <Grid container
-            spacing={0}
-            direction="column"
-            alignItems="center">
-                <Grid item direction='column' justifyContent="center" alignItems="center" >
-                    <Card style={cardStyle} sx={{boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'}}>
-                        <CardContent>                
-                            <Typography variant="h3" component="h2" align='center'>
-                                Sign up
-                            </Typography>
-                            <br />
-                            <Typography align='center'>
-                                <form id="form-id" onSubmit={signupFunc}>
-                                    <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                                        <InputLabel htmlFor="usernameInput">Username</InputLabel>
-                                        <OutlinedInput id="usernameInput" style={{width:'100%', height:'100%'}} onChange={handleUsername} value={username} label="Username"/>
-                                    </FormControl>
-                                    <br />
-                                    <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                        <OutlinedInput
-                                            // id="outlined-name"
-                                            value={password}
-                                            onChange={handlePassword}
-                                            id="outlined-adornment-password"
-                                            type={showPassword ? 'text' : 'password'}
-                                            endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                                >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                            }
-                                            label="Password"
-                                        />
-                                        {/* <InputLabel>Password</InputLabel>
-                                        <Input id="passwordInput" type="password" onChange={handlePassword}></Input> */}
-                                    </FormControl>
-                                    <br/><br/>
-                                    <Button type="submit">Sign up</Button>
-                                </form>
-                            </Typography>
-                        </CardContent>
-                        
-                    </Card>
-                </Grid>
+                spacing={0}
+                direction="column"
+                alignItems="center">
+                <Card style={cardStyle} sx={{boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'}}>
+                    <Grid container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center">
+                        <Grid item justifyContent="center" alignItems="center" >
+                            <CardContent>                
+                                <Typography variant="h3" component="h2" align='center'>
+                                    Log in
+                                </Typography>
+                                <br />
+                                {/* <Typography align='center'> */}
+                                    <form id="form-id" onSubmit={signupFunc}>
+                                        <FormControl sx={{ m: 1, width: '40ch' }}  variant="outlined">
+                                            <InputLabel htmlFor="usernameInput">Username</InputLabel>
+                                            <OutlinedInput id="usernameInput" style={{width:'100%', height:'100%'}} onChange={handleUsername} value={username} label="Username"/>
+                                        </FormControl>
+                                        <br />
+                                        <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                            <OutlinedInput
+                                                // id="outlined-name"
+                                                value={password}
+                                                onChange={handlePassword}
+                                                id="outlined-adornment-password"
+                                                type={showPassword ? 'text' : 'password'}
+                                                endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                    >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                                }
+                                                label="Password"
+                                            />
+                                            {/* <InputLabel>Password</InputLabel>
+                                            <Input id="passwordInput" type="password" onChange={handlePassword} value={password}></Input> */}
+                                        </FormControl>
+                                        <br/><br/>
+                                        <Button type="submit">Sign Up</Button>
+                                    </form>
+                                {/* </Typography> */}
+                            </CardContent>
+                        </Grid>
+                    </Grid>
+                </Card>
             </Grid>
         </div>
     )

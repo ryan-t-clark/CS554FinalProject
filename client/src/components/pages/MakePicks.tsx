@@ -214,17 +214,16 @@ const MakePicks: FC<MakePicksProps> = () => {
         if (submittedList.includes(game._id)) {
             let selected = findGameSelectionById(game._id);
             return (
-                <div style={{ padding: 30 }}>
-                    <Card className='game-cards' sx={{ border: '1px solid black',
-                                 }}key={uuidv4()}>
+                <div style={{ padding: 30 }} key={uuidv4()}>
+                    <Card className='game-cards' sx={{ border: '1px solid black', background: '#CACDCE'}} key={uuidv4()}>
                         <CardContent>
                             <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
-                                    <Grid item xs={6} lg={6}>
-                                        <Item>
+                                    <Grid item xs={6} lg={6} key={uuidv4()}>
+                                        <Item key={uuidv4()}>
                                             <FormControlLabel defaultValue='' disableTypography disabled={true} checked={selected === game.homeTeam} control={<Checkbox /*sx={{
                                                 color: '#1e2640',
                                                 '&.Mui-disabled': {
@@ -234,8 +233,8 @@ const MakePicks: FC<MakePicksProps> = () => {
                                             className='form-disabled'/>
                                         </Item>
                                     </Grid>
-                                    <Grid item xs={6} lg={6}>
-                                        <Item>
+                                    <Grid item xs={6} lg={6} key={uuidv4()}>
+                                        <Item key={uuidv4()}>
                                             <FormControlLabel defaultValue='' disableTypography disabled={true} checked={selected === game.awayTeam} control={<Checkbox /*sx={{
                                                 color: '#1e2640',
                                                 '&.Mui-disabled': {
@@ -257,17 +256,16 @@ const MakePicks: FC<MakePicksProps> = () => {
             //game is selected
             let selected = findGameSelectionById(game._id);
             return (
-                <div style={{ padding: 30 }}>
-                    <Card className='game-cards' sx={{ border: '1px solid black',
-                                }}key={uuidv4()}>
+                <div style={{ padding: 30 }} key={uuidv4()}>
+                    <Card className='game-cards' sx={{ border: '1px solid black', background: 'white'}} key={uuidv4()}>
                         <CardContent>
                             <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
-                                    <Grid item xs={6} lg={6}>
-                                        <Item>
+                                    <Grid item xs={6} lg={6} key={uuidv4()}>
+                                        <Item key={uuidv4()}>
                                             <FormControlLabel defaultValue='' 
                                             checked={selected === game.homeTeam} 
                                             disableTypography
@@ -281,8 +279,8 @@ const MakePicks: FC<MakePicksProps> = () => {
                                             label={homeLabel} className='form-disabled' />
                                         </Item>
                                     </Grid>
-                                    <Grid item xs={6} lg={6}>
-                                        <Item>
+                                    <Grid item xs={6} lg={6} key={uuidv4()}>
+                                        <Item key={uuidv4()}>
                                             <FormControlLabel defaultValue='' 
                                             checked={selected === game.awayTeam} 
                                             disabled={selected !== game.awayTeam}
@@ -306,9 +304,11 @@ const MakePicks: FC<MakePicksProps> = () => {
         } else {
             //game is not selected
             return (
-                <div style={{ padding: 20 }}>
-                    <Card className='game-cards' sx={{ border: '1px solid black',
-                                }}key={uuidv4()}>
+                <div style={{ padding: 20 }} key={uuidv4()}>
+                    <Card className='game-cards' sx={[
+                                                        { border: '1px solid black', },
+                                                        { background: game.awayFinalScore === null ? 'white' : '#CACDCE'}
+                                                    ]} key={uuidv4()}>
                         <CardContent>
                             <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
@@ -325,7 +325,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                                             }}*//>} label={homeLabel} className='form-disabled' />
                                         </Item>
                                     </Grid>
-                                    <Grid item xs={6} lg={6}>
+                                    <Grid item xs={6} lg={6} key={uuidv4()}>
                                         <Item>
                                             <FormControlLabel defaultValue='' checked={false} disableTypography disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} /*sx={{
                                                 color: '#1e2640',
@@ -521,7 +521,7 @@ const MakePicks: FC<MakePicksProps> = () => {
     } else {
         let pickVal = 10;
         return (
-            <div className='make-picks'>
+            <div className='make-picks' key={uuidv4()}>
                 <Typography variant='h4' component='h2' align='center'>
                     Your Picks for Week {weekNum}
                 </Typography>
