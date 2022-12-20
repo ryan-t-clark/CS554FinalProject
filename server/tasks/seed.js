@@ -277,6 +277,63 @@ async function main() {
             }
         });
 
+
+        await picks.submitPicks(2, await getUserId('rnarma'),  
+            {
+            "pick10": {
+                "gameId": await getGameId(2,"Sunday Dec 18 8:20PM","Commanders","Giants",-4.5,4.5,null),
+                "weight": 10,
+                "selectedTeam": "Commanders",
+                "selectedSpread": -4.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick9": null,
+            "pick8": {
+                "gameId": await getGameId(2,"Sunday Dec 18 1:00PM","Saints","Falcons",-4.5,4.5,null),
+                "weight": 8,
+                "selectedTeam": "Falcons",
+                "selectedSpread": 4.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick7": {
+                "gameId": await getGameId(2,"Monday Dec 19 8:15PM","Packers","Rams",-7,7,null),
+                "weight": 7,
+                "selectedTeam": "Packers",
+                "selectedSpread": -7,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick6": null,
+            "pick5": {
+                "gameId": await getGameId(2,"Saturday Dec 17 8:15PM","Bills","Dolphins",-7,7,null),
+                "weight": 5,
+                "selectedTeam": "Bills",
+                "selectedSpread": -7,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick4": null,
+            "pick3": {
+                "gameId": await getGameId(2,"Thursday Dec 15 8:15PM","Seahawks","49ers",3,-3,null),
+                "weight": 3,
+                "selectedTeam": "49ers",
+                "selectedSpread": -3,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick2": null,
+            "pick1": {
+                "gameId": await getGameId(2,"Sunday Dec 18 1:00PM","Bears","Eagles",8.5,-8.5,null),
+                "weight": 1,
+                "selectedTeam": "Bears",
+                "selectedSpread": 8.5,
+                "pickResult": null,
+                "submitted": false
+            }
+        });
+
         await games.updateGameResult(await getGameId(2,"Thursday Dec 15 8:15PM","Seahawks","49ers",3,-3,null), 13, 21);
         await games.updateGameResult(await getGameId(2,"Saturday Dec 17 12:00PM","Vikings","Colts",-3.5,3.5,null), 39, 36);
         await games.updateGameResult(await getGameId(2,"Saturday Dec 17 4:30PM","Browns","Ravens",-3,3,null), 13, 3);
