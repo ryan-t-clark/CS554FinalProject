@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validation = require('../validation');
+const xss = require('xss');
 
 const data = require('../data');
 const PICKS = data.picks;
@@ -8,6 +9,10 @@ const PICKS = data.picks;
 router.post('/submit', async (req, res) => {
 
     let {week, userId, picks} = req.body;
+
+    week = xss(week);
+    userId = xss(userId);
+    picks = xss(picks);
 
     try {
         validation.checkWeek(week);
@@ -35,6 +40,9 @@ router.post('/submit', async (req, res) => {
 router.get('/user/pickarray/:week/:id', async (req, res) => {
     let week = req.params.week;
     let id = req.params.id;
+
+    week = xss(week);
+    id = xss(id);
     
     try {
         validation.checkId(id);
@@ -56,6 +64,9 @@ router.get('/user/pickarray/:week/:id', async (req, res) => {
 router.get('/user/:week/:id', async (req, res) => {
     let week = req.params.week;
     let id = req.params.id;
+
+    week = xss(week);
+    id = xss(id);
     
     try {
         validation.checkId(id);
@@ -78,6 +89,8 @@ router.get('/all/pickarray/:week', async (req, res) => {
 
     let week = req.params.week;
 
+    week = xss(week);
+
     try {
         validation.checkWeek(week);
     } catch (e) {
@@ -98,6 +111,8 @@ router.get('/all/:week', async (req, res) => {
 
     let week = req.params.week;
 
+    week = xss(week);
+
     try {
         validation.checkWeek(week);
     } catch (e) {
@@ -112,12 +127,6 @@ router.get('/all/:week', async (req, res) => {
     }
 
 });
-
-
-
-
-
-
 
 
 module.exports = router;

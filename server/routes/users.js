@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const validation = require('../validation');
 const data = require('../data');
+const xss = require('xss');
 const USERS = data.users;
 
 
@@ -10,6 +11,10 @@ router.post('/signup',async(req,res) => {
   const information = req.body;
   username = information["username"];
   password = information["password"];
+
+  username = xss(username);
+  password = xss(password);
+
   try{
     username = validation.checkUserName(username,"username");
     password = validation.checkString(password,"password");
@@ -42,6 +47,10 @@ router.post('/login',async(req,res) => {
   const information = req.body;
   username = information["username"];
   password = information["password"];
+
+  username = xss(username);
+  password = xss(password);
+
   try{
     username = validation.checkUserName(username,"username");
     password = validation.checkString(password,"password");
@@ -86,6 +95,9 @@ router.get('/standings', async (req, res) => {
 
 router.get('/profile:/id', async (req, res) => {
   let id = req.params.id;
+
+  id = xss(id);
+
   try {
     validation.checkId(id);
   } catch (e) {
