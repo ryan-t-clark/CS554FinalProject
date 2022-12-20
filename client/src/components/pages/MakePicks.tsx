@@ -2,8 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -25,7 +24,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import Grid from '@mui/material/Grid';
+import Item from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import baseUrl from '../../environment.js';
 
 interface Game {
@@ -55,7 +56,7 @@ const MakePicks: FC<MakePicksProps> = () => {
     
     const userId = Cookies.get('userId');
 
-    const [weekNum, setWeekNum] = useState((Number(Cookies.get("week"))))
+    const [weekNum, setWeekNum] = useState((Number(Cookies.get('week'))))
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState([]);
     const [pickData, setPickData] = useState<(Pick | null)[]>([null,null,null,null,null,null,null,null,null,null]);
@@ -73,7 +74,7 @@ const MakePicks: FC<MakePicksProps> = () => {
     //get game list
     useEffect( () => {
         async function fetchData() {
-            // setWeekNum((Number(Cookies.get("week"))) as number);
+            // setWeekNum((Number(Cookies.get('week'))) as number);
             try {
                 setLoading(true);
                 let { data } = await axios.get(`${baseUrl.baseUrl}/games/getweek/${weekNum}`);
@@ -87,6 +88,75 @@ const MakePicks: FC<MakePicksProps> = () => {
         }
         fetchData();
     }, [weekNum]);
+
+    interface Color {
+        'Cardinals': string,
+        'Falcons': string,
+        'Ravens': string,
+        'Bills': string,
+        'Panthers': string,
+        'Bears': string,
+        'Bengals': string,
+        'Browns': string,
+        'Cowboys': string,
+        'Broncos': string,
+        'Lions': string,
+        'Packers': string,
+        'Texans': string,
+        'Colts': string,
+        'Jaguars': string,
+        'Chiefs': string,
+        'Raiders': string,
+        'Chargers': string,
+        'Rams': string,
+        'Dolphins': string,
+        'Vikings': string,
+        'Patriots': string,
+        'Saints': string,
+        'Giants': string,
+        'Jets': string,
+        'Eagles': string,
+        'Steelers': string,
+        '49ers': string,
+        'Seahawks': string,
+        'Buccaneers': string,
+        'Titans': string,
+        'Commanders': string
+    }
+    const teamColors: Color = {
+        'Cardinals': '#97233F',
+        'Falcons': '#A71930',
+        'Ravens': '#241773',
+        'Bills': '#00338D',
+        'Panthers': '#0085CA',
+        'Bears': '#0B162A',
+        'Bengals': '#FB4F14',
+        'Browns': '#311D00',
+        'Cowboys': '#003594',
+        'Broncos': '#FB4F14',
+        'Lions': '#0076B6',
+        'Packers': '#203731',
+        'Texans': '#03202F',
+        'Colts': '#002C5F',
+        'Jaguars': '#101820',
+        'Chiefs': '#E31837',
+        'Raiders': '#A5ACAF',
+        'Chargers': '#0080C6',
+        'Rams': '#003594',
+        'Dolphins': '#008E97',
+        'Vikings': '#4F2683',
+        'Patriots': '#002244',
+        'Saints': '#D3BC8D',
+        'Giants': '#0B2265',
+        'Jets': '#125740',
+        'Eagles': '#004C54',
+        'Steelers': '#FFB612',
+        '49ers': '#AA0000',
+        'Seahawks': '#69BE28',
+        'Buccaneers': '#D50A0A',
+        'Titans': '#0C2340',
+        'Commanders': '#5A1414'
+    }
 
 
     //get user picks
@@ -137,20 +207,45 @@ const MakePicks: FC<MakePicksProps> = () => {
 
         const homeLabel = `${game.homeTeam} ${game.homeSpread}`
         const awayLabel = `${game.awayTeam} ${game.awaySpread}`
+        const homeTeam:string = game.homeTeam;
+        const awayTeam:string = game.awayTeam;
 
         //if the game is submitted, it is immutable
         if (submittedList.includes(game._id)) {
             let selected = findGameSelectionById(game._id);
             return (
-                <div>
-                    <Card key={uuidv4()}>
+                <div style={{ padding: 30 }}>
+                    <Card className='game-cards' sx={{ border: '1px solid black',
+                                 }}key={uuidv4()}>
                         <CardContent>
-                            <Typography>
+                            <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
-                                <FormControlLabel defaultValue='' disabled={true} checked={selected === game.homeTeam} control={<Checkbox />} label={homeLabel} />
-                                <FormControlLabel defaultValue='' disabled={true} checked={selected === game.awayTeam} control={<Checkbox />} label={awayLabel} />
+                                <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' disableTypography disabled={true} checked={selected === game.homeTeam} control={<Checkbox /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} label={homeLabel} 
+                                            className='form-disabled'/>
+                                        </Item>
+                                    </Grid>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' disableTypography disabled={true} checked={selected === game.awayTeam} control={<Checkbox /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} label={awayLabel} 
+                                            className='form-disabled'/>
+                                        </Item>
+                                    </Grid>
+                                </Grid>
                             </FormGroup>
                         </CardContent>
                     </Card>
@@ -162,24 +257,46 @@ const MakePicks: FC<MakePicksProps> = () => {
             //game is selected
             let selected = findGameSelectionById(game._id);
             return (
-                <div>
-                    <Card key={uuidv4()}>
+                <div style={{ padding: 30 }}>
+                    <Card className='game-cards' sx={{ border: '1px solid black',
+                                }}key={uuidv4()}>
                         <CardContent>
-                            <Typography>
+                            <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
-                                <FormControlLabel defaultValue='' 
-                                    checked={selected === game.homeTeam} 
-                                    disabled={(selected !== game.homeTeam)}
-                                    control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} />} 
-                                    label={homeLabel} />
-                                
-                                <FormControlLabel defaultValue='' 
-                                    checked={selected === game.awayTeam} 
-                                    disabled={selected !== game.awayTeam}
-                                    control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} />} 
-                                    label={awayLabel} />
+                                <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' 
+                                            checked={selected === game.homeTeam} 
+                                            disableTypography
+                                            disabled={(selected !== game.homeTeam)}
+                                            control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} 
+                                            label={homeLabel} className='form-disabled' />
+                                        </Item>
+                                    </Grid>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' 
+                                            checked={selected === game.awayTeam} 
+                                            disabled={selected !== game.awayTeam}
+                                            disableTypography
+                                            control={<Checkbox onChange={(event) => removeFromPicks(findPickIndex(game._id),game._id)} /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} 
+                                            label={awayLabel} className='form-disabled' />
+                                        </Item>
+                                    </Grid>
+                                </Grid>
                             </FormGroup>
                         </CardContent>
                     </Card>
@@ -189,15 +306,36 @@ const MakePicks: FC<MakePicksProps> = () => {
         } else {
             //game is not selected
             return (
-                <div>
-                    <Card key={uuidv4()}>
+                <div style={{ padding: 20 }}>
+                    <Card className='game-cards' sx={{ border: '1px solid black',
+                                }}key={uuidv4()}>
                         <CardContent>
-                            <Typography>
+                            <Typography fontSize='24px'>
                                 {game.awayTeam} at {game.homeTeam}
                             </Typography>
                             <FormGroup>
-                                <FormControlLabel defaultValue='' checked={false} disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)} />} label={homeLabel} />
-                                <FormControlLabel defaultValue='' checked={false} disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} />} label={awayLabel} />
+                                <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' checked={false} disableTypography disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.homeTeam, game.homeSpread)} /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} label={homeLabel} className='form-disabled' />
+                                        </Item>
+                                    </Grid>
+                                    <Grid item xs={6} lg={6}>
+                                        <Item>
+                                            <FormControlLabel defaultValue='' checked={false} disableTypography disabled={game.awayFinalScore !== null} control={<Checkbox onChange={(event) => addToPicks(game._id, game.awayTeam, game.awaySpread)} /*sx={{
+                                                color: '#1e2640',
+                                                '&.Mui-disabled': {
+                                                color: '#fff',
+                                                },
+                                            }}*//>} label={awayLabel} className='form-disabled' />
+                                        </Item>
+                                    </Grid>
+                                </Grid>
                             </FormGroup>
                         </CardContent>
                     </Card>
@@ -369,14 +507,14 @@ const MakePicks: FC<MakePicksProps> = () => {
             picks: picks
         });
 
-        navigate("/week");
+        navigate('/week');
 
     }
 
 
     if (loading) {
         return (
-            <div>
+            <div style={{ padding: 30 }}>
                 Loading...
             </div>
         )
@@ -384,17 +522,17 @@ const MakePicks: FC<MakePicksProps> = () => {
         let pickVal = 10;
         return (
             <div className='make-picks'>
-                <Typography variant="h4" component="h2" align='center'>
+                <Typography variant='h4' component='h2' align='center'>
                     Your Picks for Week {weekNum}
                 </Typography>
                 {/* <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Choose Week</InputLabel>
+                        <InputLabel id='demo-simple-select-label'>Choose Week</InputLabel>
                         <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
                         value={weekNum.toString()}
-                        label="Week Number"
+                        label='Week Number'
                         onChange={handleWeekChange}
                         >
                         <MenuItem value={1}>1</MenuItem>
@@ -423,15 +561,15 @@ const MakePicks: FC<MakePicksProps> = () => {
                                             <TableCell>
                                                 {   
                                                     !submittedList.includes(pick.gameId) && nextIndexBelow(index) !== 10 ?
-                                                    <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ""
+                                                    <IconButton onClick={(event) => moveDown(index)} ><ArrowDownwardIcon /></IconButton> : ''
                                                 }
                                                 {
                                                     !submittedList.includes(pick.gameId) && nextIndexAbove(index) !== -1 ?
-                                                    <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ""
+                                                    <IconButton onClick={(event) => moveUp(index)}><ArrowUpwardIcon /></IconButton> : ''
                                                 }
                                                 {
                                                     !submittedList.includes(pick.gameId) ?
-                                                    <IconButton onClick={(event) => {removeFromPicks(index, pick.gameId)}}><CancelIcon /></IconButton> : ""
+                                                    <IconButton onClick={(event) => {removeFromPicks(index, pick.gameId)}}><CancelIcon /></IconButton> : ''
                                                 }
                                             </TableCell>
                                             : 
@@ -449,7 +587,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                 <Button onClick={onSubmit}>Submit Picks</Button>
 
                 <br /><br /><br /><br />
-                <Typography variant="h4" component="h2">
+                <Typography variant='h4' component='h2'>
                     Week {weekNum}'s Games
                 </Typography>
 

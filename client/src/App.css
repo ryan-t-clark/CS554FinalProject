@@ -59,3 +59,11 @@
   justify-content: center;
   margin-left: 25%;
 }
+
+.FormControlLabel:disabled {
+  color: black;
+}
+
+.game-cards {
+  background: #8f2929;
+}
