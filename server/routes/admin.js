@@ -4,12 +4,16 @@ const redis = require('redis');
 const client = redis.createClient();
 const validation = require('../validation');
 const data = require('../data');
+const xss = require('xss');
 const ADMIN = data.admin;
 client.connect().then(() => {});
 
 
 router.post("/changeWeek/:week",async (req,res) => {
     let week = req.params.week;
+    
+    week = xss(week);
+
     try {
         validation.checkWeek(week);
     } catch (e) {

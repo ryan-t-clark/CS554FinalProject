@@ -4,6 +4,7 @@ const redis = require('redis');
 const client = redis.createClient();
 const validation = require('../validation');
 const data = require('../data');
+const xss = require('xss');
 const GAMES = data.games;
 client.connect().then(() => {});
 
@@ -11,6 +12,15 @@ client.connect().then(() => {});
 router.post('/addgame', async (req, res) => {
 
     let {week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore} = req.body;
+
+    week = xss(week);
+    gameStart = xss(gameStart);
+    homeTeam = xss(homeTeam);
+    awayTeam = xss(awayTeam);
+    homeSpread = xss(homeSpread);
+    awaySpread = xss(awaySpread);
+    homeFinalScore = xss(homeFinalScore);
+    awayFinalScore = xss(homeFinalScore);
 
     try {
         validation.checkAddGameParams(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, homeFinalScore, awayFinalScore);
@@ -34,6 +44,8 @@ router.post('/addgame', async (req, res) => {
 
 router.get('/getweek/:week', async (req, res) => {
     let week = req.params.week;
+
+    week = xss(week);
     
     try {
         validation.checkWeek(week);
@@ -61,6 +73,10 @@ router.get('/getweek/:week', async (req, res) => {
 router.post('/update', async (req, res) => {
 
     const {gameId, homeScore, awayScore} = req.body;
+
+    gameId = xss(gameId);
+    homeScore = xss(homeScore);
+    awayScore = xss(awayScore);
 
     try {
         validation.checkId(gameId);
