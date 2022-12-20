@@ -24,6 +24,7 @@ const Signup: FC<SignupProps> = () => {
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ showPassword, setShowPassword ] = useState(false);
+    const [error, setError] = useState('');
 
     const handleUsername = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLInputElement
@@ -50,9 +51,12 @@ const Signup: FC<SignupProps> = () => {
             "password":password
         })
         console.log(response);
-        } catch (error){
-            console.log(error);
+        } catch (error: any){
+            // console.log(error);
             console.log("invalid login");
+            setError(error.response.data.error)
+            setUsername('')
+            setPassword('')
         } 
     }
 
@@ -72,10 +76,11 @@ const Signup: FC<SignupProps> = () => {
         transitionDuration: '0.3s',
         height:'40vh',
         marginTop: '10vh',
-        background: '#B0D1D8',
+        background: '#83D7E6',
         borderWidth: '2px',
         borderColor: 'black',
         padding:'20px',
+        color: 'black',
     }
 
     return (
@@ -92,24 +97,32 @@ const Signup: FC<SignupProps> = () => {
                         <Grid item justifyContent="center" alignItems="center" >
                             <CardContent>                
                                 <Typography variant="h3" component="h2" align='center'>
-                                    Log in
+                                    Sign Up
                                 </Typography>
                                 <br />
                                 {/* <Typography align='center'> */}
                                     <form id="form-id" onSubmit={signupFunc}>
-                                        <FormControl sx={{ m: 1, width: '40ch' }}  variant="outlined">
-                                            <InputLabel htmlFor="usernameInput">Username</InputLabel>
-                                            <OutlinedInput id="usernameInput" style={{width:'100%', height:'100%'}} onChange={handleUsername} value={username} label="Username"/>
+                                        <FormControl sx={{ m: 1, width: '40ch'}}  variant="outlined" >
+                                            <InputLabel htmlFor="usernameInput" sx={{color: 'black', background:'transparent'}}>Username</InputLabel>
+                                            <OutlinedInput 
+                                                id="usernameInput" 
+                                                style={{width:'100%', height:'100%'}} 
+                                                sx={{background:'white'}}
+                                                onChange={handleUsername} 
+                                                value={username}/>
                                         </FormControl>
                                         <br />
-                                        <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <FormControl sx={{ m: 1, width: '40ch'}} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password" sx={{color: 'black'}}>Password</InputLabel>
                                             <OutlinedInput
                                                 // id="outlined-name"
                                                 value={password}
                                                 onChange={handlePassword}
                                                 id="outlined-adornment-password"
                                                 type={showPassword ? 'text' : 'password'}
+                                                sx={
+                                                    {background:'white'}
+                                                }
                                                 endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -122,13 +135,17 @@ const Signup: FC<SignupProps> = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                                 }
-                                                label="Password"
+                                               
                                             />
                                             {/* <InputLabel>Password</InputLabel>
                                             <Input id="passwordInput" type="password" onChange={handlePassword} value={password}></Input> */}
                                         </FormControl>
                                         <br/><br/>
-                                        <Button type="submit">Sign Up</Button>
+                                        <Button type="submit" sx={{color: 'black', background: 'white'}}>Sign Up</Button>
+                                        {
+                                            error &&
+                                            <Typography variant='subtitle1' component='h3'>{error}</Typography> 
+                                        }
                                     </form>
                                 {/* </Typography> */}
                             </CardContent>

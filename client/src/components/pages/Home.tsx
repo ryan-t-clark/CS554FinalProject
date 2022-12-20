@@ -19,7 +19,7 @@ const Home: FC<HomeProps> = () => {
 	                marginRight: 'auto',
 	                width: '50%',
                 }}>
-                    <Typography variant='h4' gutterBottom>
+                    <Typography variant='h4' component='h3' gutterBottom>
                         NFL Game Picker
                     </Typography>
                     <Typography variant='body1' gutterBottom>
@@ -28,7 +28,7 @@ const Home: FC<HomeProps> = () => {
                         in this heated competition.
                     </Typography>
                     <br />
-                    <Typography variant='h4' gutterBottom>
+                    <Typography variant='h4' component='h3' gutterBottom>
                         Picks and Scoring
                     </Typography>
                     <Typography variant='body1' gutterBottom>
@@ -36,14 +36,14 @@ const Home: FC<HomeProps> = () => {
                         and all players will receive an email notification alerting them to the release of the upcoming week's schedule.
                     </Typography>
                     <br />
-                    <Typography variant='h4' gutterBottom>
+                    <Typography variant='h4' component='h3' gutterBottom>
                         Registration
                     </Typography>
                     <Typography variant='body1' gutterBottom>
                         To register, just simply create an account and get picking!
                     </Typography>
                     <br />
-                    <Typography variant='h4' gutterBottom>
+                    <Typography variant='h4' component='h3' gutterBottom>
                         Rules
                     </Typography>
                     <Typography variant='body1' gutterBottom>

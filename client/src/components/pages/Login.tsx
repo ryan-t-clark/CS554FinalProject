@@ -18,6 +18,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { baseUrl } from '../../environment.js';
+import { ThemeContext } from '@emotion/react';
+import { InputBase } from '@mui/material'
+import { makeStyles } from '@mui/material'
 interface LoginProps {};
 
 const Login: FC<LoginProps> = () => {
@@ -55,10 +58,10 @@ const Login: FC<LoginProps> = () => {
             });
 
             return response.data.user;
-        } catch (error) {           
-            console.log(error);
+        } catch (error: any) {           
+            // console.log(error);
             console.log("invalid login"); 
-            setError('invalid login credentials')
+            setError(error.response.data.error)
             setUsername('')
             setPassword('')
         } 
@@ -90,10 +93,11 @@ const Login: FC<LoginProps> = () => {
         transitionDuration: '0.3s',
         height:'40vh',
         marginTop: '10vh',
-        background: '#B0D1D8',
+        background: '#83D7E6',
         borderWidth: '2px',
         borderColor: 'black',
         padding:'20px',
+        color: 'black',
     }
 
     return (
@@ -115,23 +119,30 @@ const Login: FC<LoginProps> = () => {
                                 <br />
                                 {/* <Typography align='center'> */}
                                     <form id="form-id" onSubmit={loginFunc}>
-                                        <FormControl sx={{ m: 1, width: '40ch' }}  variant="outlined">
-                                            <InputLabel htmlFor="usernameInput">Username</InputLabel>
-                                            <OutlinedInput id="usernameInput" style={{width:'100%', height:'100%'}} onChange={handleUsername} value={username} label="Username"/>
+                                        <FormControl sx={{ m: 1, width: '40ch'}}  variant="outlined" >
+                                            <InputLabel htmlFor="usernameInput" sx={{color: 'black', background:'transparent'}}>Username</InputLabel>
+                                            <OutlinedInput 
+                                                id="usernameInput" 
+                                                style={{width:'100%', height:'100%'}} 
+                                                sx={{background:'white'}}
+                                                onChange={handleUsername} 
+                                                value={username}/>
                                         </FormControl>
                                         <br />
-                                        <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <FormControl sx={{ m: 1, width: '40ch'}} variant="outlined">
+                                            <InputLabel htmlFor="outlined-adornment-password" sx={{color: 'black'}}>Password</InputLabel>
                                             <OutlinedInput
                                                 // id="outlined-name"
                                                 value={password}
                                                 onChange={handlePassword}
                                                 id="outlined-adornment-password"
                                                 type={showPassword ? 'text' : 'password'}
+                                                sx={
+                                                    {background:'white'}
+                                                }
                                                 endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton
-                                                    aria-label="toggle password visibility"
                                                     onClick={handleClickShowPassword}
                                                     onMouseDown={handleMouseDownPassword}
                                                     edge="end"
@@ -140,16 +151,16 @@ const Login: FC<LoginProps> = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                                 }
-                                                label="Password"
+                                               
                                             />
                                             {/* <InputLabel>Password</InputLabel>
                                             <Input id="passwordInput" type="password" onChange={handlePassword} value={password}></Input> */}
                                         </FormControl>
                                         <br/><br/>
-                                        <Button type="submit">Log in</Button>
+                                        <Button type="submit" sx={{color: 'black', background: 'white'}}>Log in</Button>
                                         {
                                             error &&
-                                            <Typography variant='subtitle1'>{error}</Typography> 
+                                            <Typography variant='subtitle1' component='h3'>{error}</Typography> 
                                         }
                                     </form>
                                 {/* </Typography> */}

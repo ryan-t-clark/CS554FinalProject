@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import {Button, IconButton} from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import InputLabel from '@mui/material/InputLabel';
 
 import { baseUrl } from '../../environment.js';
 
@@ -92,7 +93,9 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                 <Table className='leaderboard-table'>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Total Points<IconButton onClick={handleOrder}>
+                            <TableCell>Total Points
+                                <InputLabel htmlFor="icon-id" sx={{color:'black'}}></InputLabel>
+                                <IconButton onClick={handleOrder} id='icon-id'>
                                 {
                                     sortState === 'decreasing' &&
                                     <ArrowUpwardIcon></ArrowUpwardIcon>
@@ -103,7 +106,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
                             </IconButton></TableCell>
                             <TableCell>Username</TableCell>
                             <TableCell>Pick Record</TableCell>
-                            <TableCell>Pick Percentage<Button></Button></TableCell>
+                            <TableCell>Pick Percentage</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

@@ -29,6 +29,12 @@
   text-align: center;
 }
 
+.card-inprogress {
+  background-color: #9f6d00;
+  color: white;
+  text-align: center;
+}
+
 .card-correct {
   background-color: #0c6300;
   color: white;
