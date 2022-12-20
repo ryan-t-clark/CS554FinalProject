@@ -1,6 +1,8 @@
 const connection = require('../config/mongoConnection');
 const mongoCollections = require("../config/mongoCollections");
 const fs = require('fs');
+const redis = require('redis');
+const client = redis.createClient();
 const GAMES = mongoCollections.games;
 const USERS = mongoCollections.users;
 
@@ -11,6 +13,7 @@ const users = data.users;
 const games = data.games;
 const picks = data.picks;
 const admin = data.admin;
+client.connect().then(() => {});
 
 //since game id's change with each seed, need this to make it work
 async function getGameId(week, gameStart, homeTeam, awayTeam, homeSpread, awaySpread, finalScore) {
@@ -56,6 +59,8 @@ async function main() {
             }
         });
         
+        // clear redis cache
+        client.flushAll();
 
         await admin.setup();
 
@@ -129,7 +134,7 @@ async function main() {
             "pick4": null,
             "pick3": {
                 "gameId": await getGameId(1,"Sunday Dec 11 4:05PM","Broncos","Chiefs",8.5,-8.5,null),
-                "weight": 1,
+                "weight": 3,
                 "selectedTeam": "Broncos",
                 "selectedSpread": 8.5,
                 "pickResult": null,
@@ -156,13 +161,41 @@ async function main() {
                 "pickResult": null,
                 "submitted": false
             },
-            "pick9": null,
-            "pick8": null,
-            "pick7": null,
-            "pick6": null,
+            "pick9": {
+                "gameId": await getGameId(1,"Monday Dec 12 8:15PM","Patriots","Cardinals",-1.5,1.5,null),
+                "weight": 9,
+                "selectedTeam": "Patriots",
+                "selectedSpread": -1.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick8": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Giants","Eagles",6.5,-6.5,null),
+                "weight": 8,
+                "selectedTeam": "Eagles",
+                "selectedSpread": -6.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick7": {
+                "gameId": await getGameId(1,"Sunday Dec 11 4:05PM","Broncos","Chiefs",8.5,-8.5,null),
+                "weight": 3,
+                "selectedTeam": "Chiefs",
+                "selectedSpread": -8.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            "pick6": {
+                "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Cowboys","Texans",-16.5,16.5,null),
+                "weight": 6,
+                "selectedTeam": "Cowboys",
+                "selectedSpread": -16.5,
+                "pickResult": null,
+                "submitted": false
+            },
             "pick5": {
                 "gameId": await getGameId(1,"Sunday Dec 11 1:00PM","Bills","Jets",-9.5,9.5,null),
-                "weight": 8,
+                "weight": 5,
                 "selectedTeam": "Bills",
                 "selectedSpread": -9.5,
                 "pickResult": null,
@@ -369,6 +402,47 @@ async function main() {
             }
         });
 
+        await picks.submitPicks(2, await getUserId('evalentino'), {
+            'pick10': {
+                "gameId": await getGameId(2,"Sunday Dec 18 1:00PM","Bears","Eagles",8.5,-8.5,null),
+                "weight": 10,
+                "selectedTeam": "Eagles",
+                "selectedSpread": -8.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            'pick9': null,
+            'pick8': null,
+            'pick7': {
+                "gameId": await getGameId(2,"Sunday Dec 18 8:20PM","Commanders","Giants",-4.5,4.5,null),
+                "weight": 7,
+                "selectedTeam": "Giants",
+                "selectedSpread": 4.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            'pick6': null,
+            'pick5': null,
+            'pick4': null,
+            'pick3': {
+                "gameId": await getGameId(2,"Saturday Dec 17 8:15PM","Bills","Dolphins",-7.5,7.5,null),
+                "weight": 3,
+                "selectedTeam": "Bills",
+                "selectedSpread": -7.5,
+                "pickResult": null,
+                "submitted": false
+            },
+            'pick2': null,
+            'pick1': {
+                "gameId": await getGameId(2,"Thursday Dec 15 8:15PM","Seahawks","49ers",3.5,-3.5,null),
+                "weight": 1,
+                "selectedTeam": "49ers",
+                "selectedSpread": -3.5,
+                "pickResult": null,
+                "submitted": false
+            }
+        });
+
 
         await games.updateGameResult(await getGameId(2,"Sunday Dec 18 1:00PM","Texans","Chiefs",14.5,-14.5,null), 24, 30);
         await games.updateGameResult(await getGameId(2,"Sunday Dec 18 1:00PM","Jaguars","Cowboys",4.5,-4.5,null), 40, 34);
@@ -462,6 +536,47 @@ async function main() {
         }
     });
 
+    await picks.submitPicks(3, await getUserId('evalentino'), {
+        'pick10': null,
+        'pick9': null,
+        'pick8': {
+            "gameId": await getGameId(3,"Saturday Dec 24 4:25PM","Cowboys","Eagles",-6.5,6.5,null),
+            "weight": 8,
+            "selectedTeam": "Eagles",
+            "selectedSpread": 6.5,
+            "pickResult": null,
+            "submitted": false
+        },
+        'pick7': {
+            "gameId": await getGameId(3,"Saturday Dec 24 1:00PM","Ravens","Falcons",-7.5,7.5,null),
+            "weight": 7, 
+            "selectedTeam": "Ravens",
+            "selectedSpread": -7.5,
+            "pickResult": null,
+            "submitted": false
+        },
+        'pick6': null,
+        'pick5': null,
+        'pick4': {
+            "gameId": await getGameId(3,"Sunday Dec 25 8:15PM","Colts","Chargers",4.5,-4.5,null),
+            "weight": 4,
+            "selectedTeam": "Chargers",
+            "selectedSpread": -4.5,
+            "pickResult": null,
+            "submitted": false
+        },
+        'pick3': null,
+        'pick2': null,
+        'pick1': {
+            "gameId": await getGameId(3,"Saturday Dec 24 1:00PM","Panthers","Lions",2.5,-2.5,null),
+            "weight": 1,
+            "selectedTeam": "Panthers",
+            "selectedSpread": 2.5,
+            "pickResult": null,
+            "submitted": false
+        }
+    })
+
 
 
         console.log('seed complete');
@@ -470,6 +585,7 @@ async function main() {
     }
 
     await connection.closeConnection();
+    client.disconnect();
     return;
 }
 
