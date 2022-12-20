@@ -4,46 +4,67 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 const configRoutes = require('./routes');
-const path = require('path')
-// const logger = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const fileUpload = require('express-fileupload')
-const cors = require('cors')
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+const fs = require('fs');
+var im = require('imagemagick');
+const { default: axios } = require('axios');
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// const cors = require('cors');
 app.use(cors());
-// app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
     extended: false,
   }),
-)
-app.use(cookieParser())
-app.use(fileUpload())
+);
+app.use(cookieParser());
+app.use(fileUpload());
 
-app.use('/public', express.static(__dirname + '/public'))
+// serve static images for retrieving the profile pictures
+app.use('/api/images', express.static(__dirname + '/images'));
 
-app.post('api/upload', (req, res, next) => {
-  let uploadFile = req.files.file
-  const fileName = req.files.file.name
-  uploadFile.mv(
-    `${__dirname}/public/files/${fileName}`,
-    function (err) {
-      if (err) {
-        return res.status(500).send(err)
-      }
+// upload api route for profile pictures
+app.post('/api/upload', (req, res, next) => {
+  let uploadFile = req.files.profile_pic;
+  let userId = uploadFile.name;
 
-      res.json({
-        file: `public/${req.files.file.name}`,
-      })
-    },
-  )
+  // write file to static images folder
+  fs.writeFileSync(`${__dirname}/images/${userId}_profile_pic.jpg`, uploadFile.data, err => {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  // resize file for proper profile picture formatting
+  im.resize({
+    srcPath: `${__dirname}/images/${userId}_profile_pic.jpg`,
+    dstPath: `${__dirname}/images/${userId}_profile_pic.jpg`,
+    width: 400,
+    height: 400,
+    quality: 1
+  }, function (err, stdout, stderr) {
+    if (err) console.log(err);
+  });
+
+  return res.json({ file_uploaded: true });
+});
+
+app.get('/api/testing', async (req, res, next) => {
+  await axios({
+    method: 'get',
+    url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+    responseType: 'stream'
+  }).then(function (res) {
+    console.log(res);
+    res.data.pipe(fs.createWriteStream('test_profile_pic.jpg'))
+  });
+  return res.json(true);
 })
 
 

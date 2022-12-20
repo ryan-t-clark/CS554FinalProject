@@ -6,12 +6,9 @@ let { ObjectId } = require('mongodb');
 const validation = require('../validation');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
-// var fs = require('fs');
-
-var im = require('imagemagick');
-// var https = require('https');
-
-// var imageToBlob = require( 'image-to-blob' );
+const fs = require('fs');
+var im = require('imagemagick');
+const { default: axios } = require('axios');
 
 var FileSaver = require('file-saver');
 
@@ -48,18 +45,42 @@ async function createUser(username, password, admin) {
   
   //schema of new user
   const newUser = {
+    _id : ObjectId(),
     username : username,
     password : await hashPwd(password),
     totalPoints : 0,
     totalCorrectPicks: 0,
     totalIncorrectPicks: 0,
-    admin: admin,
-    profileImage:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    admin: admin
   }
     
   const insertInfo = await userCollection.insertOne(newUser);
     
   if (insertInfo.insertedCount === 0) throw "Could not add user";
+
+  // create default profile pic
+  await axios({
+    method: 'get',
+    url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+    responseType: 'stream'
+  }).then(function (res) {
+    let stream = res.data.pipe(fs.createWriteStream(`${__dirname}/../images/${newUser._id}_profile_pic.jpg`));
+    
+    // wait for file to be written
+    stream.on('finish', async () => {
+      // resize file for proper profile picture formatting
+      im.resize({
+        srcPath: `${__dirname}/../images/${newUser._id}_profile_pic.jpg`,
+        dstPath: `${__dirname}/../images/${newUser._id}_profile_pic.jpg`,
+        width: 400,
+        height: 400,
+        quality: 1
+      }, function (err, stdout, stderr) {
+        if (err) console.log(err);
+      });
+    });
+  });
+
   return {userInserted:true}
 }
 
