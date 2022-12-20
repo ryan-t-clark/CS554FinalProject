@@ -58,6 +58,7 @@ const MakePicks: FC<MakePicksProps> = () => {
 
     const [weekNum, setWeekNum] = useState((Number(Cookies.get('week'))))
     const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     const [gameData, setGameData] = useState([]);
     const [pickData, setPickData] = useState<(Pick | null)[]>([null,null,null,null,null,null,null,null,null,null]);
     const [selectedList, setSelectedList] = useState<string[]>([]);
@@ -76,6 +77,7 @@ const MakePicks: FC<MakePicksProps> = () => {
         async function fetchData() {
             // setWeekNum((Number(Cookies.get('week'))) as number);
             try {
+                setNotFound(false);
                 setLoading(true);
                 let { data } = await axios.get(`${baseUrl.baseUrl}/games/getweek/${weekNum}`);
                 setGameData(data);
@@ -83,6 +85,7 @@ const MakePicks: FC<MakePicksProps> = () => {
                 setPickData(userData.data)
                 setLoading(false);
             } catch (e) {
+                setNotFound(true);
                 setLoading(false);
             }
         }
@@ -518,6 +521,12 @@ const MakePicks: FC<MakePicksProps> = () => {
                 Loading...
             </div>
         )
+    } else if (notFound) {
+        return (
+            <div style={{ padding: 30 }}>
+                Something went wrong... try reloading.
+            </div>
+        )
     } else {
         let pickVal = 10;
         return (
@@ -554,7 +563,6 @@ const MakePicks: FC<MakePicksProps> = () => {
                             pickData.map( (pick: Pick | null, index: number) => {
                                 return (
                                     <TableRow key={uuidv4()}>
-                                        {/* need to add some sort of indicator that a pick is submitted, like the row being greyed out and there being no available buttons*/}
                                         <TableCell>{pickVal--}</TableCell>
                                         <TableCell>{pick ? `${pick.selectedTeam} ${pick.selectedSpread}` : `No pick`}</TableCell>
                                         {pick ? 
