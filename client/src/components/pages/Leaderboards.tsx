@@ -11,7 +11,7 @@ import {Button, IconButton} from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 
 interface LeaderboardsProps {};
 
@@ -45,7 +45,7 @@ const Leaderboards: FC<LeaderboardsProps> = () => {
             try {
                 setNotFound(false);
                 setLoading(true);
-                let { data } = await axios.get(`${baseUrl.baseUrl}/users/standings`);
+                let { data } = await axios.get(`${baseUrl}/users/standings`);
                 setLeaderboardData(sortDecreasing(data));
                 setSortState('decreasing');
                 setLoading(false);

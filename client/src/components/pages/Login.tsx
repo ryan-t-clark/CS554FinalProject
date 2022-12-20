@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 
 interface LoginProps {};
 
@@ -38,7 +38,7 @@ const Login: FC<LoginProps> = () => {
 
     async function login(username:string,password:string){
         try{ 
-            const response = await axios.post(`${baseUrl.baseUrl}/users/login`,{
+            const response = await axios.post(`${baseUrl}/users/login`,{
                 "username":username,
                 "password":password
             });

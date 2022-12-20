@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Cookies from 'js-cookie';
 
-import baseUrl from '../../environment.js';
+import { baseUrl } from '../../environment.js';
 
 interface WeekProps {};
 
@@ -65,7 +65,7 @@ const Week: FC<WeekProps> = () => {
             try {
                 setNotFound(false);
                 setLoading(true);
-                let { data } = await axios.get(`${baseUrl.baseUrl}/picks/all/${weekNum}`);
+                let { data } = await axios.get(`${baseUrl}/picks/all/${weekNum}`);
                 setWeekData(data);
                 setLoading(false);
             } catch (e) {
