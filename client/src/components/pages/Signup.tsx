@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
+import baseUrl from '../../environment.js';
 
 interface SignupProps {};
 
@@ -32,8 +33,7 @@ const Signup: FC<SignupProps> = () => {
     
     async function signup(username:string,password:string){
         try {
-            const link = process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:8080/api' : 'http://localhost:3008/api'
-            const response = await axios.post(`${link}/users/signup`,{
+            const response = await axios.post(`${baseUrl.baseUrl}/users/signup`,{
             "username":username,
             "password":password
         })

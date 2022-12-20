@@ -12,6 +12,8 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
+import baseUrl from '../../environment.js';
+
 interface AdminProps {};
 
 const Admin: FC<AdminProps> = () => {
@@ -41,7 +43,7 @@ const Admin: FC<AdminProps> = () => {
 
     async function updateGame(homeScore:string,awayScore:string,ID:string){
         try{ 
-            const response = await axios.post("http://localhost:3008/games/update",{
+            const response = await axios.post(`${baseUrl.baseUrl}/games/update`,{
                 "gameId":ID,
                 "homeScore" : homeScore,
                 "awayScore": awayScore
