@@ -43,7 +43,7 @@ const Profile: FC<ProfileProps> = () => {
                 setUserData(data);
                 console.log(data)
             } catch (e) {
-                navigate('*')
+                navigate('/')
             }
         }
         fetchData();
