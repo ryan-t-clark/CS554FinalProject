@@ -34,15 +34,14 @@ app.use('/api/images', express.static(__dirname + '/images'));
 app.post('/api/upload', (req, res, next) => {
   let uploadFile = req.files.profile_pic;
   let userId = uploadFile.name;
+  const imgPath = `${__dirname}/images/${userId}_profile_pic.jpg`;
 
   // write file to static images folder
-  fs.writeFileSync(`${__dirname}/images/${userId}_profile_pic.jpg`, uploadFile.data, err => {
+  fs.writeFileSync(imgPath, uploadFile.data, err => {
     if (err) {
       console.log(err);
     }
   });
-
-  const imgPath = `${__dirname}/images/${userId}_profile_pic.jpg`
 
   // resize file for proper profile picture formatting
   im.resize({
@@ -56,34 +55,6 @@ app.post('/api/upload', (req, res, next) => {
     console.log(stdout)
   });
 
-  const touch = (path, callback) => {
-    const time = new Date();
-    utimes(path, time, time, err => {
-      if (err) {
-        return open(path, 'w', (err, fd) => {
-          err ? callback(err) : close(fd, callback);
-        });
-      }
-      callback();
-    });
-  };
-  
-  // usage
-  // const path = 'file.txt';
-  touch(imgPath, err => {
-    if (err) throw err;
-    console.log(`touch ${imgPath}`);
-  });
-
-  // console.log(im.identify(imgPath, function (err, stdout, stderr) {
-  //   if (err) console.log(err);
-  //   // console.log(stdout)
-  // }))
-
-  
-
-  // console.log(`localhost:3008/api/images${imgPath}`)
-  // console.log(__dirname)
   return res.json({ file_uploaded: true , imgPath });
 });
 
