@@ -21,20 +21,25 @@ interface User {
 const Profile: FC<ProfileProps> = () => {
 
     const userId = Cookies.get('userId');
+    const proPicLink = `${baseUrl.baseUrl}/images/${userId}_profile_pic.jpg`;
     const [selectedFile,setSelectedFile] = useState<File>();
-    const [proPicLink, setProPicLink ] = useState(`${baseUrl.baseUrl}/images/${userId}_profile_pic.jpg`)
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     const [loaded, setLoaded] = useState(0);
     const [userData, setUserData ] = useState<User | undefined>(undefined);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     useEffect( () => {
         async function fetchData() {
             try {
+                setNotFound(false);
+                setLoading(true);
                 let { data } = await axios.get(`${baseUrl.baseUrl}/users/profile/${userId}`);
                 setUserData(data);
-                console.log(data)
+                setLoading(false);
             } catch (e) {
-                navigate('/')
+                setNotFound(true);
+                setLoading(false);
             }
         }
         fetchData();
@@ -78,61 +83,78 @@ const Profile: FC<ProfileProps> = () => {
         padding:'2vh',
         color: 'black',
     }
-    return (
-        <div >
-            <Grid container
-                spacing={0}
-                direction="column"
-                alignItems="center">
-                <Card style={cardStyle} sx={{boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'}}>
-                    <Grid container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center">
-                        <Grid item justifyContent="center" alignItems="center" >
-                            <CardContent>    
-                                <Grid container
-                                    spacing={0}
-                                    direction="column"
-                                    alignItems="center">            
-                                    <Typography variant='h2' gutterBottom align='center'>
-                                        Welcome to your profile, {userData!.username}!
-                                    </Typography>
-                                    <Box
-                                        component='img'
-                                        src={proPicLink}
-                                        alt='user profile pic'
-                                        sx={{
-                                            height: 170,
-                                            width: 170
-                                        }}
-                                    />
-                                    <Box sx={{padding:'5px'}}>
-                                        <Typography align='center'>Upload a new profile picture here...</Typography>
-                                        <Button variant="contained" component="label">
-                                            <div className="App">
-                                                <input type="file" name="" id="" onChange={handleselectedFile} />
-                                                <button onClick={handleUpload}>Upload</button>
-                                                <div> {loaded} %</div>
-                                                <div> </div>
-                                            </div>
-                                            {/* <input hidden accept="image/*" multiple type="file" onChange={updateImage}/> */}
-                                        </Button>
-                                    </Box>
-                                    <Box sx={{padding:'5px'}}>
-                                        <Typography align='center'>Users total points: {userData?.totalPoints} </Typography>
-                                        <Typography align='center'>Users total correct picks: {userData?.totalCorrectPicks} </Typography>
-                                        <Typography align='center'>Users total incorrect picks: {userData?.totalIncorrectPicks} </Typography>
-                                    </Box>
-                                </Grid>
-                            </CardContent>
+
+    if (loading) {
+        return (
+            <div>
+                Loading...
+            </div>
+        )
+    } else if (notFound) {
+        return (
+            <div>
+                Something went wrong... Try reloading the page.
+            </div>
+        )
+
+    } else {
+        return (
+            <div >
+                <Grid container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center">
+                    <Card style={cardStyle} sx={{boxShadow:'0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'}}>
+                        <Grid container
+                            spacing={0}
+                            direction="column"
+                            alignItems="center">
+                            <Grid item justifyContent="center" alignItems="center" >
+                                <CardContent>    
+                                    <Grid container
+                                        spacing={0}
+                                        direction="column"
+                                        alignItems="center">            
+                                        <Typography variant='h2' gutterBottom align='center'>
+                                            Welcome to your profile, {userData!.username}!
+                                        </Typography>
+                                        <Box
+                                            component='img'
+                                            src={proPicLink}
+                                            alt='user profile pic'
+                                            sx={{
+                                                height: 170,
+                                                width: 170
+                                            }}
+                                        />
+                                        <Box sx={{padding:'5px'}}>
+                                            <Typography align='center'>Upload a new profile picture here...</Typography>
+                                            <Button variant="contained" component="label">
+                                                <div className="App">
+                                                    <input type="file" name="" id="" onChange={handleselectedFile} />
+                                                    <button onClick={handleUpload}>Upload</button>
+                                                    <div> {loaded} %</div>
+                                                    <div> </div>
+                                                </div>
+                                                {/* <input hidden accept="image/*" multiple type="file" onChange={updateImage}/> */}
+                                            </Button>
+                                        </Box>
+                                        <Box sx={{padding:'5px'}}>
+                                            <Typography align='center'>Users total points: {userData?.totalPoints} </Typography>
+                                            <Typography align='center'>Users total correct picks: {userData?.totalCorrectPicks} </Typography>
+                                            <Typography align='center'>Users total incorrect picks: {userData?.totalIncorrectPicks} </Typography>
+                                        </Box>
+                                    </Grid>
+                                </CardContent>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Card>
-            </Grid>
-            {/* <img src = {selectedImage}></img> */}
-        </div>
-    )
+                    </Card>
+                </Grid>
+                {/* <img src = {selectedImage}></img> */}
+            </div>
+        )
+    }
+    
 }
 
 export default Profile;
