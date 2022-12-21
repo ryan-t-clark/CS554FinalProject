@@ -23,18 +23,9 @@ const Profile: FC<ProfileProps> = () => {
     const userId = Cookies.get('userId');
     const [selectedFile,setSelectedFile] = useState<File>();
     const [proPicLink, setProPicLink ] = useState(`${baseUrl.baseUrl}/images/${userId}_profile_pic.jpg`)
-    const [newUpload, setNewUpload ] = useState(false)
     const [loaded, setLoaded] = useState(0);
     const [userData, setUserData ] = useState<User | undefined>(undefined);
     const navigate = useNavigate();
-
-    async function refreshImg() {
-        const temp = proPicLink;
-        setProPicLink('')
-        setTimeout(() => {
-            setProPicLink(temp)
-        }, 100)
-    }
 
     useEffect( () => {
         async function fetchData() {
@@ -48,10 +39,6 @@ const Profile: FC<ProfileProps> = () => {
         }
         fetchData();
     }, []);
-
-    useEffect( () => {
-        setProPicLink(proPicLink)
-    }, [proPicLink]);
     
     async function handleselectedFile(event: React.ChangeEvent<HTMLInputElement>){
         if (event.target.files && event.target.files[0]) {
@@ -64,7 +51,6 @@ const Profile: FC<ProfileProps> = () => {
         const data = new FormData()
         if(selectedFile){
             data.append('profile_pic', selectedFile as Blob, userId as string);
-            const objUrl = URL.createObjectURL(selectedFile)
             axios.post(`${baseUrl.baseUrl}/upload`, data, {
                 onUploadProgress: ProgressEvent => {
                     if(ProgressEvent.total){
@@ -73,12 +59,8 @@ const Profile: FC<ProfileProps> = () => {
                 }
             })
             .then(res => {
-                console.log(res.statusText)
-                // const imgPath = res.data.imgPath
-                refreshImg()
-                // console.log(imgPath)
-                // setProPicLink(`${objUrl}`)
-                // console.log(`${baseUrl.baseUrl}/images/${userId}_profile_pic.jpg`)
+                console.log(res.statusText);
+
             })
         }
     }
@@ -114,7 +96,7 @@ const Profile: FC<ProfileProps> = () => {
                                     direction="column"
                                     alignItems="center">            
                                     <Typography variant='h2' gutterBottom align='center'>
-                                        Welcome to your profile, {userData?.username}!
+                                        Welcome to your profile, {userData!.username}!
                                     </Typography>
                                     <Box
                                         component='img'
@@ -132,6 +114,7 @@ const Profile: FC<ProfileProps> = () => {
                                                 <input type="file" name="" id="" onChange={handleselectedFile} />
                                                 <button onClick={handleUpload}>Upload</button>
                                                 <div> {loaded} %</div>
+                                                <div> </div>
                                             </div>
                                             {/* <input hidden accept="image/*" multiple type="file" onChange={updateImage}/> */}
                                         </Button>
