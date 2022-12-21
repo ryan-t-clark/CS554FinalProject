@@ -26,7 +26,7 @@ All of the following must be installed to run application:
 
 NodeJS (we are using version 16)\
 React\
-Redis\
+Redis (MUST USE NODE VERSION 16 FOR THIS TO WORK)\
 MongoDB\
 ImageMagick
 
