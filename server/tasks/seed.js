@@ -577,7 +577,7 @@ async function main() {
         }
     })
 
-
+    admin.changeWeek(3);
 
         console.log('seed complete');
     } catch (e) {

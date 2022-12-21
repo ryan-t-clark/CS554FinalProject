@@ -54,7 +54,6 @@ async function initPicksForWeek(week) {
     if (!usersList) throw 'could not get all users';
     const picksCollection = await PICKS();
     const picksList = await picksCollection.find({week: Number(week)}, {projection: {userId: 1}}).toArray();
-    console.log(picksList);
     let weekPicks = [];
 
     for (user of usersList) {
@@ -63,6 +62,8 @@ async function initPicksForWeek(week) {
         weekPicks.push(createPickWeekObject(week, user.username, user._id,));
     }
 
+    if(weekPicks.length === 0)
+        return {inserted:true};
     const insertInfo = await picksCollection.insertMany(weekPicks);
     if (insertInfo.insertedCount === 0) throw "Could not add pick week";
     return {inserted: true}
