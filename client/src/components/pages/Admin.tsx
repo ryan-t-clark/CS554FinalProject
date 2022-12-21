@@ -122,17 +122,17 @@ const Admin: FC<AdminProps> = () => {
                             <br />
                             <form id="form-id" onSubmit={updateGameFunc}>
                                 <FormControl variant="standard">
-                                    <InputLabel>Home Score</InputLabel>
+                                    <InputLabel htmlFor='HomeScoreInput'>Home Score</InputLabel>
                                     <Input id="HomeScoreInput" onChange={handlehomeScore}></Input>
                                 </FormControl>
                                 <br />
                                 <FormControl variant="standard">
-                                    <InputLabel>Away Score</InputLabel>
+                                    <InputLabel htmlFor='AwayScoreInput'>Away Score</InputLabel>
                                     <Input id="AwayScoreInput" onChange={handleawayScore}></Input>
                                 </FormControl>
                                 <br/>
                                 <FormControl variant="standard">
-                                    <InputLabel>gameId</InputLabel>
+                                    <InputLabel htmlFor='IDInput'>gameId</InputLabel>
                                     <Input id="IDInput" onChange={handleID}></Input>
                                 </FormControl>
                                 <br />
@@ -149,9 +149,9 @@ const Admin: FC<AdminProps> = () => {
                                 Change Week
                             </Typography>
                             <br />
-                            <form id="form-id" onSubmit={updateWeekFunc}>
+                            <form id="form-id2" onSubmit={updateWeekFunc}>
                                 <FormControl variant="standard">
-                                    <InputLabel>Week</InputLabel>
+                                    <InputLabel htmlFor='Week'>Week</InputLabel>
                                     <Input id="Week" onChange={handleWeek}></Input>
                                 </FormControl>
                                 <br />

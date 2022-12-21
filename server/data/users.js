@@ -128,7 +128,7 @@ async function getUserById(id) {
 
   const userCollection = await USERS();
 
-  const user = await userCollection.findOne({ _id: ObjectId(id) }); //HAVENT TESTED THIS
+  const user = await userCollection.findOne({ _id: ObjectId(id) }, {projection: {password: 0}}); //HAVENT TESTED THIS
   if(user === null) throw `No user found`;
   return user;
 }

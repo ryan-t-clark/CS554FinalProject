@@ -10,7 +10,8 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const fs = require('fs');
-var im = require('imagemagick');
+const { close, open, utimes } = fs
+const im = require('imagemagick');
 const { default: axios } = require('axios');
 
 
@@ -41,18 +42,49 @@ app.post('/api/upload', (req, res, next) => {
     }
   });
 
+  const imgPath = `${__dirname}/images/${userId}_profile_pic.jpg`
+
   // resize file for proper profile picture formatting
   im.resize({
-    srcPath: `${__dirname}/images/${userId}_profile_pic.jpg`,
-    dstPath: `${__dirname}/images/${userId}_profile_pic.jpg`,
+    srcPath: imgPath,
+    dstPath: imgPath,
     width: 400,
     height: 400,
     quality: 1
   }, function (err, stdout, stderr) {
     if (err) console.log(err);
+    console.log(stdout)
   });
 
-  return res.json({ file_uploaded: true });
+  const touch = (path, callback) => {
+    const time = new Date();
+    utimes(path, time, time, err => {
+      if (err) {
+        return open(path, 'w', (err, fd) => {
+          err ? callback(err) : close(fd, callback);
+        });
+      }
+      callback();
+    });
+  };
+  
+  // usage
+  // const path = 'file.txt';
+  touch(imgPath, err => {
+    if (err) throw err;
+    console.log(`touch ${imgPath}`);
+  });
+
+  // console.log(im.identify(imgPath, function (err, stdout, stderr) {
+  //   if (err) console.log(err);
+  //   // console.log(stdout)
+  // }))
+
+  
+
+  // console.log(`localhost:3008/api/images${imgPath}`)
+  // console.log(__dirname)
+  return res.json({ file_uploaded: true , imgPath });
 });
 
 

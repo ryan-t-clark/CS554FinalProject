@@ -93,7 +93,7 @@ router.get('/standings', async (req, res) => {
 });
 
 
-router.get('/profile:/id', async (req, res) => {
+router.get('/profile/:id', async (req, res) => {
   let id = req.params.id;
 
   id = xss(id);
