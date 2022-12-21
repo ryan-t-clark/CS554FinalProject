@@ -27,6 +27,7 @@ const Profile: FC<ProfileProps> = () => {
     const [notFound, setNotFound] = useState(false);
     const [loaded, setLoaded] = useState(0);
     const [userData, setUserData ] = useState<User | undefined>(undefined);
+    const [refreshHidden, setRefreshHidden ] = useState(true);
     //const navigate = useNavigate();
 
     useEffect( () => {
@@ -65,7 +66,7 @@ const Profile: FC<ProfileProps> = () => {
             })
             .then(res => {
                 console.log(res.statusText);
-
+                setRefreshHidden(false);
             })
         }
     }
@@ -134,7 +135,7 @@ const Profile: FC<ProfileProps> = () => {
                                                     <input type="file" name="" id="" onChange={handleselectedFile} />
                                                     <button onClick={handleUpload}>Upload</button>
                                                     <div> {loaded} %</div>
-                                                    <div> </div>
+                                                    {refreshHidden ? <div></div> : <div> Refresh to see your changes! </div>}
                                                 </div>
                                                 {/* <input hidden accept="image/*" multiple type="file" onChange={updateImage}/> */}
                                             </Button>
