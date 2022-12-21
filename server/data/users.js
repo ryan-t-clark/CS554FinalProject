@@ -9,10 +9,8 @@ const saltRounds = 12;
 const fs = require('fs');
 var im = require('imagemagick');
 const { default: axios } = require('axios');
-
+const adminData = require('./admin');
 var FileSaver = require('file-saver');
-
-// const picksData = require("./picks")
 
 
 /*
@@ -24,6 +22,32 @@ const hashPwd = async (password) => {
     } catch(e) {
       throw e
     }
+}
+
+/*
+  Creates pick week object
+*/
+function createPickWeekObject(week, username, id) {
+  const pickWeek = {
+      week: week,
+      userId: id,
+      username: username,
+      totalPoints: 0,
+      potentialPoints: 55,
+      pick10: null,
+      pick9: null,
+      pick8: null,
+      pick7: null,
+      pick6: null,
+      pick5: null,
+      pick4: null,
+      pick3: null,
+      pick2: null,
+      pick1: null,
+      totalCorrectPicks:0,
+      totalIncorrectPicks:0
+  }
+  return pickWeek;
 }
 
 
@@ -57,6 +81,14 @@ async function createUser(username, password, admin) {
   const insertInfo = await userCollection.insertOne(newUser);
     
   if (insertInfo.insertedCount === 0) throw "Could not add user";
+
+  const picksCollection = await PICKS();
+
+  let week = await adminData.getWeek();
+  const pickWeek = createPickWeekObject(week.week,username,newUser._id);
+
+  const insertPickInfo = await picksCollection.insertOne(pickWeek);
+  if (insertPickInfo.insertedCount === 0) throw 'Could not add pick week';
 
   // create default profile pic
   await axios({
@@ -133,51 +165,6 @@ async function getUserById(id) {
   return user;
 }
 
-// const blobToImage = (blob) => {
-//   return new Promise(resolve => {
-//     const url = URL.createObjectURL(blob)
-//     let img = new Image()
-//     img.onload = () => {
-//       URL.revokeObjectURL(url)
-//       resolve(img)
-//     }
-//     img.src = url
-//   })
-// }
-
-// function saveImageToDisk(url, localPath) {
-//   var fullUrl = url;
-//   var file = fs.createWriteStream(localPath);
-//   var request = https.get(url, function(response) {
-//   response.pipe(file);
-//   });
-// }
-
-async function updateImage(id,image){ //add validation
-  validation.checkId(id);
-  console.log(__dirname+`/${id}.png`);
-  console.log(__dirname+"/image.png");
-  console.log(image);
-  // x = FileSaver.saveAs("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",__dirname+"/image.png")
-  // x = FileSaver.saveAs(image,"image.png")
-  img = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
-  console.log(`${__dirname}/public/files/${id}.png`);
-  x = FileSaver.saveAs(img,`${__dirname}/public/files/${id}.png`)
-  console.log(x);
-  // saveImageToDisk(image,`${id}.png`)
-  // console.log(image);
-
-  // console.log(blobToImage(image));
-  // im.resize(image, function(err, metadata){
-  //     if (err) throw err;
-  //     console.log('Shot at '+metadata.exif.dateTimeOriginal);
-  //   })
-
-  const userCollection = await USERS();
-  const user = await userCollection.updateOne({ _id: ObjectId(id) },{$set:{"profileImage":image}})
-}
-
-
 /*
   Gets the current standings
 */
@@ -225,6 +212,5 @@ module.exports = {
   getAllUsers,
   getUserById,
   getStandings,
-  refreshStandings,
-  updateImage
+  refreshStandings
 }

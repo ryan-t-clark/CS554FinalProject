@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -25,6 +25,7 @@ const Signup: FC<SignupProps> = () => {
     const [ password, setPassword ] = useState('');
     const [ showPassword, setShowPassword ] = useState(false);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleUsername = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLInputElement
@@ -68,6 +69,8 @@ const Signup: FC<SignupProps> = () => {
         // (document.getElementById('passwordInput') as HTMLFormElement).value = "";
         setPassword("");
         setUsername("");
+
+        navigate('/login');
     }
 
     var cardStyle = {

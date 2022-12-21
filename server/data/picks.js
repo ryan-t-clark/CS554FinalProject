@@ -85,10 +85,13 @@ function createPickWeekObject(week, username, id) {
 async function initPicksForWeek(week) {
     const usersList = await userData.getAllUsers();
     const picksCollection = await PICKS();
-
+    const picksList = await picksCollection.find({week: Number(week)}, {projection: {userId: 1}}).toArray();
+    console.log(picksList);
     let weekPicks = [];
 
     for (user of usersList) {
+        if(picksList.find(pick => pick.userId.equals(user._id)))
+            continue;
         weekPicks.push(createPickWeekObject(week, user.username, user._id,));
     }
 
@@ -102,15 +105,10 @@ async function initPicksForWeek(week) {
     creates a pick object for a user 
     -- to also be used if they sign up after initPicksForWeek() has been run
 */
-async function initPicksById(week, username, id) {
-    const picksCollection = await PICKS();
-
-    const pickWeek = createPickWeekObject(week,username,id);
-
-    const insertInfo = await picksCollection.insertOne(pickWeek);
-    if (insertInfo.insertedCount === 0) throw 'Could not add pick week';
-    return {inserted: true};
-}
+// async function initPicksById(week, username, id) {
+    
+//     return {inserted: true};
+// }
 
 
 /*
@@ -140,16 +138,6 @@ async function getAllPicksByWeek(week) {
     if (!picksList) throw 'Could not get picks';
     return picksList;
 }
-
-// async function getAllPicksbyID(id){
-//     validation.checkId(id);
-
-//     const picksCollection = await PICKS();
-
-//     const picksList = await picksCollection.find({userId: ObjectId(id)}).toArray();
-//     if (!picksList) throw 'Could not get picks';
-//     return picksList;
-// }
 
 
 async function getAllPickArraysByWeek(week) {
@@ -199,7 +187,6 @@ module.exports = {
     getWeekPicksById,
     getAllPicksByWeek,
     initPicksForWeek,
-    initPicksById,
     getAllPickArraysByWeek,
     getWeekPickArraysById
 }

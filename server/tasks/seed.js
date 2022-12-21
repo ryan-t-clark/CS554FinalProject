@@ -92,7 +92,7 @@ async function main() {
         await games.addGame(1,"Sunday Dec 11 8:20PM","Chargers","Dolphins",1.5,-1.5,null);
         await games.addGame(1,"Monday Dec 12 8:15PM","Patriots","Cardinals",-1.5,1.5,null);
 
-        await picks.initPicksForWeek(1);
+        //await picks.initPicksForWeek(1);
 
         //add picks for user rclark
         await picks.submitPicks(1, await getUserId('rclark'),  
@@ -468,7 +468,7 @@ async function main() {
             ========================
         */
 
-        await games.addGame(3,"Thursday Dec 21 8:15PM","Jets","Jaguars",-1.5,-1.5,null);
+        await games.addGame(3,"Thursday Dec 21 8:15PM","Jets","Jaguars",-1.5,1.5,null);
         await games.addGame(3,"Saturday Dec 24 1:00PM","Ravens","Falcons",-7.5,7.5,null);
         await games.addGame(3,"Saturday Dec 24 1:00PM","Panthers","Lions",2.5,-2.5,null);
         await games.addGame(3,"Saturday Dec 24 1:00PM","Chiefs","Seahawks",-9.5,9.5,null);
@@ -490,7 +490,7 @@ async function main() {
         await picks.submitPicks(3, await getUserId('rclark'),  
         {
         "pick10": {
-            "gameId": await getGameId(3,"Thursday Dec 21 8:15PM","Jets","Jaguars",-1.5,-1.5,null),
+            "gameId": await getGameId(3,"Thursday Dec 21 8:15PM","Jets","Jaguars",-1.5,1.5,null),
             "weight": 10,
             "selectedTeam": "Jets",
             "selectedSpread": -1.5,
