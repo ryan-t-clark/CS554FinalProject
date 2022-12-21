@@ -72,7 +72,7 @@ router.get('/getweek/:week', async (req, res) => {
 
 router.post('/update', async (req, res) => {
 
-    const {gameId, homeScore, awayScore} = req.body;
+    let {gameId, homeScore, awayScore} = req.body;
 
     gameId = xss(gameId);
     homeScore = xss(homeScore);
